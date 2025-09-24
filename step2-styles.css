@@ -1,0 +1,387 @@
+/* Step 2 Specific Styles */
+
+/* Step Subtitle */
+.step-subtitle {
+    position: fixed;
+    top: 80px;
+    left: 80px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 1000;
+}
+
+.subtitle-icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.step-subtitle span {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ChatInput Container - Bottom Left */
+.chat-input-container {
+    position: fixed;
+    bottom: 80px;
+    left: 80px;
+    width: 450px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 36px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+/* Chat Steps */
+.chat-step {
+    padding: 20px 20px 0px 20px;
+    min-height: 60px;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    gap: 19px;
+}
+
+.chat-step.hidden {
+    display: none !important;
+}
+
+.chat-step.active {
+    display: flex !important;
+}
+
+/* Step Layout */
+.step-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.step-upload-section {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.step-content-box {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.step-content-left {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 8px;
+}
+
+.step-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: left;
+    margin-bottom: 8px;
+}
+
+/* First step title padding */
+#chatStep1 .step-title {
+    padding-left: 8px;
+}
+
+/* Chat Image Button */
+.chat-image-btn {
+    background: white;
+    border: 1px solid white;
+    color: #171717;
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+}
+
+.chat-image-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(1.05);
+}
+
+.chat-image-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* Floating close button */
+.chat-image-close-btn.floating {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+}
+
+.chat-image-close-btn.floating:hover {
+    transform: scale(1.1);
+}
+
+.close-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+}
+
+/* Back Button */
+.step-back-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step-back-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.back-icon {
+    width: 12px;
+    height: 12px;
+    filter: brightness(0) invert(1);
+    opacity: 0.5;
+}
+
+/* Next Button */
+.step-next-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.step-next-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: scale(1.1);
+}
+
+.next-icon {
+    width: 12px;
+    height: 12px;
+    filter: brightness(0) invert(1);
+}
+
+/* Step Options */
+.step-options {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.option-tag {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.option-tag:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.option-tag.selected {
+    background: white;
+    color: #171717;
+    border-color: white;
+}
+
+/* Step Input Container */
+.step-input-container {
+    display: flex;
+    align-items: center;
+}
+
+.step-input-container input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 0px;
+    color: white;
+    font-size: 14px;
+    font-weight: 300;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.step-input-container input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.step-input-container input:focus {
+    background: transparent;
+}
+
+/* Step Progress Bar */
+.step-progress-bar {
+    height: 1px;
+    background: transparent;
+    position: relative;
+}
+
+.step-progress-bar .progress-fill {
+    height: 100%;
+    background: white;
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .step-subtitle {
+        top: 60px;
+        left: 60px;
+    }
+    
+    .chat-input-container {
+        bottom: 15px;
+        left: 15px;
+        width: 350px;
+    }
+}
+
+@media (max-width: 968px) {
+    .step-subtitle {
+        top: 40px;
+        left: 40px;
+    }
+    
+    .chat-input-container {
+        bottom: 15px;
+        left: 15px;
+        width: 320px;
+    }
+}
+
+@media (max-width: 768px) {
+    .step-subtitle {
+        top: 20px;
+        left: 20px;
+    }
+    
+    .chat-input-container {
+        bottom: 10px;
+        left: 10px;
+        width: calc(100vw - 40px);
+        max-width: 300px;
+    }
+    
+    .chat-step {
+        padding: 20px 20px 0px 20px;
+    }
+    
+    .chat-image-btn {
+        width: 40px;
+        height: 40px;
+        padding: 10px;
+    }
+    
+    .chat-image-icon {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .step-subtitle {
+        top: 16px;
+        left: 16px;
+    }
+    
+    .chat-input-container {
+        bottom: 10px;
+        left: 10px;
+        width: calc(100vw - 32px);
+        max-width: 280px;
+    }
+    
+    .chat-step {
+        padding: 12px 12px 0px 12px;
+    }
+    
+    .step-content-box {
+        padding: 6px;
+    }
+    
+    .step-header-inline .step-title {
+        font-size: 13px;
+    }
+    
+    .option-tag {
+        font-size: 11px;
+        padding: 4px 8px;
+    }
+    
+    .step-input-container input {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+}
+
+/* Focus states for accessibility */
+.step-next-btn:focus,
+.step-back-btn:focus,
+.option-tag:focus,
+.step-input-container input:focus {
+    
+}

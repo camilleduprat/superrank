@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Your Design - SuperRank</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="upload-styles.css">
+    <!-- SF Pro fonts loaded locally -->
+</head>
+<body class="upload-flow">
+    <!-- Top Right Close Button -->
+    <button class="top-close-button" id="topCloseButton">
+        <img src="assets/images/icon-close-white.png" alt="Close" class="top-close-icon">
+    </button>
+
+    <div class="upload-container">
+        <!-- Main Title -->
+        <div class="upload-title">
+            <h1>Oh, so you think you're the sh*t?!</h1>
+        </div>
+
+        <!-- Upload Button -->
+        <div class="upload-section">
+            <button class="upload-button" id="uploadButton">
+                <!-- Default state icon -->
+                <div class="upload-icon upload-icon-default">
+                    <img src="assets/images/icon-img.png" alt="Upload images" class="upload-icon-img">
+                </div>
+                
+                <!-- 1 image state icon -->
+                <div class="upload-icon upload-icon-1">
+                    <img src="assets/images/icon-img-dark.png" alt="1 image uploaded" class="upload-icon-img">
+                </div>
+                
+                
+                <!-- Close button (hidden by default) -->
+                <button class="close-button" id="closeButton" style="display: none;">
+                    <img src="assets/images/icon-close-red.png" alt="Close" class="close-icon">
+                </button>
+            </button>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+        </div>
+
+        <!-- Next Arrow Button (appears when images uploaded) -->
+        <button class="next-arrow-button" id="nextArrowButton" style="display: none;">
+            <img src="assets/images/icon-arrow-right.png" alt="Next" class="next-arrow-icon">
+        </button>
+
+        <!-- Navigation -->
+        <div class="upload-navigation">
+            <!-- Back Button -->
+            <button class="nav-button nav-back" id="backButton">
+                <img src="assets/images/icon-arrow-right.png" alt="Back" class="nav-icon nav-icon-back">
+            </button>
+
+            <!-- Progress Indicator -->
+            <div class="progress-indicator">
+                <div class="progress-dot active" data-step="1"></div>
+                <div class="progress-dot" data-step="2"></div>
+                <div class="progress-dot" data-step="3"></div>
+                <div class="progress-dot" data-step="4"></div>
+                <div class="progress-dot" data-step="5"></div>
+                <div class="progress-dot" data-step="6"></div>
+                <div class="progress-dot" data-step="7"></div>
+            </div>
+
+            <!-- Next Button -->
+            <button class="nav-button nav-next" id="nextButton">
+                <img src="assets/images/icon-arrow-right.png" alt="Next" class="nav-icon">
+            </button>
+        </div>
+    </div>
+
+    <script src="upload-script.js"></script>
+</body>
+</html>

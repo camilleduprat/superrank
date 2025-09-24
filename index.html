@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperRank - Design Rating Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- SF Pro fonts loaded locally -->
+</head>
+<body>
+    <div class="container">
+        <!-- Left Section -->
+        <div class="left-section">
+            <div class="logo">
+                <img src="assets/images/SuperLogo.png" alt="SuperRank" class="logo-image">
+            </div>
+            
+            <div class="main-content">
+                <h1 class="main-title">Who's got the best design?</h1>
+                <p class="description">Send your best pieces of work, it'll only take a couple of seconds to detect if you're a natural or an imposter</p>
+                
+                <div class="cta-section">
+                    <button class="cta-button" onclick="window.location.href='rating.html'">
+                        Get rated
+                    </button>
+                    <div class="user-count">
+                        <span id="userCount">19,247</span> designers rated
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Section - Leaderboard -->
+        <div class="right-section">
+            <div class="leaderboard">
+                <div class="leaderboard-header">
+                    <span class="header-label">Designer</span>
+                    <span class="header-label">Score /1000</span>
+                </div>
+                
+                <div class="leaderboard-list" id="leaderboardList">
+                    <!-- Leaderboard entries will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
