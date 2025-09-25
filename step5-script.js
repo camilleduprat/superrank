@@ -25,34 +25,46 @@ class Step5Manager {
     
     bindEvents() {
         // Top close button
-        this.topCloseButton.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
+        if (this.topCloseButton) {
+            this.topCloseButton.addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+        }
         
-        // Navigation buttons
-        this.backButton.addEventListener('click', () => {
-            window.location.href = 'prompting-step.html';
-        });
+        // Navigation buttons (optional on this page)
+        if (this.backButton) {
+            this.backButton.addEventListener('click', () => {
+                window.location.href = 'prompting-step.html';
+            });
+        }
         
-        this.nextButton.addEventListener('click', () => {
-            this.navigateNext();
-        });
+        if (this.nextButton) {
+            this.nextButton.addEventListener('click', () => {
+                this.navigateNext();
+            });
+        }
         
         // Email input events
-        this.emailInput.addEventListener('input', () => {
-            this.validateEmail();
-        });
+        if (this.emailInput) {
+            this.emailInput.addEventListener('input', () => {
+                this.validateEmail();
+            });
+        }
         
-        this.emailInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                this.validateAndProceed();
-            }
-        });
+        if (this.emailInput) {
+            this.emailInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    this.validateAndProceed();
+                }
+            });
+        }
         
         // Email submit button
-        this.emailSubmitBtn.addEventListener('click', () => {
-            this.validateAndProceed();
-        });
+        if (this.emailSubmitBtn) {
+            this.emailSubmitBtn.addEventListener('click', () => {
+                this.validateAndProceed();
+            });
+        }
     }
     
     validateEmail() {

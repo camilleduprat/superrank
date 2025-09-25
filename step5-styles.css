@@ -12,7 +12,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    z-index: 1000;
+    z-index: 3000; /* sit above title/background */
 }
 
 /* Email Input Box */
@@ -52,6 +52,7 @@
     outline: none;
     transition: all 0.2s ease;
     font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    pointer-events: auto;
 }
 
 .email-input-box input::placeholder {
@@ -100,6 +101,7 @@
     align-items: center;
     justify-content: flex-start;
     gap: 28px;
+    z-index: 3000; /* ensure wrapper is clickable */
 }
 
 /* Input validation states */
