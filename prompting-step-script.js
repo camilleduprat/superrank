@@ -294,7 +294,7 @@ class PromptingStepManager {
         // All data is valid, now rate the design
         try {
             this.showMessage('Analyzing your design...', 'success');
-            this.showLoadingOverlay();
+            this.showLoadingSpinner();
             
             // Import the growthClient functions
             const { rateDesign, showError } = await import('./growthClient.js');
@@ -338,7 +338,7 @@ class PromptingStepManager {
             console.error('Failed to rate design:', error);
             this.showMessage('Failed to analyze design. Please try again.', 'error');
         } finally {
-            this.hideLoadingOverlay();
+            this.hideLoadingSpinner();
         }
     }
     
@@ -400,18 +400,16 @@ style.textContent = `
         }
     }
     
-    .prompting-loading-overlay {
+    .prompting-spinner {
         position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.4);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        bottom: 170px; /* just above the arrow */
+        right: 120px;
         z-index: 4000;
+        pointer-events: none;
     }
-    .prompting-loading-overlay img {
-        width: 64px;
-        height: 64px;
+    .prompting-spinner img {
+        width: 42px;
+        height: 42px;
     }
 `;
 document.head.appendChild(style);
@@ -421,21 +419,21 @@ document.addEventListener('DOMContentLoaded', () => {
     new PromptingStepManager();
 });
 
-// Loading overlay helpers on prototype
-PromptingStepManager.prototype.showLoadingOverlay = function() {
-    if (document.getElementById('promptingLoadingOverlay')) return;
-    const overlay = document.createElement('div');
-    overlay.id = 'promptingLoadingOverlay';
-    overlay.className = 'prompting-loading-overlay';
+// Loading spinner helpers on prototype
+PromptingStepManager.prototype.showLoadingSpinner = function() {
+    if (document.getElementById('promptingSpinner')) return;
+    const holder = document.createElement('div');
+    holder.id = 'promptingSpinner';
+    holder.className = 'prompting-spinner';
     const img = document.createElement('img');
     img.src = 'assets/images/icon-loading.png';
     img.alt = 'Loading';
     img.style.animation = 'spin 1.2s linear infinite';
-    overlay.appendChild(img);
-    document.body.appendChild(overlay);
+    holder.appendChild(img);
+    document.body.appendChild(holder);
 };
 
-PromptingStepManager.prototype.hideLoadingOverlay = function() {
-    const overlay = document.getElementById('promptingLoadingOverlay');
-    if (overlay) overlay.remove();
+PromptingStepManager.prototype.hideLoadingSpinner = function() {
+    const holder = document.getElementById('promptingSpinner');
+    if (holder) holder.remove();
 };

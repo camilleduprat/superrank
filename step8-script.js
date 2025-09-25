@@ -170,7 +170,7 @@ class Step8Controller {
         
         // Update points display
         const pointsElement = document.querySelector('.upload-title.points-title h1');
-        if (pointsElement && this.resultsData.grade) {
+        if (pointsElement && (typeof this.resultsData.grade === 'number')) {
             pointsElement.textContent = this.resultsData.grade;
         }
         // Update overall review (subtitle top-left)

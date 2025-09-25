@@ -39,7 +39,7 @@ class Step9Controller {
         const revealButton = document.getElementById('revealButton');
         if (revealButton) {
             revealButton.addEventListener('click', () => {
-                this.revealSolutions();
+                window.location.href = 'step10.html';
             });
         }
 
@@ -114,23 +114,7 @@ class Step9Controller {
         }
     }
 
-    revealSolutions() {
-        const solutionsCard = document.querySelector('.solutions-card');
-        const revealButton = document.getElementById('revealButton');
-        
-        if (solutionsCard && solutionsCard.classList.contains('blurred')) {
-            // Remove blur effect
-            solutionsCard.classList.remove('blurred');
-            
-            // Update button text
-            revealButton.textContent = 'Solutions revealed';
-            revealButton.style.opacity = '0.6';
-            revealButton.disabled = true;
-            
-            // Add bounce animation
-            this.addBounceAnimation(revealButton);
-        }
-    }
+    revealSolutions() {}
 
     addBounceAnimation(element) {
         if (!element) return;
