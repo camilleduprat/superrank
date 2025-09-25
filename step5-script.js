@@ -168,12 +168,30 @@ class Step5Manager {
                 throw new Error('No rating data found. Please go back and complete the design analysis.');
             }
             
-            const ratingData = JSON.parse(ratingDataStr);
+            let ratingData = JSON.parse(ratingDataStr);
             // Tolerate different key casings from earlier runs
-            const resolvedRatingId = ratingData.rating_id ?? ratingData.ratingId ?? ratingData.id ?? null;
-            const resolvedRequestId = ratingData.request_id ?? ratingData.requestId ?? null;
+            let resolvedRatingId = ratingData.rating_id ?? ratingData.ratingId ?? ratingData.id ?? null;
+            let resolvedRequestId = ratingData.request_id ?? ratingData.requestId ?? null;
+            
+            // Fallback: if identifiers are missing (e.g., lost due to backend change), re-rate quickly using stored image + context
             if (!resolvedRatingId && !resolvedRequestId) {
-                throw new Error('Missing rating identifiers. Please re-run the analysis step.');
+                const { rateDesign } = await import('./growthClient.js');
+                const uploadedFileStr = sessionStorage.getItem('uploadedFile');
+                const contextStr = ratingData.context || '';
+                if (!uploadedFileStr) throw new Error('Missing rating identifiers. Please re-run the analysis step.');
+                const uploadedFile = JSON.parse(uploadedFileStr);
+                const file = await this.dataURLtoFile(uploadedFile.dataUrl, uploadedFile.name);
+                const reRated = await rateDesign({ file, context: contextStr });
+                // Update ratingData and resolved IDs
+                ratingData = {
+                    rating_id: reRated.rating_id,
+                    request_id: reRated.request_id,
+                    grade: reRated.grade,
+                    context: contextStr
+                };
+                sessionStorage.setItem('ratingData', JSON.stringify(ratingData));
+                resolvedRatingId = reRated.rating_id;
+                resolvedRequestId = reRated.request_id;
             }
             
             // Call claimReview API
