@@ -124,6 +124,10 @@ class Step8Controller {
         if (resultsDataStr) {
             this.resultsData = JSON.parse(resultsDataStr);
             this.updateAnalysisDisplay();
+            // If sections are empty but we have justification, try to enrich cards
+            if ((!this.resultsData.sectionsMap || Object.keys(this.resultsData.sectionsMap).length === 0) && this.resultsData.justification) {
+                this.updateCardsFromJustification(this.resultsData.justification);
+            }
         } else {
             console.warn('No results data found for step 8');
             // Immediate fallback: attempt to parse from ratingData.justification for visible UI
@@ -138,6 +142,8 @@ class Step8Controller {
                     // Fill points if grade stored
                     const pointsElement = document.querySelector('.upload-title.points-title h1');
                     if (pointsElement && typeof rd.grade === 'number') pointsElement.textContent = rd.grade;
+                    // Fill cards from justification
+                    this.updateCardsFromJustification(just);
                 } catch {}
             }
             // Background recovery to fetch fresh
@@ -232,6 +238,34 @@ class Step8Controller {
                     descriptionElement.textContent = match.description;
                 }
             }
+        });
+    }
+
+    // Parse large justification block and inject card texts directly
+    updateCardsFromJustification(justText) {
+        if (!justText) return;
+        const pairs = [
+            ['usability', 'Usability'],
+            ['informationarchitecture', 'Information architecture'],
+            ['lookfeel', 'Look & feel'],
+            ['consistency', 'Consistency'],
+            ['businessandconversion', 'Business & conversion'],
+            ['businessconversion', 'Business & conversion']
+        ];
+        const found = new Map();
+        for (const [norm, label] of pairs) {
+            const re = new RegExp(`${label}\\n([\u0000-\uFFFF]*?)(?=\n\n|\n[A-Z].*\n|$)`, 'i');
+            const m = justText.match(re);
+            if (m && m[1]) found.set(norm, m[1].trim());
+        }
+        const cards = document.querySelectorAll('.evaluation-card');
+        cards.forEach((card) => {
+            const titleElement = card.querySelector('.card-title');
+            const descriptionElement = card.querySelector('.card-description');
+            const rawTitle = titleElement ? titleElement.textContent : '';
+            const norm = String(rawTitle || '').toLowerCase().replace(/[^a-z]/g, '');
+            const text = found.get(norm);
+            if (text && descriptionElement) descriptionElement.textContent = text;
         });
     }
 
