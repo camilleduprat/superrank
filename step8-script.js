@@ -126,6 +126,42 @@ class Step8Controller {
             this.updateAnalysisDisplay();
         } else {
             console.warn('No results data found for step 8');
+            // Attempt recovery: rebuild from claimData + fresh fetches
+            this.recoverResults();
+        }
+    }
+
+    async recoverResults() {
+        try {
+            const claimDataStr = sessionStorage.getItem('claimData');
+            if (!claimDataStr) return;
+            const claimData = JSON.parse(claimDataStr);
+            const { getRating, getLeaderboard } = await import('./growthClient.js');
+
+            const [fullRating, leaderboard] = await Promise.all([
+                getRating(claimData.ratingId).catch(() => null),
+                getLeaderboard(500).catch(() => [])
+            ]);
+
+            let userRank = null;
+            if (leaderboard && leaderboard.length) {
+                const idx = leaderboard.findIndex(u => (u.username || '').toLowerCase() === (claimData.username || '').toLowerCase());
+                if (idx >= 0) userRank = idx + 1;
+            }
+
+            const resultsPayload = {
+                userRank: userRank || null,
+                username: claimData.username,
+                email: claimData.email,
+                grade: fullRating?.grade ?? null,
+                justification: fullRating?.justification || '',
+                improvements: Array.isArray(fullRating?.improvements) ? fullRating.improvements : []
+            };
+            sessionStorage.setItem('fullResults', JSON.stringify(resultsPayload));
+            this.resultsData = resultsPayload;
+            this.updateAnalysisDisplay();
+        } catch (e) {
+            console.error('Recovery for step 8 failed', e);
         }
     }
     

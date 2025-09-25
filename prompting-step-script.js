@@ -294,6 +294,7 @@ class PromptingStepManager {
         // All data is valid, now rate the design
         try {
             this.showMessage('Analyzing your design...', 'success');
+            this.showLoadingOverlay();
             
             // Import the growthClient functions
             const { rateDesign, showError } = await import('./growthClient.js');
@@ -336,6 +337,8 @@ class PromptingStepManager {
         } catch (error) {
             console.error('Failed to rate design:', error);
             this.showMessage('Failed to analyze design. Please try again.', 'error');
+        } finally {
+            this.hideLoadingOverlay();
         }
     }
     
@@ -396,6 +399,20 @@ style.textContent = `
             opacity: 1;
         }
     }
+    
+    .prompting-loading-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 4000;
+    }
+    .prompting-loading-overlay img {
+        width: 64px;
+        height: 64px;
+    }
 `;
 document.head.appendChild(style);
 
@@ -403,3 +420,22 @@ document.head.appendChild(style);
 document.addEventListener('DOMContentLoaded', () => {
     new PromptingStepManager();
 });
+
+// Loading overlay helpers on prototype
+PromptingStepManager.prototype.showLoadingOverlay = function() {
+    if (document.getElementById('promptingLoadingOverlay')) return;
+    const overlay = document.createElement('div');
+    overlay.id = 'promptingLoadingOverlay';
+    overlay.className = 'prompting-loading-overlay';
+    const img = document.createElement('img');
+    img.src = 'assets/images/icon-loading.png';
+    img.alt = 'Loading';
+    img.style.animation = 'spin 1.2s linear infinite';
+    overlay.appendChild(img);
+    document.body.appendChild(overlay);
+};
+
+PromptingStepManager.prototype.hideLoadingOverlay = function() {
+    const overlay = document.getElementById('promptingLoadingOverlay');
+    if (overlay) overlay.remove();
+};
