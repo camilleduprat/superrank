@@ -61,7 +61,7 @@ body.upload-flow {
 
 /* Upload Title */
 .upload-title {
-    position: relative
+    position: relative;
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;

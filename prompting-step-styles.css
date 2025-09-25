@@ -31,7 +31,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    z-index: 1000;
+    z-index: 3000; /* Ensure above headings/overlays */
 }
 
 /* Chat Steps */
@@ -74,6 +74,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    pointer-events: auto;
 }
 
 .step-content-left {
@@ -223,6 +224,7 @@
     font-weight: 400;
     cursor: pointer;
     transition: all 0.2s ease;
+    pointer-events: auto;
 }
 
 .option-tag:hover {
