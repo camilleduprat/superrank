@@ -65,6 +65,7 @@ body.upload-flow {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
+    flex-direction: column;
     text-align: left;
     z-index: 1000;
 }

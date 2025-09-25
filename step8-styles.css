@@ -1,5 +1,13 @@
 /* Step 8 Specific Styles - Points Breakdown */
 
+/* Background noise for the whole page */
+body.upload-flow {
+    background-image: url('../assets/images/BgNoise.png');
+    background-size: 200px 200px;
+    background-repeat: repeat;
+    background-position: 0 0;
+}
+
 /* Top Right Buttons */
 .top-back-button {
     position: fixed;
@@ -98,22 +106,14 @@
     overflow-x: auto;
     overflow-y: hidden;
     flex-direction: row;
-    scrollbar-width: thin; /* Firefox */
-    -ms-overflow-style: auto; /* IE/Edge */
+    scrollbar-width: none; /* Firefox - hide scrollbar */
+    -ms-overflow-style: none; /* IE/Edge - hide scrollbar */
     -webkit-overflow-scrolling: touch;
     padding-bottom: 8px;
 }
 
 .cards-section::-webkit-scrollbar {
-    height: 10px; /* visible, larger */
-}
-.cards-section::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 6px;
-}
-.cards-section::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.35);
-    border-radius: 6px;
+    display: none; /* Hide scrollbar */
 }
 
 .evaluation-card {
