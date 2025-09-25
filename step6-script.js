@@ -21,33 +21,45 @@ class Step6Manager {
     
     bindEvents() {
         // Top close button
-        this.topCloseButton.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
+        if (this.topCloseButton) {
+            this.topCloseButton.addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+        }
         
         // Navigation buttons
-        this.backButton.addEventListener('click', () => {
-            window.location.href = 'step5.html';
-        });
+        if (this.backButton) {
+            this.backButton.addEventListener('click', () => {
+                window.location.href = 'step5.html';
+            });
+        }
         
-        this.nextButton.addEventListener('click', () => {
-            this.navigateNext();
-        });
+        if (this.nextButton) {
+            this.nextButton.addEventListener('click', () => {
+                this.navigateNext();
+            });
+        }
         
-        this.nextArrowButton.addEventListener('click', () => {
-            this.navigateNext();
-        });
+        if (this.nextArrowButton) {
+            this.nextArrowButton.addEventListener('click', () => {
+                this.navigateNext();
+            });
+        }
     }
     
     hideNavigationInitially() {
         // Hide next arrow button initially
-        this.nextArrowButton.style.display = 'none';
-        this.nextArrowButton.style.opacity = '0';
-        this.nextArrowButton.style.pointerEvents = 'none';
+        if (this.nextArrowButton) {
+            this.nextArrowButton.style.display = 'none';
+            this.nextArrowButton.style.opacity = '0';
+            this.nextArrowButton.style.pointerEvents = 'none';
+        }
         
         // Disable next button in navigation initially
-        this.nextButton.disabled = true;
-        this.nextButton.style.opacity = '0.5';
+        if (this.nextButton) {
+            this.nextButton.disabled = true;
+            this.nextButton.style.opacity = '0.5';
+        }
     }
     
     async startLoadingSequence() {
@@ -87,6 +99,8 @@ class Step6Manager {
             
             // Enable navigation after loading is complete
             this.enableNavigation();
+            // Auto-advance after a brief delay
+            setTimeout(() => this.navigateNext(), 800);
             
         } catch (error) {
             console.error('Failed to load results:', error);
@@ -109,13 +123,17 @@ class Step6Manager {
     
     enableNavigation() {
         // Enable next arrow button
-        this.nextArrowButton.style.display = 'flex';
-        this.nextArrowButton.style.opacity = '1';
-        this.nextArrowButton.style.pointerEvents = 'auto';
+        if (this.nextArrowButton) {
+            this.nextArrowButton.style.display = 'flex';
+            this.nextArrowButton.style.opacity = '1';
+            this.nextArrowButton.style.pointerEvents = 'auto';
+        }
         
         // Enable next button in navigation
-        this.nextButton.disabled = false;
-        this.nextButton.style.opacity = '1';
+        if (this.nextButton) {
+            this.nextButton.disabled = false;
+            this.nextButton.style.opacity = '1';
+        }
     }
     
     navigateNext() {
