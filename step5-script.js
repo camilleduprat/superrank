@@ -207,26 +207,38 @@ class Step5Manager {
         // Change icon to loading
         this.changeIconToLoading();
         
-        this.emailSubmitBtn.disabled = true;
-        this.emailInput.disabled = true;
+        if (this.nextArrowButton) this.nextArrowButton.disabled = true;
+        if (this.emailInput) this.emailInput.disabled = true;
+        if (this.nameInput) this.nameInput.disabled = true;
+        if (this.linkInput) this.linkInput.disabled = true;
         
         // Disable navigation
-        this.backButton.disabled = true;
-        this.nextButton.disabled = true;
-        this.backButton.style.opacity = '0.5';
-        this.nextButton.style.opacity = '0.5';
+        if (this.backButton) {
+            this.backButton.disabled = true;
+            this.backButton.style.opacity = '0.5';
+        }
+        if (this.nextButton) {
+            this.nextButton.disabled = true;
+            this.nextButton.style.opacity = '0.5';
+        }
     }
     
     hideLoadingState() {
         this.emailSubmitBtn?.classList.remove('loading');
         if (this.nextArrowButton) this.nextArrowButton.disabled = false;
-        this.emailInput.disabled = false;
+        if (this.emailInput) this.emailInput.disabled = false;
+        if (this.nameInput) this.nameInput.disabled = false;
+        if (this.linkInput) this.linkInput.disabled = false;
         
         // Re-enable navigation
-        this.backButton.disabled = false;
-        this.nextButton.disabled = false;
-        this.backButton.style.opacity = '1';
-        this.nextButton.style.opacity = '1';
+        if (this.backButton) {
+            this.backButton.disabled = false;
+            this.backButton.style.opacity = '1';
+        }
+        if (this.nextButton) {
+            this.nextButton.disabled = false;
+            this.nextButton.style.opacity = '1';
+        }
     }
     
     changeIconToLoading() {
