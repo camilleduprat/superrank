@@ -24,14 +24,18 @@ class Step7Manager {
     
     bindEvents() {
         // Top close button
-        this.topCloseButton.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
+        if (this.topCloseButton) {
+            this.topCloseButton.addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+        }
         
         // Next arrow button (plus button)
-        this.nextArrowButton.addEventListener('click', () => {
-            this.navigateNext();
-        });
+        if (this.nextArrowButton) {
+            this.nextArrowButton.addEventListener('click', () => {
+                this.navigateNext();
+            });
+        }
     }
     
     loadResults() {
@@ -61,10 +65,10 @@ class Step7Manager {
             feedbackElement.textContent = this.resultsData.justification;
         }
         
-        // Update points label
+        // Update points label to show "X points"
         const pointsLabel = document.querySelector('.points-label');
-        if (pointsLabel && this.resultsData.grade) {
-            pointsLabel.textContent = `${this.resultsData.grade} points out of 1000`;
+        if (pointsLabel && typeof this.resultsData.grade === 'number') {
+            pointsLabel.textContent = `${this.resultsData.grade} points`;
         }
     }
     
