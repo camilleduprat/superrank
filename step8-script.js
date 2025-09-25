@@ -302,7 +302,7 @@ class Step8Controller {
             const rawTitle = titleElement ? titleElement.textContent : '';
             const norm = String(rawTitle || '').toLowerCase().replace(/[^a-z]/g, '');
             const text = found.get(norm);
-            if (text && descriptionElement) descriptionElement.textContent = text;
+            if (text && descriptionElement) descriptionElement.textContent = text.replace(/[👍👎]\s*/g, '').trim();
         });
     }
 
