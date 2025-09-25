@@ -24,51 +24,112 @@ export function fileToDataUrl(file) {
 
 // 1) Leaderboard (rank = index+1). Fields: username, best_grade, portfolio_url?
 export async function getLeaderboard(limit = 50) {
+  console.log(`🔍 Fetching leaderboard with limit: ${limit}`);
+  console.log(`📡 API URL: ${FN_URL}/leaderboard?limit=${limit}`);
+  
   const res = await fetch(`${FN_URL}/leaderboard?limit=${limit}`, { headers: HDRS });
-  if (!res.ok) throw new Error(await res.text());
-  return res.json();
+  
+  console.log(`📊 Response status: ${res.status} ${res.statusText}`);
+  
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error(`❌ Leaderboard API error:`, errorText);
+    throw new Error(`Leaderboard API error: ${res.status} - ${errorText}`);
+  }
+  
+  const data = await res.json();
+  console.log(`✅ Leaderboard data received:`, data);
+  return data;
 }
 
 // 2) Rate a design (send image + optional context/model/prompt)
 export async function rateDesign({ file, imageDataUrl, context, model, prompt }) {
+  console.log(`🎨 Rating design with context:`, context);
+  console.log(`📡 API URL: ${FN_URL}`);
+  
   const image = imageDataUrl || (file ? await fileToDataUrl(file) : null);
   if (!image) throw new Error('imageDataUrl or file is required');
+  
+  const payload = {
+    context: context || '',
+    image,
+    model_override: model || undefined,
+    prompt_override: prompt || undefined,
+  };
+  
+  console.log(`📤 Sending payload:`, { ...payload, image: '[BASE64_DATA]' });
+  
   const res = await fetch(FN_URL, {
     method: 'POST',
     headers: HDRS,
-    body: JSON.stringify({
-      context: context || '',
-      image,
-      model_override: model || undefined,
-      prompt_override: prompt || undefined,
-    }),
+    body: JSON.stringify(payload),
   });
-  if (!res.ok) throw new Error(await res.text());
-  return res.json(); // { grade, rating_id, request_id, ... }
+  
+  console.log(`📊 Response status: ${res.status} ${res.statusText}`);
+  
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error(`❌ Rate design API error:`, errorText);
+    throw new Error(`Rate design API error: ${res.status} - ${errorText}`);
+  }
+  
+  const data = await res.json();
+  console.log(`✅ Design rated successfully:`, data);
+  return data; // { grade, rating_id, request_id, ... }
 }
 
 // 3) Claim (username, email, optional portfolioUrl) to reveal full analysis
 export async function claimReview({ username, email, portfolioUrl, requestId, ratingId }) {
+  console.log(`📧 Claiming review for user:`, { username, email, ratingId });
+  console.log(`📡 API URL: ${FN_URL}/claim`);
+  
+  const payload = {
+    username,
+    email,
+    request_id: requestId,
+    rating_id: ratingId,
+    portfolio_url: portfolioUrl || null,
+  };
+  
+  console.log(`📤 Sending claim payload:`, payload);
+  
   const res = await fetch(`${FN_URL}/claim`, {
     method: 'POST',
     headers: HDRS,
-    body: JSON.stringify({
-      username,
-      email,
-      request_id: requestId,
-      rating_id: ratingId,
-      portfolio_url: portfolioUrl || null,
-    }),
+    body: JSON.stringify(payload),
   });
-  if (!res.ok) throw new Error(await res.text());
-  return res.json(); // { success: true }
+  
+  console.log(`📊 Response status: ${res.status} ${res.statusText}`);
+  
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error(`❌ Claim review API error:`, errorText);
+    throw new Error(`Claim review API error: ${res.status} - ${errorText}`);
+  }
+  
+  const data = await res.json();
+  console.log(`✅ Review claimed successfully:`, data);
+  return data; // { success: true }
 }
 
 // 4) Fetch full analysis after claim
 export async function getRating(ratingId) {
+  console.log(`📊 Fetching full rating analysis for ID: ${ratingId}`);
+  console.log(`📡 API URL: ${FN_URL}/rating/${ratingId}`);
+  
   const res = await fetch(`${FN_URL}/rating/${ratingId}`, { headers: HDRS });
-  if (!res.ok) throw new Error(await res.text());
-  return res.json(); // { grade, justification, improvements[], model, latency_ms, ... }
+  
+  console.log(`📊 Response status: ${res.status} ${res.statusText}`);
+  
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error(`❌ Get rating API error:`, errorText);
+    throw new Error(`Get rating API error: ${res.status} - ${errorText}`);
+  }
+  
+  const data = await res.json();
+  console.log(`✅ Full rating analysis received:`, data);
+  return data; // { grade, justification, improvements[], model, latency_ms, ... }
 }
 
 // 5) End-to-end helper flow you can call from UI

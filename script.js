@@ -168,9 +168,34 @@ const addLeaderboardInteractions = () => {
     });
 };
 
+// Test API connection on page load
+const testApiConnection = async () => {
+    try {
+        const { getLeaderboard } = await import('./growthClient.js');
+        await getLeaderboard(1); // Test with minimal data
+        console.log('✅ API connection successful');
+        return true;
+    } catch (error) {
+        console.error('❌ API connection failed:', error);
+        return false;
+    }
+};
+
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
-    await populateLeaderboard();
+    console.log('🚀 SuperRank app initializing...');
+    
+    // Test API connection first
+    const isConnected = await testApiConnection();
+    
+    if (isConnected) {
+        console.log('✅ Backend connected - using real data');
+        await populateLeaderboard();
+    } else {
+        console.log('⚠️ Backend not available - using fallback data');
+        await populateLeaderboard();
+    }
+    
     addSmoothScroll();
     addLeaderboardInteractions();
     

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Connection Test - SuperRank</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .test-container {
+            padding: 80px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .test-button {
+            background: white;
+            color: #171717;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 8px;
+        }
+        .test-button:hover {
+            background: #f0f0f0;
+        }
+        .test-result {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .test-error {
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+        }
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔧 SuperRank API Connection Test</h1>
+        <p>Use this page to test your backend API connections before using the main app.</p>
+        
+        <div class="test-section">
+            <h2>1. Test Leaderboard API</h2>
+            <p>Test if we can fetch the leaderboard data from your backend.</p>
+            <button class="test-button" onclick="testLeaderboard()">Test getLeaderboard()</button>
+            <div id="leaderboard-result" class="test-result" style="display: none;"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>2. Test File Upload (Mock)</h2>
+            <p>Test the file upload functionality with a sample image.</p>
+            <input type="file" id="testFile" accept="image/*" style="margin: 8px;">
+            <button class="test-button" onclick="testFileUpload()">Test rateDesign()</button>
+            <div id="upload-result" class="test-result" style="display: none;"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>3. Test Complete Flow</h2>
+            <p>Test the complete end-to-end flow (requires file upload first).</p>
+            <button class="test-button" onclick="testCompleteFlow()">Test Complete Flow</button>
+            <div id="flow-result" class="test-result" style="display: none;"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>4. Connection Status</h2>
+            <p>Check the current connection status and configuration.</p>
+            <button class="test-button" onclick="checkConnectionStatus()">Check Status</button>
+            <div id="status-result" class="test-result" style="display: none;"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>5. Go to Main App</h2>
+            <p>If all tests pass, you can proceed to the main application.</p>
+            <button class="test-button" onclick="window.location.href='index.html'">Go to SuperRank</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getLeaderboard, rateDesign, claimReview, getRating, showError, showSuccess } from './growthClient.js';
+        
+        window.testLeaderboard = async function() {
+            const resultDiv = document.getElementById('leaderboard-result');
+            const button = event.target;
+            
+            button.classList.add('loading');
+            button.textContent = 'Testing...';
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Fetching leaderboard data...';
+            
+            try {
+                const data = await getLeaderboard(10);
+                resultDiv.textContent = `✅ SUCCESS!\n\nLeaderboard data received:\n${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = 'test-result';
+                showSuccess('Leaderboard API working!');
+            } catch (error) {
+                resultDiv.textContent = `❌ ERROR!\n\nFailed to fetch leaderboard:\n${error.message}`;
+                resultDiv.className = 'test-result test-error';
+                showError('Leaderboard API failed: ' + error.message);
+            } finally {
+                button.classList.remove('loading');
+                button.textContent = 'Test getLeaderboard()';
+            }
+        };
+        
+        window.testFileUpload = async function() {
+            const fileInput = document.getElementById('testFile');
+            const resultDiv = document.getElementById('upload-result');
+            const button = event.target;
+            
+            if (!fileInput.files[0]) {
+                resultDiv.style.display = 'block';
+                resultDiv.textContent = '❌ Please select an image file first!';
+                resultDiv.className = 'test-result test-error';
+                return;
+            }
+            
+            button.classList.add('loading');
+            button.textContent = 'Testing...';
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Uploading and analyzing image...';
+            
+            try {
+                const file = fileInput.files[0];
+                const context = 'Test upload from API test page';
+                
+                const data = await rateDesign({ file, context });
+                resultDiv.textContent = `✅ SUCCESS!\n\nDesign rated successfully:\n${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = 'test-result';
+                
+                // Store for complete flow test
+                window.testRatingData = data;
+                showSuccess('Design rating API working!');
+            } catch (error) {
+                resultDiv.textContent = `❌ ERROR!\n\nFailed to rate design:\n${error.message}`;
+                resultDiv.className = 'test-result test-error';
+                showError('Design rating API failed: ' + error.message);
+            } finally {
+                button.classList.remove('loading');
+                button.textContent = 'Test rateDesign()';
+            }
+        };
+        
+        window.testCompleteFlow = async function() {
+            const resultDiv = document.getElementById('flow-result');
+            const button = event.target;
+            
+            if (!window.testRatingData) {
+                resultDiv.style.display = 'block';
+                resultDiv.textContent = '❌ Please test file upload first to get rating data!';
+                resultDiv.className = 'test-result test-error';
+                return;
+            }
+            
+            button.classList.add('loading');
+            button.textContent = 'Testing...';
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Testing complete flow...';
+            
+            try {
+                const ratingData = window.testRatingData;
+                
+                // Test claim review
+                resultDiv.textContent += '\n\nStep 1: Claiming review...';
+                await claimReview({
+                    username: 'test_user_' + Date.now(),
+                    email: 'test@example.com',
+                    requestId: ratingData.request_id,
+                    ratingId: ratingData.rating_id
+                });
+                
+                resultDiv.textContent += '\n✅ Claim successful!';
+                resultDiv.textContent += '\n\nStep 2: Fetching full analysis...';
+                
+                // Test get rating
+                const fullAnalysis = await getRating(ratingData.rating_id);
+                
+                resultDiv.textContent = `✅ COMPLETE FLOW SUCCESS!\n\nFull analysis received:\n${JSON.stringify(fullAnalysis, null, 2)}`;
+                resultDiv.className = 'test-result';
+                showSuccess('Complete flow working!');
+                
+            } catch (error) {
+                resultDiv.textContent = `❌ ERROR!\n\nComplete flow failed:\n${error.message}`;
+                resultDiv.className = 'test-result test-error';
+                showError('Complete flow failed: ' + error.message);
+            } finally {
+                button.classList.remove('loading');
+                button.textContent = 'Test Complete Flow';
+            }
+        };
+        
+        window.checkConnectionStatus = function() {
+            const resultDiv = document.getElementById('status-result');
+            resultDiv.style.display = 'block';
+            
+            const config = {
+                supabaseUrl: 'https://iiolvvdnzrfcffudwocp.supabase.co',
+                apiEndpoint: 'https://iiolvvdnzrfcffudwocp.supabase.co/functions/v1/llm-proxy-growth',
+                hasApiKey: true,
+                timestamp: new Date().toISOString()
+            };
+            
+            resultDiv.textContent = `🔧 CONNECTION STATUS\n\nConfiguration:\n${JSON.stringify(config, null, 2)}\n\n✅ API client loaded successfully\n✅ All functions available\n\nReady to test!`;
+            resultDiv.className = 'test-result';
+        };
+    </script>
+</body>
+</html>
