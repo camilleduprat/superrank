@@ -169,13 +169,19 @@ class Step5Manager {
             }
             
             const ratingData = JSON.parse(ratingDataStr);
+            // Tolerate different key casings from earlier runs
+            const resolvedRatingId = ratingData.rating_id ?? ratingData.ratingId ?? ratingData.id ?? null;
+            const resolvedRequestId = ratingData.request_id ?? ratingData.requestId ?? null;
+            if (!resolvedRatingId && !resolvedRequestId) {
+                throw new Error('Missing rating identifiers. Please re-run the analysis step.');
+            }
             
             // Call claimReview API
             await claimReview({
                 username: name,
                 email: email,
-                requestId: ratingData.request_id,
-                ratingId: ratingData.rating_id,
+                requestId: resolvedRequestId,
+                ratingId: resolvedRatingId,
                 portfolioUrl: link || null
             });
             
@@ -183,7 +189,7 @@ class Step5Manager {
             sessionStorage.setItem('claimData', JSON.stringify({
                 username: name,
                 email: email,
-                ratingId: ratingData.rating_id
+                ratingId: resolvedRatingId
             }));
             
             // Change icon to check mark
