@@ -448,8 +448,9 @@ PromptingStepManager.prototype.positionSpinner = function() {
     const arrow = document.getElementById('nextArrowButton');
     if (!holder || !arrow) return;
     const rect = arrow.getBoundingClientRect();
-    const offsetY = 120; // px above the arrow
-    const offsetX = 40;  // px left from arrow center
+    // Position clearly ABOVE the arrow and slightly left so it's visible
+    const offsetY = 220; // px above the arrow
+    const offsetX = 60;  // px left from arrow center
     const x = rect.left + rect.width / 2 - 21 - offsetX; // center minus half spinner width
     const y = rect.top - offsetY;
     holder.style.left = `${Math.max(16, x)}px`;
