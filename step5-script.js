@@ -16,6 +16,7 @@ class Step5Manager {
         this.topCloseButton = document.getElementById('topCloseButton');
         this.backButton = document.getElementById('backButton');
         this.nextButton = document.getElementById('nextButton');
+        this.nextArrowButton = document.getElementById('nextArrowButton');
         
         // Email input elements
         this.emailInput = document.getElementById('emailInput');
@@ -43,6 +44,11 @@ class Step5Manager {
         if (this.nextButton) {
             this.nextButton.addEventListener('click', () => {
                 this.navigateNext();
+            });
+        }
+        if (this.nextArrowButton) {
+            this.nextArrowButton.addEventListener('click', () => {
+                this.validateAndProceed();
             });
         }
         
@@ -101,20 +107,20 @@ class Step5Manager {
         const isValid = emailRegex.test(email) && name.length > 0;
         
         // Update visual states
-        this.emailInput.classList.remove('valid', 'invalid');
-        this.emailSubmitBtn.classList.remove('valid', 'loading');
+        this.emailInput?.classList.remove('valid', 'invalid');
+        this.emailSubmitBtn?.classList.remove('valid', 'loading');
         
         if (email.length > 0) {
             if (isValid) {
-                this.emailInput.classList.add('valid');
-                this.emailSubmitBtn.classList.add('valid');
-                this.emailSubmitBtn.disabled = false;
+                this.emailInput?.classList.add('valid');
+                this.emailSubmitBtn?.classList.add('valid');
+                if (this.nextArrowButton) this.nextArrowButton.disabled = false;
             } else {
-                this.emailInput.classList.add('invalid');
-                this.emailSubmitBtn.disabled = true;
+                this.emailInput?.classList.add('invalid');
+                if (this.nextArrowButton) this.nextArrowButton.disabled = true;
             }
         } else {
-            this.emailSubmitBtn.disabled = true;
+            if (this.nextArrowButton) this.nextArrowButton.disabled = true;
         }
         
         // Update navigation state
@@ -212,8 +218,8 @@ class Step5Manager {
     }
     
     hideLoadingState() {
-        this.emailSubmitBtn.classList.remove('loading');
-        this.emailSubmitBtn.disabled = false;
+        this.emailSubmitBtn?.classList.remove('loading');
+        if (this.nextArrowButton) this.nextArrowButton.disabled = false;
         this.emailInput.disabled = false;
         
         // Re-enable navigation
@@ -224,7 +230,7 @@ class Step5Manager {
     }
     
     changeIconToLoading() {
-        const submitIcon = this.emailSubmitBtn.querySelector('.submit-icon');
+        const submitIcon = this.nextArrowButton ? this.nextArrowButton.querySelector('.submit-icon') : null;
         if (submitIcon) {
             submitIcon.src = 'assets/images/icon-loading.png';
             submitIcon.alt = 'Loading';
@@ -233,7 +239,7 @@ class Step5Manager {
     }
     
     changeIconToCheck() {
-        const submitIcon = this.emailSubmitBtn.querySelector('.submit-icon');
+        const submitIcon = this.nextArrowButton ? this.nextArrowButton.querySelector('.submit-icon') : null;
         if (submitIcon) {
             submitIcon.src = 'assets/images/icon-check-light.png';
             submitIcon.alt = 'Success';
@@ -242,17 +248,12 @@ class Step5Manager {
     }
     
     updateNavigationState() {
-        const email = this.emailInput.value.trim();
+        // Bottom-right arrow is the only submit now; enable when name+email valid
+        const email = (this.emailInput?.value || '').trim();
+        const name = (this.nameInput?.value || '').trim();
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const isValid = emailRegex.test(email);
-        
-        if (isValid) {
-            this.nextButton.disabled = false;
-            this.nextButton.style.opacity = '1';
-        } else {
-            this.nextButton.disabled = true;
-            this.nextButton.style.opacity = '0.5';
-        }
+        const isValid = emailRegex.test(email) && name.length > 0;
+        if (this.nextArrowButton) this.nextArrowButton.disabled = !isValid;
     }
     
     navigateNext() {
