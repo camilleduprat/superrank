@@ -50,22 +50,30 @@ class PromptingStepManager {
     
     bindEvents() {
         // Top close button
-        this.topCloseButton.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
+        if (this.topCloseButton) {
+            this.topCloseButton.addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+        }
         
-        // Navigation buttons
-        this.backButton.addEventListener('click', () => {
-            window.location.href = 'rating.html';
-        });
+        // Optional navigation buttons (may not exist in this page)
+        if (this.backButton) {
+            this.backButton.addEventListener('click', () => {
+                window.location.href = 'rating.html';
+            });
+        }
         
-        this.nextButton.addEventListener('click', () => {
-            this.navigateNext();
-        });
+        if (this.nextButton) {
+            this.nextButton.addEventListener('click', () => {
+                this.navigateNext();
+            });
+        }
         
-        this.nextArrowButton.addEventListener('click', () => {
-            this.validatePromptingStep();
-        });
+        if (this.nextArrowButton) {
+            this.nextArrowButton.addEventListener('click', () => {
+                this.validatePromptingStep();
+            });
+        }
         
         // State 1 events
         this.optionTags.forEach(tag => {
@@ -74,61 +82,81 @@ class PromptingStepManager {
             });
         });
         
-        this.stepImageCloseBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.clearImage();
-        });
+        if (this.stepImageCloseBtn) {
+            this.stepImageCloseBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.clearImage();
+            });
+        }
         
         // State 2 events
-        this.promptingStepBackBtn.addEventListener('click', () => {
-            this.goToState(1);
-        });
+        if (this.promptingStepBackBtn) {
+            this.promptingStepBackBtn.addEventListener('click', () => {
+                this.goToState(1);
+            });
+        }
         
-        this.promptingStepNextBtn.addEventListener('click', () => {
-            if (this.productDescriptionInput.value.trim()) {
-                this.stepData.productDescription = this.productDescriptionInput.value.trim();
-                this.goToState(3);
-            }
-        });
+        if (this.promptingStepNextBtn) {
+            this.promptingStepNextBtn.addEventListener('click', () => {
+                if (this.productDescriptionInput && this.productDescriptionInput.value.trim()) {
+                    this.stepData.productDescription = this.productDescriptionInput.value.trim();
+                    this.goToState(3);
+                }
+            });
+        }
         
-        this.stepImageCloseBtn2.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.clearImage();
-        });
+        if (this.stepImageCloseBtn2) {
+            this.stepImageCloseBtn2.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.clearImage();
+            });
+        }
         
         // State 3 events
-        this.step3BackBtn.addEventListener('click', () => {
-            this.goToState(2);
-        });
+        if (this.step3BackBtn) {
+            this.step3BackBtn.addEventListener('click', () => {
+                this.goToState(2);
+            });
+        }
         
-        this.stepImageCloseBtn3.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.clearImage();
-        });
+        if (this.stepImageCloseBtn3) {
+            this.stepImageCloseBtn3.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.clearImage();
+            });
+        }
         
         // Input validation
-        this.productDescriptionInput.addEventListener('input', () => {
-            this.updatePromptingStepNextButton();
-        });
+        if (this.productDescriptionInput) {
+            this.productDescriptionInput.addEventListener('input', () => {
+                this.updatePromptingStepNextButton();
+            });
+        }
         
-        this.productLocationInput.addEventListener('input', () => {
-            this.updateStep3Validation();
-        });
+        if (this.productLocationInput) {
+            this.productLocationInput.addEventListener('input', () => {
+                this.updateStep3Validation();
+            });
+        }
         
         // Enter key support
-        this.productDescriptionInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && this.productDescriptionInput.value.trim()) {
-                this.stepData.productDescription = this.productDescriptionInput.value.trim();
-                this.goToState(3);
-            }
-        });
+        if (this.productDescriptionInput) {
+            this.productDescriptionInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && this.productDescriptionInput.value.trim()) {
+                    this.stepData.productDescription = this.productDescriptionInput.value.trim();
+                    this.goToState(3);
+                }
+            });
+        }
         
-        this.productLocationInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && this.productLocationInput.value.trim()) {
-                this.stepData.productLocation = this.productLocationInput.value.trim();
-                this.validatePromptingStep();
-            }
-        });
+        if (this.productLocationInput) {
+            this.productLocationInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && this.productLocationInput.value.trim()) {
+                    this.stepData.productLocation = this.productLocationInput.value.trim();
+                    this.validatePromptingStep();
+                }
+            });
+        }
     }
     
     selectImageType(type) {

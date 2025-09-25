@@ -2,10 +2,13 @@
 // Single drop-in client for llm-proxy-growth (paste this file and import its functions)
 
 // Project config (your project + keys)
-const SUPABASE_URL = 'https://iiolvvdnzrfcffudwocp.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlpb2x2dmRuenJmY2ZmdWR3b2NwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1MjE4MDAsImV4cCI6MjA3MzA5NzgwMH0.2-e8Scn26fqsR11h-g4avH8MWybwLTtcf3fCN9qAgVw';
-
-const FN_URL = `${SUPABASE_URL}/functions/v1/llm-proxy-growth`;
+// Runtime override support via window.__SUPER_RANK_CONFIG
+// { supabaseUrl, anonKey, apiEndpoint?, functionName? }
+const __RUNTIME__ = (typeof window !== 'undefined' && window.__SUPER_RANK_CONFIG) ? window.__SUPER_RANK_CONFIG : {};
+const SUPABASE_URL = __RUNTIME__.supabaseUrl || 'https://iiolvvdnzrfcffudwocp.supabase.co';
+const SUPABASE_ANON_KEY = __RUNTIME__.anonKey || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlpb2x2dmRuenJmY2ZmdWR3b2NwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1MjE4MDAsImV4cCI6MjA3MzA5NzgwMH0.2-e8Scn26fqsR11h-g4avH8MWybwLTtcf3fCN9qAgVw';
+const __FUNCTION_NAME__ = __RUNTIME__.functionName || 'llm-proxy-growth';
+const FN_URL = __RUNTIME__.apiEndpoint || `${SUPABASE_URL}/functions/v1/${__FUNCTION_NAME__}`;
 const HDRS = {
   'Content-Type': 'application/json',
   'apikey': SUPABASE_ANON_KEY,
@@ -47,6 +50,29 @@ export async function rateDesign({ file, imageDataUrl, context, model, prompt })
   console.log(`🎨 Rating design with context:`, context);
   console.log(`📡 API URL: ${FN_URL}`);
   
+  // Client-side guardrails
+  const MAX_IMAGE_BYTES = (__RUNTIME__.maxImageBytes != null ? __RUNTIME__.maxImageBytes : 4 * 1024 * 1024); // 4MB default
+  const ALLOWED_TYPES = (__RUNTIME__.allowedImageTypes || ['image/png', 'image/jpeg', 'image/webp']);
+
+  if (file) {
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      throw new Error(`Unsupported file type. Allowed: ${ALLOWED_TYPES.join(', ')}`);
+    }
+    if (file.size > MAX_IMAGE_BYTES) {
+      throw new Error(`File too large. Max ${(MAX_IMAGE_BYTES / (1024 * 1024)).toFixed(1)}MB`);
+    }
+  }
+
+  if (imageDataUrl && typeof imageDataUrl === 'string' && imageDataUrl.startsWith('data:')) {
+    const commaIdx = imageDataUrl.indexOf(',');
+    const b64 = commaIdx >= 0 ? imageDataUrl.slice(commaIdx + 1) : '';
+    // Rough base64 size check (~4/3 expansion)
+    const approxBytes = Math.floor(b64.length * 0.75);
+    if (approxBytes > MAX_IMAGE_BYTES) {
+      throw new Error(`Image data too large. Max ${(MAX_IMAGE_BYTES / (1024 * 1024)).toFixed(1)}MB`);
+    }
+  }
+
   const image = imageDataUrl || (file ? await fileToDataUrl(file) : null);
   if (!image) throw new Error('imageDataUrl or file is required');
   
