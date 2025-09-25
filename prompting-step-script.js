@@ -324,6 +324,7 @@ class PromptingStepManager {
                 rating_id: ratingResult.rating_id,
                 request_id: ratingResult.request_id,
                 grade: ratingResult.grade,
+                justification: ratingResult.justification || '',
                 context: context
             }));
             

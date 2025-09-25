@@ -121,15 +121,40 @@ class Step6Manager {
             };
         }
 
+        // If justification is a long block like the sample provided, parse punchline and section texts
+        const parseFromJustification = (txt) => {
+            const result = { punchline: '', secMap: {} };
+            if (!txt) return result;
+            const punch = txt.match(/\*\*(.*?)\*\*/);
+            if (punch) result.punchline = punch[1].trim();
+            const pairs = [
+                ['usability', 'Usability'],
+                ['informationarchitecture', 'Information architecture'],
+                ['lookfeel', 'Look & feel'],
+                ['consistency', 'Consistency'],
+                ['businessandconversion', 'Business & conversion'],
+                ['businessconversion', 'Business & conversion']
+            ];
+            for (const [norm, label] of pairs) {
+                const re = new RegExp(`${label}\\n([\u0000-\uFFFF]*?)(?=\n\n|\n[A-Z].*\n|$)`, 'i');
+                const m = txt.match(re);
+                if (m && m[1]) {
+                    result.secMap[norm] = { title: label, description: m[1].trim() };
+                }
+            }
+            return result;
+        };
+        const parsed = parseFromJustification(fullRating?.justification || '');
+
         const resultsPayload = {
             userRank: userRank || null,
             username: claimData.username,
             email: claimData.email,
             grade: fullRating?.grade ?? null,
             justification: fullRating?.justification || '',
-            punchline: fullRating?.punchline || fullRating?.summary || fullRating?.overall || fullRating?.justification || '',
+            punchline: parsed.punchline || fullRating?.punchline || '',
             improvements: improvementsArray,
-            sectionsMap,
+            sectionsMap: Object.keys(parsed.secMap).length ? parsed.secMap : sectionsMap,
             model: fullRating?.model || null,
             latency_ms: fullRating?.latency_ms || null
         };
