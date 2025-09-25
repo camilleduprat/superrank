@@ -23,6 +23,11 @@
     gap: 12px;
 }
 
+.email-input-box.vertical {
+    flex-direction: column;
+    align-items: stretch;
+}
+
 /* Email Disclaimer */
 .email-disclaimer {
     text-align: left;
@@ -102,6 +107,13 @@
     justify-content: flex-start;
     gap: 28px;
     z-index: 3000; /* ensure wrapper is clickable */
+}
+
+.email-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
 }
 
 /* Input validation states */

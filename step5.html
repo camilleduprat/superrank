@@ -28,16 +28,20 @@
         <div class="email-input-wrapper">
             <!-- Email Input Container -->
             <div class="email-input-container" id="emailInputContainer">
-                <div class="email-input-box">
-                    <input type="email" id="emailInput" placeholder="Enter your email">
-                    <button class="email-submit-btn" id="emailSubmitBtn">
-                        <img src="assets/images/icon-send-light.png" alt="Submit" class="submit-icon">
-                    </button>
+                <div class="email-input-box vertical">
+                    <input type="text" id="nameInput" placeholder="Name*">
+                    <input type="email" id="emailInput" placeholder="Enter your email*">
+                    <input type="url" id="linkInput" placeholder="Link – Optional">
                 </div>
             </div>
-            <!-- Disclaimer -->
-            <div class="email-disclaimer">
-                <span>By adding your email, you accept to <br>receive communication from ©Super</span>
+            <!-- Disclaimer and submit -->
+            <div class="email-side">
+                <div class="email-disclaimer">
+                    <span>By adding your informations, you accept to <br>receive communication from ©Super</span>
+                </div>
+                <button class="email-submit-btn" id="emailSubmitBtn">
+                    <img src="assets/images/icon-send-light.png" alt="Submit" class="submit-icon">
+                </button>
             </div>
         </div>
     </div>

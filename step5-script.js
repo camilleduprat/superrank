@@ -21,6 +21,8 @@ class Step5Manager {
         this.emailInput = document.getElementById('emailInput');
         this.emailSubmitBtn = document.getElementById('emailSubmitBtn');
         this.emailInputContainer = document.getElementById('emailInputContainer');
+        this.nameInput = document.getElementById('nameInput');
+        this.linkInput = document.getElementById('linkInput');
     }
     
     bindEvents() {
@@ -50,9 +52,34 @@ class Step5Manager {
                 this.validateEmail();
             });
         }
+        if (this.nameInput) {
+            this.nameInput.addEventListener('input', () => {
+                this.validateEmail();
+            });
+        }
+        if (this.linkInput) {
+            this.linkInput.addEventListener('input', () => {
+                // optional; still run overall validation to toggle submit state
+                this.validateEmail();
+            });
+        }
         
         if (this.emailInput) {
             this.emailInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    this.validateAndProceed();
+                }
+            });
+        }
+        if (this.nameInput) {
+            this.nameInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    this.validateAndProceed();
+                }
+            });
+        }
+        if (this.linkInput) {
+            this.linkInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     this.validateAndProceed();
                 }
@@ -68,9 +95,10 @@ class Step5Manager {
     }
     
     validateEmail() {
-        const email = this.emailInput.value.trim();
+        const email = (this.emailInput?.value || '').trim();
+        const name = (this.nameInput?.value || '').trim();
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const isValid = emailRegex.test(email);
+        const isValid = emailRegex.test(email) && name.length > 0;
         
         // Update visual states
         this.emailInput.classList.remove('valid', 'invalid');
@@ -94,9 +122,16 @@ class Step5Manager {
     }
     
     async validateAndProceed() {
-        const email = this.emailInput.value.trim();
+        const email = (this.emailInput?.value || '').trim();
+        const name = (this.nameInput?.value || '').trim();
+        const link = (this.linkInput?.value || '').trim();
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         
+        if (!name) {
+            this.showMessage('Please enter your name', 'error');
+            this.nameInput?.focus();
+            return;
+        }
         if (!email) {
             this.showMessage('Please enter your email address', 'error');
             this.emailInput.focus();
@@ -111,6 +146,8 @@ class Step5Manager {
         
         // Store email data
         this.emailData.email = email;
+        this.emailData.name = name;
+        this.emailData.link = link;
         
         // Show loading state
         this.showLoadingState();
@@ -127,21 +164,18 @@ class Step5Manager {
             
             const ratingData = JSON.parse(ratingDataStr);
             
-            // Generate a temporary username (you mentioned you'll add username field later)
-            const tempUsername = `user_${Date.now()}`;
-            
             // Call claimReview API
             await claimReview({
-                username: tempUsername,
+                username: name,
                 email: email,
                 requestId: ratingData.request_id,
                 ratingId: ratingData.rating_id,
-                portfolioUrl: null // Will be added when you implement portfolio URL field
+                portfolioUrl: link || null
             });
             
             // Store claim data for next steps
             sessionStorage.setItem('claimData', JSON.stringify({
-                username: tempUsername,
+                username: name,
                 email: email,
                 ratingId: ratingData.rating_id
             }));
