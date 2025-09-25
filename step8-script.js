@@ -126,7 +126,21 @@ class Step8Controller {
             this.updateAnalysisDisplay();
         } else {
             console.warn('No results data found for step 8');
-            // Attempt recovery: rebuild from claimData + fresh fetches
+            // Immediate fallback: attempt to parse from ratingData.justification for visible UI
+            const ratingRaw = sessionStorage.getItem('ratingData');
+            if (ratingRaw) {
+                try {
+                    const rd = JSON.parse(ratingRaw);
+                    const just = rd.justification || '';
+                    const punch = (just.match(/\*\*(.*?)\*\*/) || [])[1] || '';
+                    const subtitle = document.querySelector('.subtitle-feedback span');
+                    if (subtitle && punch) subtitle.textContent = punch;
+                    // Fill points if grade stored
+                    const pointsElement = document.querySelector('.upload-title.points-title h1');
+                    if (pointsElement && typeof rd.grade === 'number') pointsElement.textContent = rd.grade;
+                } catch {}
+            }
+            // Background recovery to fetch fresh
             this.recoverResults();
         }
     }

@@ -47,6 +47,18 @@ class Step7Manager {
         } else {
             console.warn('No results data found, using fallback');
             this.showFallbackResults();
+            // Fallback parse directly from ratingData.justification to get punchline quickly
+            const ratingRaw = sessionStorage.getItem('ratingData');
+            if (ratingRaw) {
+                try {
+                    const rd = JSON.parse(ratingRaw);
+                    const just = rd.justification || '';
+                    const m = just.match(/\*\*(.*?)\*\*/);
+                    const punch = m ? m[1] : '';
+                    const feedbackElement = document.querySelector('.subtitle-feedback span');
+                    if (feedbackElement && punch) feedbackElement.textContent = punch;
+                } catch {}
+            }
         }
     }
     
