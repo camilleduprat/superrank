@@ -173,6 +173,12 @@ class Step8Controller {
         if (pointsElement && this.resultsData.grade) {
             pointsElement.textContent = this.resultsData.grade;
         }
+        // Update overall review (subtitle top-left)
+        const subtitle = document.querySelector('.subtitle-feedback span');
+        if (subtitle) {
+            const msg = this.resultsData.punchline || this.resultsData.justification || '';
+            if (msg) subtitle.textContent = msg;
+        }
         
         // Update evaluation cards with real data
         this.updateEvaluationCards();
@@ -186,18 +192,24 @@ class Step8Controller {
         const cards = document.querySelectorAll('.evaluation-card');
         const improvements = this.resultsData.improvements;
         
-        // Map improvements to cards (assuming improvements array has category and description)
-        cards.forEach((card, index) => {
-            if (improvements[index]) {
-                const titleElement = card.querySelector('.card-title');
-                const descriptionElement = card.querySelector('.card-description');
-                
-                if (titleElement && improvements[index].category) {
-                    titleElement.textContent = improvements[index].category;
-                }
-                
-                if (descriptionElement && improvements[index].description) {
-                    descriptionElement.textContent = improvements[index].description;
+        // Build a lookup by normalized category name for precise mapping
+        const byCategory = new Map();
+        for (const item of improvements) {
+            if (!item) continue;
+            const key = String(item.category || item.title || '').toLowerCase().replace(/[^a-z]/g, '');
+            if (key) byCategory.set(key, item);
+        }
+        
+        cards.forEach((card) => {
+            const titleElement = card.querySelector('.card-title');
+            const descriptionElement = card.querySelector('.card-description');
+            const rawTitle = titleElement ? titleElement.textContent : '';
+            const norm = String(rawTitle || '').toLowerCase().replace(/[^a-z]/g, '');
+            const match = byCategory.get(norm);
+            if (match) {
+                if (titleElement && match.category) titleElement.textContent = match.category;
+                if (descriptionElement && (match.description || match.feedback)) {
+                    descriptionElement.textContent = match.description || match.feedback;
                 }
             }
         });

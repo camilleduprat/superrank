@@ -114,6 +114,7 @@ class Step6Manager {
             email: claimData.email,
             grade: fullRating?.grade ?? null,
             justification: fullRating?.justification || '',
+            punchline: fullRating?.punchline || fullRating?.summary || fullRating?.overall || fullRating?.justification || '',
             improvements: Array.isArray(fullRating?.improvements) ? fullRating.improvements : [],
             model: fullRating?.model || null,
             latency_ms: fullRating?.latency_ms || null

@@ -59,10 +59,11 @@ class Step7Manager {
             rankElement.textContent = `${this.resultsData.userRank}${this.getOrdinalSuffix(this.resultsData.userRank)}`;
         }
         
-        // Update feedback message
+        // Update feedback message (overall/punchline)
         const feedbackElement = document.querySelector('.subtitle-feedback span');
-        if (feedbackElement && this.resultsData.justification) {
-            feedbackElement.textContent = this.resultsData.justification;
+        if (feedbackElement) {
+            const msg = this.resultsData.punchline || this.resultsData.justification || '';
+            if (msg) feedbackElement.textContent = msg;
         }
         
         // Update points label to show "X points"
