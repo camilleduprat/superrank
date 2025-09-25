@@ -2,12 +2,14 @@
 
 class Step8Controller {
     constructor() {
+        this.resultsData = null;
         this.init();
     }
 
     init() {
         this.bindEvents();
         this.addBounceAnimation = this.addBounceAnimation.bind(this);
+        this.loadResults();
     }
 
     bindEvents() {
@@ -114,6 +116,55 @@ class Step8Controller {
         setTimeout(() => {
             element.style.transform = 'scale(1)';
         }, 200);
+    }
+
+    loadResults() {
+        // Get results data from sessionStorage
+        const resultsDataStr = sessionStorage.getItem('fullResults');
+        if (resultsDataStr) {
+            this.resultsData = JSON.parse(resultsDataStr);
+            this.updateAnalysisDisplay();
+        } else {
+            console.warn('No results data found for step 8');
+        }
+    }
+    
+    updateAnalysisDisplay() {
+        if (!this.resultsData) return;
+        
+        // Update points display
+        const pointsElement = document.querySelector('.upload-title.points-title h1');
+        if (pointsElement && this.resultsData.grade) {
+            pointsElement.textContent = this.resultsData.grade;
+        }
+        
+        // Update evaluation cards with real data
+        this.updateEvaluationCards();
+    }
+    
+    updateEvaluationCards() {
+        if (!this.resultsData.improvements || !Array.isArray(this.resultsData.improvements)) {
+            return;
+        }
+        
+        const cards = document.querySelectorAll('.evaluation-card');
+        const improvements = this.resultsData.improvements;
+        
+        // Map improvements to cards (assuming improvements array has category and description)
+        cards.forEach((card, index) => {
+            if (improvements[index]) {
+                const titleElement = card.querySelector('.card-title');
+                const descriptionElement = card.querySelector('.card-description');
+                
+                if (titleElement && improvements[index].category) {
+                    titleElement.textContent = improvements[index].category;
+                }
+                
+                if (descriptionElement && improvements[index].description) {
+                    descriptionElement.textContent = improvements[index].description;
+                }
+            }
+        });
     }
 
     // Initialize when page loads (no animations)

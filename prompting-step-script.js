@@ -241,7 +241,7 @@ class PromptingStepManager {
         }
     }
     
-    validatePromptingStep() {
+    async validatePromptingStep() {
         // Store final input
         this.stepData.productLocation = this.productLocationInput.value.trim();
         
@@ -263,16 +263,65 @@ class PromptingStepManager {
             return;
         }
         
-        // All data is valid, proceed to next step
-        this.showMessage('Prompting Step completed successfully!', 'success');
-        
-        // Store data (in a real app, this would be sent to backend)
-        console.log('Prompting Step Data:', this.stepData);
-        
-        // Navigate to next step (step 5)
-        setTimeout(() => {
-            window.location.href = 'step5.html';
-        }, 1000);
+        // All data is valid, now rate the design
+        try {
+            this.showMessage('Analyzing your design...', 'success');
+            
+            // Import the growthClient functions
+            const { rateDesign, showError } = await import('./growthClient.js');
+            
+            // Get the uploaded file from sessionStorage (stored in rating.html)
+            const uploadedFileData = sessionStorage.getItem('uploadedFile');
+            if (!uploadedFileData) {
+                throw new Error('No uploaded file found. Please go back and upload an image.');
+            }
+            
+            const uploadedFile = JSON.parse(uploadedFileData);
+            
+            // Create context string from collected data
+            const context = `Image Type: ${this.stepData.imageType}\nProduct Description: ${this.stepData.productDescription}\nProduct Location: ${this.stepData.productLocation}`;
+            
+            // Convert base64 back to file for API call
+            const file = await this.dataURLtoFile(uploadedFile.dataUrl, uploadedFile.name);
+            
+            // Call rateDesign API
+            const ratingResult = await rateDesign({ 
+                file: file, 
+                context: context 
+            });
+            
+            // Store rating data for next steps
+            sessionStorage.setItem('ratingData', JSON.stringify({
+                rating_id: ratingResult.rating_id,
+                request_id: ratingResult.request_id,
+                grade: ratingResult.grade,
+                context: context
+            }));
+            
+            this.showMessage('Design analysis complete!', 'success');
+            
+            // Navigate to email collection step
+            setTimeout(() => {
+                window.location.href = 'step5.html';
+            }, 1000);
+            
+        } catch (error) {
+            console.error('Failed to rate design:', error);
+            this.showMessage('Failed to analyze design. Please try again.', 'error');
+        }
+    }
+    
+    // Helper function to convert dataURL back to File
+    dataURLtoFile(dataurl, filename) {
+        const arr = dataurl.split(',');
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, {type:mime});
     }
     
     navigateNext() {

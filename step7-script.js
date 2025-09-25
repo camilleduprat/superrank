@@ -4,9 +4,11 @@ class Step7Manager {
     constructor() {
         this.currentState = 1;
         this.maxStates = 3;
+        this.resultsData = null;
         
         this.initializeElements();
         this.bindEvents();
+        this.loadResults();
     }
     
     initializeElements() {
@@ -30,6 +32,60 @@ class Step7Manager {
         this.nextArrowButton.addEventListener('click', () => {
             this.navigateNext();
         });
+    }
+    
+    loadResults() {
+        // Get results data from sessionStorage
+        const resultsDataStr = sessionStorage.getItem('fullResults');
+        if (resultsDataStr) {
+            this.resultsData = JSON.parse(resultsDataStr);
+            this.updateResultsDisplay();
+        } else {
+            console.warn('No results data found, using fallback');
+            this.showFallbackResults();
+        }
+    }
+    
+    updateResultsDisplay() {
+        if (!this.resultsData) return;
+        
+        // Update rank display
+        const rankElement = document.querySelector('.rank-wrapper h1');
+        if (rankElement && this.resultsData.userRank) {
+            rankElement.textContent = `${this.resultsData.userRank}${this.getOrdinalSuffix(this.resultsData.userRank)}`;
+        }
+        
+        // Update feedback message
+        const feedbackElement = document.querySelector('.subtitle-feedback span');
+        if (feedbackElement && this.resultsData.justification) {
+            feedbackElement.textContent = this.resultsData.justification;
+        }
+        
+        // Update points label
+        const pointsLabel = document.querySelector('.points-label');
+        if (pointsLabel && this.resultsData.grade) {
+            pointsLabel.textContent = `${this.resultsData.grade} points out of 1000`;
+        }
+    }
+    
+    showFallbackResults() {
+        // Use default values if no data is available
+        console.log('Showing fallback results');
+    }
+    
+    getOrdinalSuffix(num) {
+        const j = num % 10;
+        const k = num % 100;
+        if (j === 1 && k !== 11) {
+            return "st";
+        }
+        if (j === 2 && k !== 12) {
+            return "nd";
+        }
+        if (j === 3 && k !== 13) {
+            return "rd";
+        }
+        return "th";
     }
     
     navigateNext() {

@@ -50,9 +50,36 @@ class Step6Manager {
         this.nextButton.style.opacity = '0.5';
     }
     
-    startLoadingSequence() {
-        // Simulate loading time
-        setTimeout(() => {
+    async startLoadingSequence() {
+        try {
+            // Import the growthClient functions
+            const { getRating, getLeaderboard, showError } = await import('./growthClient.js');
+            
+            // Get claim data from sessionStorage
+            const claimDataStr = sessionStorage.getItem('claimData');
+            if (!claimDataStr) {
+                throw new Error('No claim data found. Please go back and complete the email step.');
+            }
+            
+            const claimData = JSON.parse(claimDataStr);
+            
+            // Fetch full rating analysis
+            const fullRating = await getRating(claimData.ratingId);
+            
+            // Get leaderboard to calculate user rank
+            const leaderboard = await getLeaderboard(200);
+            const userRank = leaderboard.findIndex(user => 
+                (user.username || '').toLowerCase() === claimData.username.toLowerCase()
+            ) + 1;
+            
+            // Store full results for next steps
+            sessionStorage.setItem('fullResults', JSON.stringify({
+                ...fullRating,
+                userRank: userRank || null,
+                username: claimData.username,
+                email: claimData.email
+            }));
+            
             // Change loading icon to checkmark
             this.changeIconToCheck();
             
@@ -60,7 +87,16 @@ class Step6Manager {
             
             // Enable navigation after loading is complete
             this.enableNavigation();
-        }, 3000);
+            
+        } catch (error) {
+            console.error('Failed to load results:', error);
+            this.showMessage('Failed to load results. Please try again.', 'error');
+            
+            // Still enable navigation to allow user to proceed
+            setTimeout(() => {
+                this.enableNavigation();
+            }, 2000);
+        }
     }
     
     changeIconToCheck() {

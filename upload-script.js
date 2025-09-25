@@ -86,7 +86,7 @@ class UploadFlow {
         });
     }
     
-    handleFileUpload(files) {
+    async handleFileUpload(files) {
         const fileArray = Array.from(files);
         const validFiles = fileArray.filter(file => {
             return file.type.startsWith('image/') && file.size <= 10 * 1024 * 1024; // 10MB limit
@@ -106,12 +106,41 @@ class UploadFlow {
         // Add files to uploaded files
         this.uploadedFiles = [...this.uploadedFiles, ...validFiles];
         
+        // Store file data in sessionStorage for use in next steps
+        try {
+            const file = validFiles[0]; // We only allow one file
+            const dataUrl = await this.fileToDataUrl(file);
+            
+            sessionStorage.setItem('uploadedFile', JSON.stringify({
+                name: file.name,
+                size: file.size,
+                type: file.type,
+                dataUrl: dataUrl
+            }));
+            
+            console.log('File stored in sessionStorage:', file.name);
+        } catch (error) {
+            console.error('Failed to store file data:', error);
+            this.showError('Failed to process uploaded file');
+            return;
+        }
+        
         // Update UI
         this.updateUploadButton();
         this.updateNavigationState();
         
         // Show success feedback
         this.showSuccess('Image uploaded successfully');
+    }
+    
+    // Helper function to convert file to data URL
+    fileToDataUrl(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
     }
     
     updateUploadButton() {

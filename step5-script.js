@@ -81,7 +81,7 @@ class Step5Manager {
         this.updateNavigationState();
     }
     
-    validateAndProceed() {
+    async validateAndProceed() {
         const email = this.emailInput.value.trim();
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         
@@ -103,21 +103,52 @@ class Step5Manager {
         // Show loading state
         this.showLoadingState();
         
-        // Simulate processing time
-        setTimeout(() => {
+        try {
+            // Import the growthClient functions
+            const { claimReview, showError } = await import('./growthClient.js');
+            
+            // Get rating data from sessionStorage
+            const ratingDataStr = sessionStorage.getItem('ratingData');
+            if (!ratingDataStr) {
+                throw new Error('No rating data found. Please go back and complete the design analysis.');
+            }
+            
+            const ratingData = JSON.parse(ratingDataStr);
+            
+            // Generate a temporary username (you mentioned you'll add username field later)
+            const tempUsername = `user_${Date.now()}`;
+            
+            // Call claimReview API
+            await claimReview({
+                username: tempUsername,
+                email: email,
+                requestId: ratingData.request_id,
+                ratingId: ratingData.rating_id,
+                portfolioUrl: null // Will be added when you implement portfolio URL field
+            });
+            
+            // Store claim data for next steps
+            sessionStorage.setItem('claimData', JSON.stringify({
+                username: tempUsername,
+                email: email,
+                ratingId: ratingData.rating_id
+            }));
+            
             // Change icon to check mark
             this.changeIconToCheck();
             
             this.showMessage('Email saved successfully!', 'success');
             
-            // Store data (in a real app, this would be sent to backend)
-            console.log('Step 5 Data:', this.emailData);
-            
             // Navigate to next step (step 6)
             setTimeout(() => {
                 window.location.href = 'step6.html';
             }, 1000);
-        }, 1500);
+            
+        } catch (error) {
+            console.error('Failed to claim review:', error);
+            this.hideLoadingState();
+            this.showMessage('Failed to save email. Please try again.', 'error');
+        }
     }
     
     showLoadingState() {

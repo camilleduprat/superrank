@@ -1,4 +1,4 @@
-// Generate 50 placeholder users with realistic scores
+// Generate placeholder users as fallback
 const generatePlaceholderUsers = () => {
     const firstNames = [
         'Julien', 'Thomas', 'Maxime', 'Aurélien', 'Théo', 'Kagan', 'Yohan',
@@ -57,40 +57,91 @@ const generatePlaceholderUsers = () => {
     }));
 };
 
-// Populate leaderboard
-const populateLeaderboard = () => {
+// Populate leaderboard with real data from backend
+const populateLeaderboard = async () => {
     const leaderboardList = document.getElementById('leaderboardList');
-    const users = generatePlaceholderUsers();
     
-    leaderboardList.innerHTML = '';
-    
-    users.forEach((user, index) => {
-        const entry = document.createElement('div');
-        entry.className = 'leaderboard-entry';
-        if (index === 0) {
-            entry.classList.add('highlighted');
-        }
+    try {
+        // Import the growthClient functions
+        const { getLeaderboard, showError } = await import('./growthClient.js');
         
-        entry.innerHTML = `
-            <div class="entry-info">
-                <span class="entry-rank">#${user.rank}</span>
-                <span class="entry-name">${user.name}</span>
-            </div>
-            <span class="entry-score">${user.score}</span>
-        `;
+        // Fetch real leaderboard data
+        const leaderboardData = await getLeaderboard(50);
         
-        leaderboardList.appendChild(entry);
-    });
+        // Transform backend data to match our UI format
+        const users = leaderboardData.map((user, index) => ({
+            rank: index + 1,
+            name: user.username || 'Anonymous',
+            score: user.best_grade || 0
+        }));
+        
+        leaderboardList.innerHTML = '';
+        
+        users.forEach((user, index) => {
+            const entry = document.createElement('div');
+            entry.className = 'leaderboard-entry';
+            if (index === 0) {
+                entry.classList.add('highlighted');
+            }
+            
+            entry.innerHTML = `
+                <div class="entry-info">
+                    <span class="entry-rank">#${user.rank}</span>
+                    <span class="entry-name">${user.name}</span>
+                </div>
+                <span class="entry-score">${user.score}</span>
+            `;
+            
+            leaderboardList.appendChild(entry);
+        });
+        
+        // Update user count with real data
+        updateUserCount(users.length);
+        
+    } catch (error) {
+        console.error('Failed to load leaderboard:', error);
+        showError('Failed to load leaderboard. Using placeholder data.');
+        
+        // Fallback to placeholder data
+        const users = generatePlaceholderUsers();
+        
+        leaderboardList.innerHTML = '';
+        
+        users.forEach((user, index) => {
+            const entry = document.createElement('div');
+            entry.className = 'leaderboard-entry';
+            if (index === 0) {
+                entry.classList.add('highlighted');
+            }
+            
+            entry.innerHTML = `
+                <div class="entry-info">
+                    <span class="entry-rank">#${user.rank}</span>
+                    <span class="entry-name">${user.name}</span>
+                </div>
+                <span class="entry-score">${user.score}</span>
+            `;
+            
+            leaderboardList.appendChild(entry);
+        });
+    }
 };
 
-// Update user count (simulate dynamic data)
-const updateUserCount = () => {
+// Update user count with real data or fallback
+const updateUserCount = (realCount = null) => {
     const userCountElement = document.getElementById('userCount');
-    const baseCount = 19247;
-    const randomVariation = Math.floor(Math.random() * 100) - 50; // ±50 variation
-    const newCount = baseCount + randomVariation;
     
-    userCountElement.textContent = newCount.toLocaleString();
+    if (realCount !== null) {
+        // Use real count from leaderboard
+        userCountElement.textContent = realCount.toLocaleString();
+    } else {
+        // Fallback to simulated data
+        const baseCount = 19247;
+        const randomVariation = Math.floor(Math.random() * 100) - 50; // ±50 variation
+        const newCount = baseCount + randomVariation;
+        
+        userCountElement.textContent = newCount.toLocaleString();
+    }
 };
 
 // Add smooth scroll behavior to leaderboard
@@ -118,14 +169,15 @@ const addLeaderboardInteractions = () => {
 };
 
 // Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    populateLeaderboard();
-    updateUserCount();
+document.addEventListener('DOMContentLoaded', async () => {
+    await populateLeaderboard();
     addSmoothScroll();
     addLeaderboardInteractions();
     
-    // Update user count every 30 seconds (simulate real-time updates)
-    setInterval(updateUserCount, 30000);
+    // Refresh leaderboard every 30 seconds
+    setInterval(async () => {
+        await populateLeaderboard();
+    }, 30000);
 });
 
 // Add keyboard navigation for accessibility
