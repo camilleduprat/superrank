@@ -44,6 +44,7 @@ class Step7Manager {
         if (resultsDataStr) {
             this.resultsData = JSON.parse(resultsDataStr);
             this.updateResultsDisplay();
+            this.fetchAndRenderFromBackend();
         } else {
             console.warn('No results data found, using fallback');
             this.showFallbackResults();
@@ -59,6 +60,26 @@ class Step7Manager {
                     if (feedbackElement && punch) feedbackElement.textContent = punch;
                 } catch {}
             }
+            this.fetchAndRenderFromBackend();
+        }
+    }
+
+    async fetchAndRenderFromBackend() {
+        try {
+            const { getRating } = await import('./growthClient.js');
+            const claimRaw = sessionStorage.getItem('claimData');
+            const ratingRaw = sessionStorage.getItem('ratingData');
+            const claim = claimRaw ? JSON.parse(claimRaw) : {};
+            const rd = ratingRaw ? JSON.parse(ratingRaw) : {};
+            const ratingId = claim.ratingId || rd.rating_id || rd.ratingId || rd.id;
+            if (!ratingId) return;
+            const data = await getRating(ratingId);
+            const feedbackElement = document.querySelector('.subtitle-feedback span');
+            const m = String(data.justification || '').match(/\*\*(.*?)\*\*/);
+            const punch = data.punchline || (m ? m[1] : '');
+            if (feedbackElement && punch) feedbackElement.textContent = punch;
+        } catch (e) {
+            console.warn('Step7 backend hydrate failed', e);
         }
     }
     

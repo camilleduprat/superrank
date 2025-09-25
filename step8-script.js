@@ -128,6 +128,7 @@ class Step8Controller {
             if ((!this.resultsData.sectionsMap || Object.keys(this.resultsData.sectionsMap).length === 0) && this.resultsData.justification) {
                 this.updateCardsFromJustification(this.resultsData.justification);
             }
+            this.fetchAndRenderFromBackend();
         } else {
             console.warn('No results data found for step 8');
             // Immediate fallback: attempt to parse from ratingData.justification for visible UI
@@ -148,6 +149,42 @@ class Step8Controller {
             }
             // Background recovery to fetch fresh
             this.recoverResults();
+            this.fetchAndRenderFromBackend();
+        }
+    }
+
+    async fetchAndRenderFromBackend() {
+        try {
+            const { getRating } = await import('./growthClient.js');
+            const claimRaw = sessionStorage.getItem('claimData');
+            const ratingRaw = sessionStorage.getItem('ratingData');
+            const claim = claimRaw ? JSON.parse(claimRaw) : {};
+            const rd = ratingRaw ? JSON.parse(ratingRaw) : {};
+            const ratingId = claim.ratingId || rd.rating_id || rd.ratingId || rd.id;
+            if (!ratingId) return;
+            const data = await getRating(ratingId);
+            // Points
+            const pointsElement = document.querySelector('.upload-title.points-title h1');
+            if (pointsElement && typeof data.grade === 'number') pointsElement.textContent = data.grade;
+            // Punchline from justification bold or data.punchline
+            const subtitle = document.querySelector('.subtitle-feedback span');
+            const m = String(data.justification || '').match(/\*\*(.*?)\*\*/);
+            const punch = data.punchline || (m ? m[1] : '');
+            if (subtitle && punch) subtitle.textContent = punch;
+            // Cards from improvements or parsed justification
+            if (Array.isArray(data.improvements) && data.improvements.length) {
+                this.resultsData = this.resultsData || {};
+                this.resultsData.sectionsMap = {};
+                for (const it of data.improvements) {
+                    const key = String(it.category || '').toLowerCase().replace(/[^a-z]/g, '');
+                    this.resultsData.sectionsMap[key] = { title: it.category, description: it.description };
+                }
+                this.updateAnalysisDisplay();
+            } else if (data.justification) {
+                this.updateCardsFromJustification(data.justification);
+            }
+        } catch (e) {
+            console.warn('Step8 backend hydrate failed', e);
         }
     }
 
