@@ -1,0 +1,384 @@
+/* Step 8 Specific Styles - Points Breakdown */
+
+/* Top Right Buttons */
+.top-back-button {
+    position: fixed;
+    top: 80px;
+    right: 140px;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.top-back-button:hover {
+    opacity: 1;
+}
+
+.top-right-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    align-content: center;
+    gap: 12px;
+}
+
+.top-back-icon {
+    width: 44px;
+    height: 44px;
+    filter: brightness(0) invert(1);
+}
+
+.top-close-button {
+    position: fixed;
+    top: 80px;
+    right: 80px;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.top-close-button:hover {
+    opacity: 1;
+}
+
+.top-close-icon {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
+}
+
+/* Spaced Container */
+.spaced-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    max-width: 1200px;
+    gap: 40px;
+    position: relative;
+}
+
+.subtitle-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0;
+}
+
+/* Subtitle Feedback */
+.subtitle-feedback {
+    width: 350px;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: white;
+}
+
+/* Cards Section */
+.cards-section {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 12px;
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-direction: row;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.cards-section::-webkit-scrollbar {
+    display: none;
+}
+
+.evaluation-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 1);
+    border-radius: 24px;
+    padding: 20px;
+    flex: 0 0 auto;
+    min-width: 400px;
+    max-width: 400px;
+    transition: all 0.3s ease;
+}
+
+.evaluation-card:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 1);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.card-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.card-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.card-title {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255, 255, 255,0.5);
+    margin: 0;
+}
+
+.card-description {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 1);
+    margin: 0;
+}
+
+/* Points Title */
+.points-title {
+    position: relative;
+    margin-top: auto;
+}
+
+.points-title h1 {
+    font-size: clamp(8rem, 15vw, 15.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: white;
+    margin: 0;
+}
+
+.points-label {
+    position: absolute;
+    top: 40px;
+    right: -60px;
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+}
+
+/* Next Arrow Button with Plus Icon */
+.next-arrow-button {
+    position: fixed;
+    bottom: 80px;
+    right: 80px;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.next-arrow-icon {
+    width: 120px;
+    height: 120px;
+    cursor: pointer;
+    filter: brightness(0) invert(1);
+    transition: all 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .top-back-button {
+        top: 60px;
+        right: 120px;
+    }
+    
+    .top-close-button {
+        top: 60px;
+        right: 60px;
+    }
+    
+    .spaced-container {
+        padding: 60px;
+        gap: 30px;
+    }
+    
+    .cards-section {
+        max-width: 700px;
+    }
+    
+    .points-label {
+        right: -60px;
+        font-size: 14px;
+    }
+    
+    .next-arrow-button {
+        bottom: 60px;
+        right: 60px;
+    }
+}
+
+@media (max-width: 968px) {
+    .top-back-button {
+        top: 40px;
+        right: 100px;
+    }
+    
+    .top-close-button {
+        top: 40px;
+        right: 40px;
+    }
+    
+    .spaced-container {
+        padding: 40px;
+        gap: 25px;
+    }
+    
+    .cards-section {
+        gap: 15px;
+        max-width: 600px;
+    }
+    
+    .evaluation-card {
+        min-width: 400px;
+        max-width: 400px;
+        padding: 20px;
+    }
+    
+    .points-label {
+        right: -50px;
+        font-size: 12px;
+    }
+    
+    .next-arrow-button {
+        bottom: 40px;
+        right: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .top-back-button {
+        top: 20px;
+        right: 80px;
+    }
+    
+    .top-close-button {
+        top: 20px;
+        right: 20px;
+    }
+    
+    .spaced-container {
+        padding: 20px;
+        gap: 20px;
+    }
+    
+    .subtitle-feedback {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .cards-section {
+        flex-direction: row;
+        gap: 12px;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+    
+    .evaluation-card {
+        min-width: 400px;
+        max-width: 400px;
+        padding: 16px;
+        flex-shrink: 0;
+    }
+    
+    .points-label {
+        position: static;
+        transform: none;
+        margin-top: 10px;
+        font-size: 14px;
+        text-align: left;
+    }
+    
+    .next-arrow-button {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .next-arrow-icon {
+        width: 100px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-back-button {
+        top: 16px;
+        right: 60px;
+    }
+    
+    .top-close-button {
+        top: 16px;
+        right: 16px;
+    }
+    
+    .spaced-container {
+        padding: 16px;
+        gap: 16px;
+    }
+    
+    .subtitle-feedback {
+        font-size: 13px;
+    }
+    
+    .evaluation-card {
+        padding: 14px;
+    }
+    
+    .card-title {
+        font-size: 13px;
+    }
+    
+    .card-description {
+        font-size: 11px;
+    }
+    
+    .next-arrow-button {
+        bottom: 16px;
+        right: 16px;
+    }
+    
+    .next-arrow-icon {
+        width: 80px;
+        height: 60px;
+    }
+}
+
+/* Focus states for accessibility */
+.next-arrow-button:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.3);
+    outline-offset: 2px;
+}
+
+.evaluation-card:focus-within {
+    outline: 2px solid rgba(255, 255, 255, 0.3);
+    outline-offset: 2px;
+}

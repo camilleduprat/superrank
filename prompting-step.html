@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Step 2 - Context Collection - SuperRank</title>
+    <title>Prompting Step - Context Collection - SuperRank</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="upload-styles.css">
-    <link rel="stylesheet" href="step2-styles.css">
+    <link rel="stylesheet" href="prompting-step-styles.css">
     <!-- SF Pro fonts loaded locally -->
 </head>
 <body class="upload-flow">
@@ -16,15 +16,16 @@
     </button>
 
     <div class="upload-container">
+        <!-- Subtitle -->
+        <div class="step-subtitle">
+            <span>􀀃 Collecting more context</span>
+        </div>
         <!-- Main Title -->
         <div class="upload-title">
             <h1>What's the product?</h1>
         </div>
 
-        <!-- Subtitle -->
-        <div class="step-subtitle">
-            <span>􀀃 Collecting more context</span>
-        </div>
+        
     </div>
 
     <!-- ChatInput Component -->
@@ -43,7 +44,7 @@
                 <div class="step-content-box">
                     <div class="step-content-left">
                         <div class="step-header-inline">
-                            <h4 class="step-title">Image type?</h4>
+                            <h4 class="step-title">Image type</h4>
                         </div>
                         <div class="step-options">
                             <button class="option-tag" data-value="component">Component</button>
@@ -73,19 +74,19 @@
                     <div class="step-content-left">
 
                         <div class="step-input-container">
-                            <button class="step-back-btn" id="step2BackBtn">
+                            <button class="step-back-btn" id="promptingStepBackBtn">
                                 <img src="assets/images/icon-chevron-back.png" alt="Back" class="back-icon">
                             </button>
                             <input type="text" id="productDescriptionInput" placeholder="Describe what this product is about...">
                         </div>
                     </div>
-                    <button class="step-next-btn" id="step2NextBtn">
+                    <button class="step-next-btn" id="promptingStepNextBtn">
                         <img src="assets/images/icon-arrow-right.png" alt="Next" class="next-icon">
                     </button>
                 </div>
             </div>
             <div class="step-progress-bar">
-                <div class="progress-fill" id="step2ProgressFill"></div>
+                <div class="progress-fill" id="promptingStepProgressFill"></div>
             </div>
         </div>
 
@@ -122,30 +123,8 @@
         <img src="assets/images/icon-arrow-right.png" alt="Next" class="next-arrow-icon">
     </button>
 
-    <!-- Navigation -->
-    <div class="upload-navigation">
-        <!-- Back Button -->
-        <button class="nav-button nav-back" id="backButton">
-            <img src="assets/images/icon-arrow-right.png" alt="Back" class="nav-icon nav-icon-back">
-        </button>
 
-        <!-- Progress Indicator -->
-        <div class="progress-indicator">
-            <div class="progress-dot" data-step="1"></div>
-            <div class="progress-dot active" data-step="2"></div>
-            <div class="progress-dot" data-step="3"></div>
-            <div class="progress-dot" data-step="4"></div>
-            <div class="progress-dot" data-step="5"></div>
-            <div class="progress-dot" data-step="6"></div>
-            <div class="progress-dot" data-step="7"></div>
-        </div>
 
-        <!-- Next Button -->
-        <button class="nav-button nav-next" id="nextButton">
-            <img src="assets/images/icon-arrow-right.png" alt="Next" class="nav-icon">
-        </button>
-    </div>
-
-    <script src="step2-script.js"></script>
+    <script src="prompting-step-script.js"></script>
 </body>
 </html>

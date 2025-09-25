@@ -14,12 +14,17 @@ class UploadFlow {
     initializeElements() {
         this.uploadButton = document.getElementById('uploadButton');
         this.fileInput = document.getElementById('fileInput');
-        this.backButton = document.getElementById('backButton');
-        this.nextButton = document.getElementById('nextButton');
-        this.progressDots = document.querySelectorAll('.progress-dot');
         this.closeButton = document.getElementById('closeButton');
         this.nextArrowButton = document.getElementById('nextArrowButton');
         this.topCloseButton = document.getElementById('topCloseButton');
+        
+        console.log('Rating step elements initialized:', {
+            uploadButton: !!this.uploadButton,
+            fileInput: !!this.fileInput,
+            closeButton: !!this.closeButton,
+            nextArrowButton: !!this.nextArrowButton,
+            topCloseButton: !!this.topCloseButton
+        });
     }
     
     bindEvents() {
@@ -33,14 +38,18 @@ class UploadFlow {
             this.handleFileUpload(e.target.files);
         });
         
-        // Navigation buttons
-        this.backButton.addEventListener('click', () => {
-            this.navigateBack();
-        });
+        // Navigation buttons (only if they exist)
+        if (this.backButton) {
+            this.backButton.addEventListener('click', () => {
+                this.navigateBack();
+            });
+        }
         
-        this.nextButton.addEventListener('click', () => {
-            this.navigateNext();
-        });
+        if (this.nextButton) {
+            this.nextButton.addEventListener('click', () => {
+                this.navigateNext();
+            });
+        }
         
         // Drag and drop functionality
         this.uploadButton.addEventListener('dragover', (e) => {
@@ -72,6 +81,7 @@ class UploadFlow {
         
         // Top close button click
         this.topCloseButton.addEventListener('click', () => {
+            console.log('Top close button clicked - navigating to index.html');
             window.location.href = 'index.html';
         });
     }
@@ -121,13 +131,11 @@ class UploadFlow {
     }
     
     updateNavigationState() {
-        // Enable next button if files are uploaded
+        // Show/hide next arrow button based on uploaded files
         if (this.uploadedFiles.length > 0) {
-            this.nextButton.disabled = false;
-            this.nextButton.style.opacity = '1';
+            this.nextArrowButton.style.display = 'flex';
         } else {
-            this.nextButton.disabled = true;
-            this.nextButton.style.opacity = '0.5';
+            this.nextArrowButton.style.display = 'none';
         }
     }
     
@@ -146,33 +154,23 @@ class UploadFlow {
     }
     
     navigateNext() {
-        if (this.currentStep < this.maxSteps && this.uploadedFiles.length > 0) {
-            this.currentStep++;
-            this.updateProgress();
-            this.addBounceAnimation(this.nextButton);
+        if (this.uploadedFiles.length > 0) {
+            console.log('Navigating to next step...');
             this.addBounceAnimation(this.nextArrowButton);
             
-            // Handle next navigation logic
-            if (this.currentStep === 2) {
-                // Navigate to next step
-                this.goToNextStep();
-            }
+            // Navigate to next step (prompting step)
+            this.goToNextStep();
         }
     }
     
     goToNextStep() {
-        // Navigate to Step 2
-        window.location.href = 'step2.html';
+        // Navigate to Prompting Step
+        window.location.href = 'prompting-step.html';
     }
     
     updateProgress() {
-        this.progressDots.forEach((dot, index) => {
-            if (index < this.currentStep) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
-        });
+        // Progress dots don't exist in rating step, so this method is not needed
+        // Keeping it for compatibility but it won't do anything
     }
     
     addBounceAnimation(button) {

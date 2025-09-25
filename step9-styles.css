@@ -1,0 +1,307 @@
+/* Step 9 Specific Styles - Solution Page */
+
+/* Top Right Navigation */
+.top-right-nav {
+    position: fixed;
+    top: 80px;
+    right: 80px;
+    flex-direction: row;
+    gap: 12px;
+    z-index: 1000;
+}
+
+.top-back-button {
+    position: fixed;
+    top: 80px;
+    right: 140px;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.top-back-icon {
+    width: 44px;
+    height: 44px;
+    filter: brightness(0) invert(1);
+}
+
+.top-close-button {
+    position: fixed;
+    top: 80px;
+    right: 80px;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.top-close-icon {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
+}
+
+/* Spaced Container */
+.spaced-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    max-width: 1200px;
+    position: relative;
+}
+
+/* Solutions Card */
+.solutions-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 24px;
+    padding: 24px;
+    width: 320px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.solutions-card.blurred .card-content {
+    filter: blur(4px);
+    pointer-events: none;
+    user-select: none;
+}
+
+.solutions-card.blurred .reveal-button {
+    filter: none;
+    pointer-events: auto;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+.card-header {
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+.card-content {
+    margin-bottom: 0px;
+    transition: filter 0.3s ease;
+}
+
+.solution-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.solution-item:last-child {
+    border-bottom: none;
+}
+
+.solution-text {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.8);
+    flex: 1;
+}
+
+.expand-icon {
+    width: 12px;
+    height: 12px;
+    filter: brightness(0) invert(1);
+    opacity: 0.6;
+    transform: rotate(90deg);
+}
+
+.reveal-button {
+    width: 80%;
+    background: rgba(255, 255, 255, 1);
+    border: none;
+    border-radius: 100px;
+    padding: 12px 0;
+    font-size: 14px;
+    font-weight: 300;
+    color: #171717;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.reveal-button:hover {
+    background: rgba(255, 255, 255, 1);
+    border:none;
+}
+
+/* Main Title */
+.upload-title {
+    position: relative;
+    margin-top: auto;
+}
+
+.upload-title h1 {
+    font-size: clamp(6rem, 12vw, 12rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: white;
+    margin: 0;
+}
+
+/* Next Arrow Button */
+.next-arrow-button {
+    position: fixed;
+    bottom: 80px;
+    right: 80px;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.next-arrow-icon {
+    width: 140px;
+    height: 120px;
+    cursor: pointer;
+    filter: brightness(0) invert(1);
+    transition: all 0.3s ease;
+}
+
+.next-arrow-button:hover .next-arrow-icon {
+    transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .top-right-nav {
+        top: 60px;
+        right: 60px;
+    }
+    
+    .spaced-container {
+        gap: 30px;
+    }
+    
+    .solutions-card {
+        width: 280px;
+    }
+    
+    .next-arrow-button {
+        bottom: 60px;
+        right: 60px;
+    }
+}
+
+@media (max-width: 968px) {
+    .top-right-nav {
+        top: 40px;
+        right: 40px;
+    }
+    
+    .spaced-container {
+        gap: 25px;
+    }
+    
+    .solutions-card {
+        width: 260px;
+        padding: 20px;
+    }
+    
+    .next-arrow-button {
+        bottom: 40px;
+        right: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .top-right-nav {
+        top: 20px;
+        right: 20px;
+    }
+    
+    .spaced-container {
+        gap: 20px;
+    }
+    
+    .solutions-card {
+        width: 100%;
+        max-width: 300px;
+        padding: 16px;
+    }
+    
+    .next-arrow-button {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .next-arrow-icon {
+        width: 100px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-right-nav {
+        top: 16px;
+        right: 16px;
+    }
+    
+    .spaced-container {
+        gap: 16px;
+    }
+    
+    .solutions-card {
+        padding: 14px;
+    }
+    
+    .card-title {
+        font-size: 14px;
+    }
+    
+    .solution-text {
+        font-size: 13px;
+    }
+    
+    .reveal-button {
+        font-size: 13px;
+        padding: 10px 14px;
+    }
+    
+    .next-arrow-button {
+        bottom: 16px;
+        right: 16px;
+    }
+    
+    .next-arrow-icon {
+        width: 80px;
+        height: 60px;
+    }
+}
+
+/* Focus states for accessibility */
+.top-back-button:focus,
+.top-close-button:focus,
+.next-arrow-button:focus,
+.reveal-button:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.3);
+    outline-offset: 2px;
+}

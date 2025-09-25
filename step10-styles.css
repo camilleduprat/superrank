@@ -1,0 +1,185 @@
+/* Step 10 Specific Styles - Coming Soon Page */
+
+/* Top Right Logo */
+.top-right-logo {
+    position: fixed;
+    top: 80px;
+    right: 80px;
+    z-index: 1000;
+}
+
+.logo-image {
+    height: clamp(2rem, 4vw, 3rem);
+    width: auto;
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+    animation: logoGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes logoGlow {
+    from {
+        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+    }
+    to {
+        filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.5));
+    }
+}
+
+/* Subtitle */
+.step-subtitle {
+    position: fixed;
+    top: 80px;
+    left: 80px;
+    max-width: 400px;
+    z-index: 1000;
+}
+
+.step-subtitle span {
+    font-size: 14px;
+    line-height: 1.6;
+    color:white;
+    font-weight: 300;
+}
+
+/* Main Title */
+.upload-title {
+    position: fixed;
+    bottom: 42px;
+    left: 80px;
+    z-index: 1000;
+}
+
+.upload-title h1 {
+    font-size: clamp(8rem, 15vw, 15.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: white;
+    margin: 0;
+}
+
+/* Big Close Button */
+.big-close-button {
+    position: fixed;
+    bottom: 80px;
+    right: 80px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.big-close-icon {
+    width: 120px;
+    height: 120px;
+    filter: brightness(0) invert(1);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .top-right-logo {
+        top: 60px;
+        right: 60px;
+    }
+    
+    .step-subtitle {
+        top: 60px;
+        left: 60px;
+        max-width: 350px;
+    }
+    
+    .upload-title {
+        bottom: 180px;
+        left: 60px;
+    }
+    
+    .big-close-button {
+        bottom: 60px;
+        right: 60px;
+    }
+}
+
+@media (max-width: 968px) {
+    .top-right-logo {
+        top: 40px;
+        right: 40px;
+    }
+    
+    .step-subtitle {
+        top: 40px;
+        left: 40px;
+        max-width: 300px;
+    }
+    
+    .upload-title {
+        bottom: 160px;
+        left: 40px;
+    }
+    
+    .big-close-button {
+        bottom: 40px;
+        right: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .top-right-logo {
+        top: 20px;
+        right: 20px;
+    }
+    
+    .step-subtitle {
+        top: 20px;
+        left: 20px;
+        max-width: 280px;
+    }
+    
+    .upload-title {
+        bottom: 140px;
+        left: 20px;
+    }
+    
+    .big-close-button {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .big-close-icon {
+        width: 100px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-right-logo {
+        top: 16px;
+        right: 16px;
+    }
+    
+    .step-subtitle {
+        top: 16px;
+        left: 16px;
+        max-width: 250px;
+    }
+    
+    .upload-title {
+        bottom: 120px;
+        left: 16px;
+    }
+    
+    .big-close-button {
+        bottom: 16px;
+        right: 16px;
+    }
+    
+    .big-close-icon {
+        width: 80px;
+        height: 60px;
+    }
+}
+
+/* Focus states for accessibility */
+.big-close-button:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.3);
+    outline-offset: 2px;
+}

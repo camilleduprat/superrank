@@ -1,6 +1,6 @@
-// Step 2 JavaScript - ChatInput State Management
+// Prompting Step JavaScript - ChatInput State Management
 
-class Step2Manager {
+class PromptingStepManager {
     constructor() {
         this.currentState = 1;
         this.maxStates = 3;
@@ -32,8 +32,8 @@ class Step2Manager {
         this.stepImageCloseBtn = document.getElementById('stepImageCloseBtn');
         
         // State 2 elements
-        this.step2BackBtn = document.getElementById('step2BackBtn');
-        this.step2NextBtn = document.getElementById('step2NextBtn');
+        this.promptingStepBackBtn = document.getElementById('promptingStepBackBtn');
+        this.promptingStepNextBtn = document.getElementById('promptingStepNextBtn');
         this.productDescriptionInput = document.getElementById('productDescriptionInput');
         this.stepImageCloseBtn2 = document.getElementById('stepImageCloseBtn2');
         
@@ -44,7 +44,7 @@ class Step2Manager {
         
         // Progress bars
         this.step1ProgressFill = document.getElementById('step1ProgressFill');
-        this.step2ProgressFill = document.getElementById('step2ProgressFill');
+        this.promptingStepProgressFill = document.getElementById('promptingStepProgressFill');
         this.step3ProgressFill = document.getElementById('step3ProgressFill');
     }
     
@@ -64,7 +64,7 @@ class Step2Manager {
         });
         
         this.nextArrowButton.addEventListener('click', () => {
-            this.validateStep2();
+            this.validatePromptingStep();
         });
         
         // State 1 events
@@ -80,11 +80,11 @@ class Step2Manager {
         });
         
         // State 2 events
-        this.step2BackBtn.addEventListener('click', () => {
+        this.promptingStepBackBtn.addEventListener('click', () => {
             this.goToState(1);
         });
         
-        this.step2NextBtn.addEventListener('click', () => {
+        this.promptingStepNextBtn.addEventListener('click', () => {
             if (this.productDescriptionInput.value.trim()) {
                 this.stepData.productDescription = this.productDescriptionInput.value.trim();
                 this.goToState(3);
@@ -108,7 +108,7 @@ class Step2Manager {
         
         // Input validation
         this.productDescriptionInput.addEventListener('input', () => {
-            this.updateStep2NextButton();
+            this.updatePromptingStepNextButton();
         });
         
         this.productLocationInput.addEventListener('input', () => {
@@ -126,7 +126,7 @@ class Step2Manager {
         this.productLocationInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && this.productLocationInput.value.trim()) {
                 this.stepData.productLocation = this.productLocationInput.value.trim();
-                this.validateStep2();
+                this.validatePromptingStep();
             }
         });
     }
@@ -181,14 +181,14 @@ class Step2Manager {
         }
         
         // Update input states
-        this.updateStep2NextButton();
+        this.updatePromptingStepNextButton();
         this.updateStep3Validation();
     }
     
-    updateStep2NextButton() {
+    updatePromptingStepNextButton() {
         const hasInput = this.productDescriptionInput.value.trim().length > 0;
-        this.step2NextBtn.style.opacity = hasInput ? '1' : '0.5';
-        this.step2NextBtn.style.pointerEvents = hasInput ? 'auto' : 'none';
+        this.promptingStepNextBtn.style.opacity = hasInput ? '1' : '0.5';
+        this.promptingStepNextBtn.style.pointerEvents = hasInput ? 'auto' : 'none';
     }
     
     updateStep3Validation() {
@@ -200,7 +200,7 @@ class Step2Manager {
     updateProgress() {
         // Reset all progress bars
         this.step1ProgressFill.style.width = '0%';
-        this.step2ProgressFill.style.width = '0%';
+        this.promptingStepProgressFill.style.width = '0%';
         this.step3ProgressFill.style.width = '0%';
         
         // Update progress based on current state
@@ -208,10 +208,10 @@ class Step2Manager {
             this.step1ProgressFill.style.width = '33%';
         } else if (this.currentState === 2) {
             this.step1ProgressFill.style.width = '33%';
-            this.step2ProgressFill.style.width = '66%';
+            this.promptingStepProgressFill.style.width = '66%';
         } else if (this.currentState === 3) {
             this.step1ProgressFill.style.width = '33%';
-            this.step2ProgressFill.style.width = '66%';
+            this.promptingStepProgressFill.style.width = '66%';
             this.step3ProgressFill.style.width = '100%';
         }
     }
@@ -241,7 +241,7 @@ class Step2Manager {
         }
     }
     
-    validateStep2() {
+    validatePromptingStep() {
         // Store final input
         this.stepData.productLocation = this.productLocationInput.value.trim();
         
@@ -264,21 +264,20 @@ class Step2Manager {
         }
         
         // All data is valid, proceed to next step
-        this.showMessage('Step 2 completed successfully!', 'success');
+        this.showMessage('Prompting Step completed successfully!', 'success');
         
         // Store data (in a real app, this would be sent to backend)
-        console.log('Step 2 Data:', this.stepData);
+        console.log('Prompting Step Data:', this.stepData);
         
-        // Navigate to next step (step 3)
+        // Navigate to next step (step 5)
         setTimeout(() => {
-            // For now, just show an alert. In the future, this will navigate to step 3
-            alert('Moving to step 3! (This will be implemented in the next step)');
+            window.location.href = 'step5.html';
         }, 1000);
     }
     
     navigateNext() {
-        // This would navigate to the next step in the flow
-        alert('This will navigate to the next step in the upload flow');
+        // Navigate to step 5 (email collection)
+        window.location.href = 'step5.html';
     }
     
     showMessage(message, type = 'success') {
@@ -323,7 +322,7 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Initialize Step 2 when DOM is loaded
+// Initialize Prompting Step when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new Step2Manager();
+    new PromptingStepManager();
 });

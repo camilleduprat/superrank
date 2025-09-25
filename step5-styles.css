@@ -1,0 +1,249 @@
+/* Step 5 Specific Styles */
+
+/* Email Input Container - Bottom Left */
+.email-input-container {
+    width: 450px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 36px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Email Input Box */
+.email-input-box {
+    display: flex;
+    align-items: center;
+    padding: 20px 20px 20px 20px;
+    gap: 12px;
+}
+
+/* Email Disclaimer */
+.email-disclaimer {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 1.2;
+}
+
+.email-disclaimer span {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 1.2;
+    font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Email Input Field */
+.email-input-box input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 0px;
+    color: white;
+    font-size: 14px;
+    font-weight: 300;
+    outline: none;
+    transition: all 0.2s ease;
+    font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.email-input-box input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.email-input-box input:focus {
+    background: transparent;
+}
+
+/* Email Submit Button */
+.email-submit-btn {
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.email-submit-btn:hover {
+}
+
+.email-submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.submit-icon {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
+}
+
+.email-input-wrapper {
+    position: fixed;
+    bottom: 80px;
+    left: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 28px;
+}
+
+/* Input validation states */
+.email-input-box input.valid {
+    color: white;
+}
+
+.email-input-box input.invalid {
+    color: white;
+}
+
+.email-submit-btn.valid {
+
+}
+
+.email-submit-btn.valid:hover {
+
+}
+
+/* Loading state */
+.email-submit-btn.loading {
+    background: transparent;
+    border: none;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .email-input-container {
+        bottom: 60px;
+        left: 60px;
+        width: 400px;
+    }
+}
+
+@media (max-width: 968px) {
+    .email-input-container {
+        bottom: 40px;
+        left: 40px;
+        width: 350px;
+    }
+}
+
+@media (max-width: 768px) {
+    .email-input-container {
+        bottom: 20px;
+        left: 20px;
+        width: calc(100vw - 40px);
+        max-width: 320px;
+    }
+    
+    .email-input-box {
+        padding: 16px 16px 0px 16px;
+        gap: 10px;
+    }
+    
+    .email-disclaimer {
+        padding: 6px 16px 16px 16px;
+    }
+    
+    .email-disclaimer span {
+        font-size: 10px;
+    }
+    
+    .email-input-box input {
+        font-size: 14px;
+        padding: 10px 0px;
+    }
+    
+    .email-submit-btn {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .submit-icon {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .email-input-container {
+        bottom: 16px;
+        left: 16px;
+        width: calc(100vw - 32px);
+        max-width: 280px;
+    }
+    
+    .email-input-box {
+        padding: 12px 12px 0px 12px;
+        gap: 8px;
+    }
+    
+    .email-disclaimer {
+        padding: 4px 12px 12px 12px;
+    }
+    
+    .email-disclaimer span {
+        font-size: 9px;
+    }
+    
+    .email-input-box input {
+        font-size: 13px;
+        padding: 8px 0px;
+    }
+    
+    .email-submit-btn {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .submit-icon {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+/* Focus states for accessibility */
+.email-input-box input:focus,
+.email-submit-btn:focus {
+
+}
+
+/* Animation for email input appearance */
+.email-input-container {
+    animation: slideInUp 0.5s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

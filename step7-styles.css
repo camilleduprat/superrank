@@ -1,0 +1,179 @@
+/* Step 7 Specific Styles */
+
+/* Rank Number */
+.rank-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.rank-number {
+    position: fixed;
+    bottom: 200px;
+    left: 80px;
+    z-index: 1000;
+}
+
+.rank-value {
+    font-size: clamp(8rem, 15vw, 15.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: white;
+}
+
+/* Points Title */
+.points-title {
+    position: relative;
+    margin-top: auto;
+}
+
+.points-title h1 {
+    font-size: clamp(8rem, 15vw, 15.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: white;
+    margin: 0;
+}
+
+.points-label {
+    position: relative;
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    padding-top: 40px;
+}
+
+/* Spaced Container */
+.spaced-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    max-width: 1200px;
+    gap: 20px;
+    position: relative;
+}
+
+.subtitle-feedback {
+    width: 350px;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.5;
+}
+
+
+
+/* Next Arrow Button with Plus Icon */
+.next-arrow-button {
+    position: fixed;
+    bottom: 80px;
+    right: 80px;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.next-arrow-icon {
+    width: 120px;
+    height: 120px;
+    cursor: pointer;
+    filter: brightness(0) invert(1);
+    transition: all 0.3s ease;
+}
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .rank-number {
+        bottom: 180px;
+        left: 60px;
+    }
+    
+    .feedback-comment {
+        top: 60px;
+        left: 60px;
+        max-width: 350px;
+    }
+    
+    .next-arrow-button {
+        bottom: 60px;
+        right: 60px;
+    }
+}
+
+@media (max-width: 968px) {
+    .rank-number {
+        bottom: 160px;
+        left: 40px;
+    }
+    
+    .feedback-comment {
+        top: 40px;
+        left: 40px;
+        max-width: 300px;
+    }
+    
+    .next-arrow-button {
+        bottom: 40px;
+        right: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .rank-number {
+        bottom: 140px;
+        left: 20px;
+    }
+    
+    .feedback-comment {
+        top: 20px;
+        left: 20px;
+        max-width: 280px;
+    }
+    
+    .next-arrow-button {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .next-arrow-icon {
+        width: 100px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .rank-number {
+        bottom: 120px;
+        left: 16px;
+    }
+    
+    .feedback-comment {
+        top: 16px;
+        left: 16px;
+        max-width: 250px;
+    }
+    
+    .next-arrow-button {
+        bottom: 16px;
+        right: 16px;
+    }
+    
+    .next-arrow-icon {
+        width: 80px;
+        height: 60px;
+    }
+}
+
+/* Focus states for accessibility */
+.next-arrow-button:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.3);
+    outline-offset: 2px;
+}

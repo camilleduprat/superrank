@@ -1,24 +1,14 @@
-/* Step 2 Specific Styles */
+/* Prompting Step Specific Styles */
 
 /* Step Subtitle */
 .step-subtitle {
-    position: fixed;
-    top: 80px;
-    left: 80px;
+    position: flex;
     display: flex;
     align-items: center;
     gap: 8px;
     z-index: 1000;
 }
 
-.subtitle-icon {
-    width: 16px;
-    height: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.7);
-}
 
 .step-subtitle span {
     font-size: 0.875rem;

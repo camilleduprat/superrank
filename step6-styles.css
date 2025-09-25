@@ -1,0 +1,68 @@
+/* Step 6 Specific Styles */
+
+/* Loading Icon Container - Bottom Left */
+.loading-icon-container {
+    position: fixed;
+    bottom: 80px;
+    left: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Loading Icon */
+.loading-icon {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .loading-icon-container {
+        bottom: 60px;
+        left: 60px;
+    }
+}
+
+@media (max-width: 968px) {
+    .loading-icon-container {
+        bottom: 40px;
+        left: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .loading-icon-container {
+        bottom: 20px;
+        left: 20px;
+    }
+    
+    .loading-icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .loading-icon-container {
+        bottom: 16px;
+        left: 16px;
+    }
+    
+    .loading-icon {
+        width: 18px;
+        height: 18px;
+    }
+}

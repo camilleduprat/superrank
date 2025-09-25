@@ -60,7 +60,7 @@ body {
 .container {
     display: flex;
     min-height: 100vh;
-    padding: 40px;
+    padding: 80px;
     gap: 20px;
     max-width: 100vw;
 }
@@ -68,6 +68,7 @@ body {
 /* Left Section */
 .left-section {
     flex: 1;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -75,11 +76,15 @@ body {
 }
 
 .logo {
+    position: fixed;
+    top: 80px;
+    left: 80px;
+    z-index: 1000;
     margin-bottom: 40px;
 }
 
 .logo-image {
-    height: clamp(2rem, 4vw, 3rem);
+    height: 24px;
     width: auto;
     filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
     animation: logoGlow 2s ease-in-out infinite alternate;
@@ -95,11 +100,11 @@ body {
 }
 
 .main-content {
-    max-width: 600px;
+    max-width: 100%;
 }
 
 .main-title {
-    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-size: clamp(2.5rem, 7vw, 7rem);
     font-weight: 300;
     line-height: 1.1;
     margin-bottom: 24px;
@@ -107,10 +112,10 @@ body {
 }
 
 .description {
-    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-size: 14px;
     line-height: 1.6;
     margin-bottom: 40px;
-    opacity: 0.9;
+    opacity: 0.5;
     max-width: 300px;
 }
 
@@ -151,48 +156,48 @@ body {
 
 .user-count {
     font-size: 0.875rem;
-    opacity: 0.8;
+    opacity: 0.5;
+    
 }
 
 /* Right Section - Leaderboard */
 .right-section {
-    flex: 0 0 400px;
+    flex: 0 0 500px;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
 .leaderboard {
-    background: rgba(255, 255, 255, 0.02);
+    background: transparent);
     border-radius: 16px;
-    padding: 24px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border:none;
 }
 
 .leaderboard-header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-left: 28px;
+    padding-right: 28px;
+
 }
 
 .header-label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    opacity: 0.7;
+    font-size: 14px;
+    font-weight: 300;
+    opacity: 0.5;
 }
 
 .leaderboard-list {
-    max-height: 60vh;
+    max-height: 90vh;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }
 
 .leaderboard-list::-webkit-scrollbar {
-    width: 6px;
+    width: 1px;
 }
 
 .leaderboard-list::-webkit-scrollbar-track {
@@ -201,44 +206,44 @@ body {
 
 .leaderboard-list::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
+    border-radius: 2px;
 }
 
 .leaderboard-entry {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 16px;
-    margin-bottom: 8px;
-    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.04);
+    padding: 28px;
+    margin-bottom: 12px;
+    border-radius: 16px;
     transition: all 0.2s ease;
-    cursor: pointer;
 }
 
 .leaderboard-entry:hover {
-    background: rgba(255, 255, 255, 0.05);
-    transform: translateX(4px);
+    transform: translateX(2px);
 }
 
 .leaderboard-entry.highlighted {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .entry-rank {
-    font-weight: 600;
+    font-weight: 300;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
     margin-right: 12px;
     min-width: 30px;
 }
 
 .entry-name {
     flex: 1;
-    font-weight: 500;
+    font-weight: 300;
 }
 
 .entry-score {
-    font-weight: 600;
-    color: #00ff88;
+    font-weight: 300;
 }
 
 /* Responsive Design */
