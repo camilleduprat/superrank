@@ -402,8 +402,6 @@ style.textContent = `
     
     .prompting-spinner {
         position: fixed;
-        bottom: 170px; /* just above the arrow */
-        right: 120px;
         z-index: 4000;
         pointer-events: none;
     }
@@ -431,9 +429,29 @@ PromptingStepManager.prototype.showLoadingSpinner = function() {
     img.style.animation = 'spin 1.2s linear infinite';
     holder.appendChild(img);
     document.body.appendChild(holder);
+    this.positionSpinner();
+    window.addEventListener('resize', this._positionSpinnerHandler = () => this.positionSpinner());
 };
 
 PromptingStepManager.prototype.hideLoadingSpinner = function() {
     const holder = document.getElementById('promptingSpinner');
     if (holder) holder.remove();
+    if (this._positionSpinnerHandler) {
+        window.removeEventListener('resize', this._positionSpinnerHandler);
+        this._positionSpinnerHandler = null;
+    }
+};
+
+// Anchor spinner above the next arrow and slightly left so it's clearly visible
+PromptingStepManager.prototype.positionSpinner = function() {
+    const holder = document.getElementById('promptingSpinner');
+    const arrow = document.getElementById('nextArrowButton');
+    if (!holder || !arrow) return;
+    const rect = arrow.getBoundingClientRect();
+    const offsetY = 120; // px above the arrow
+    const offsetX = 40;  // px left from arrow center
+    const x = rect.left + rect.width / 2 - 21 - offsetX; // center minus half spinner width
+    const y = rect.top - offsetY;
+    holder.style.left = `${Math.max(16, x)}px`;
+    holder.style.top = `${Math.max(16, y)}px`;
 };

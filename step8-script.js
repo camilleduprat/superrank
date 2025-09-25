@@ -194,10 +194,16 @@ class Step8Controller {
         
         // Build a lookup by normalized category name for precise mapping
         const byCategory = new Map();
-        for (const item of improvements) {
-            if (!item) continue;
-            const key = String(item.category || item.title || '').toLowerCase().replace(/[^a-z]/g, '');
-            if (key) byCategory.set(key, item);
+        if (this.resultsData.sectionsMap) {
+            for (const [k, v] of Object.entries(this.resultsData.sectionsMap)) {
+                byCategory.set(k, v);
+            }
+        } else {
+            for (const item of improvements) {
+                if (!item) continue;
+                const key = String(item.category || item.title || '').toLowerCase().replace(/[^a-z]/g, '');
+                if (key) byCategory.set(key, { title: item.category || item.title, description: item.description || item.feedback });
+            }
         }
         
         cards.forEach((card) => {
@@ -207,9 +213,9 @@ class Step8Controller {
             const norm = String(rawTitle || '').toLowerCase().replace(/[^a-z]/g, '');
             const match = byCategory.get(norm);
             if (match) {
-                if (titleElement && match.category) titleElement.textContent = match.category;
-                if (descriptionElement && (match.description || match.feedback)) {
-                    descriptionElement.textContent = match.description || match.feedback;
+                if (titleElement && match.title) titleElement.textContent = match.title;
+                if (descriptionElement && match.description) {
+                    descriptionElement.textContent = match.description;
                 }
             }
         });

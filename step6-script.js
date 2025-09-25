@@ -108,6 +108,19 @@ class Step6Manager {
         }
 
         // Build results payload for later screens
+        // Normalize improvements into a lookup table for later steps
+        const improvementsArray = Array.isArray(fullRating?.improvements) ? fullRating.improvements : [];
+        const sectionsMap = {};
+        for (const item of improvementsArray) {
+            if (!item) continue;
+            const key = String(item.category || item.title || '').toLowerCase().replace(/[^a-z]/g, '');
+            if (!key) continue;
+            sectionsMap[key] = {
+                title: item.category || item.title || '',
+                description: item.description || item.feedback || item.text || ''
+            };
+        }
+
         const resultsPayload = {
             userRank: userRank || null,
             username: claimData.username,
@@ -115,7 +128,8 @@ class Step6Manager {
             grade: fullRating?.grade ?? null,
             justification: fullRating?.justification || '',
             punchline: fullRating?.punchline || fullRating?.summary || fullRating?.overall || fullRating?.justification || '',
-            improvements: Array.isArray(fullRating?.improvements) ? fullRating.improvements : [],
+            improvements: improvementsArray,
+            sectionsMap,
             model: fullRating?.model || null,
             latency_ms: fullRating?.latency_ms || null
         };
