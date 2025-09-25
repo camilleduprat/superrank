@@ -128,7 +128,7 @@ class Step8Controller {
             if ((!this.resultsData.sectionsMap || Object.keys(this.resultsData.sectionsMap).length === 0) && this.resultsData.justification) {
                 this.updateCardsFromJustification(this.resultsData.justification);
             }
-            this.fetchAndRenderFromBackend();
+            this.parseFromRatingDataAndRender();
         } else {
             console.warn('No results data found for step 8');
             // Immediate fallback: attempt to parse from ratingData.justification for visible UI
@@ -149,7 +149,7 @@ class Step8Controller {
             }
             // Background recovery to fetch fresh
             this.recoverResults();
-            this.fetchAndRenderFromBackend();
+            this.parseFromRatingDataAndRender();
         }
     }
 
@@ -291,7 +291,7 @@ class Step8Controller {
         ];
         const found = new Map();
         for (const [norm, label] of pairs) {
-            const re = new RegExp(`${label}\\n([\u0000-\uFFFF]*?)(?=\n\n|\n[A-Z].*\n|$)`, 'i');
+            const re = new RegExp(`${label}\\n([\u0000-\uFFFF]*?)(?=\n\n|\n[A-Z].*\n|$|\\n${pairs.map(p=>p[1]).join('|')})`, 'i');
             const m = justText.match(re);
             if (m && m[1]) found.set(norm, m[1].trim());
         }
@@ -304,6 +304,31 @@ class Step8Controller {
             const text = found.get(norm);
             if (text && descriptionElement) descriptionElement.textContent = text;
         });
+    }
+
+    // Parse grade/punchline/sections purely from ratingData.justification (string-level)
+    parseFromRatingDataAndRender() {
+        try {
+            const ratingRaw = sessionStorage.getItem('ratingData');
+            if (!ratingRaw) return;
+            const rd = JSON.parse(ratingRaw);
+            const just = String(rd.justification || '');
+            // Grade from TOTAL DESIGN POINTS: NNN (out of 1000)
+            const gm = just.match(/TOTAL\s+DESIGN\s+POINTS:\s*(\d+)\s*\(\s*out of\s*1000\s*\)/i);
+            const grade = gm ? parseInt(gm[1], 10) : rd.grade;
+            const pointsElement = document.querySelector('.upload-title.points-title h1');
+            if (pointsElement && typeof grade === 'number') pointsElement.textContent = grade;
+            // Punchline between points line and Usability, or bold **...**
+            let punch = (just.match(/\*\*(.*?)\*\*/s) || [])[1] || '';
+            if (!punch) {
+                const afterPoints = just.split(/TOTAL\s+DESIGN\s+POINTS[^\n]*\n/i)[1] || '';
+                punch = (afterPoints.split(/\n\s*Usability/i)[0] || '').trim();
+            }
+            const subtitle = document.querySelector('.subtitle-feedback span');
+            if (subtitle && punch) subtitle.textContent = punch;
+            // Sections
+            this.updateCardsFromJustification(just);
+        } catch {}
     }
 
     // Initialize when page loads (no animations)

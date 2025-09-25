@@ -44,43 +44,30 @@ class Step7Manager {
         if (resultsDataStr) {
             this.resultsData = JSON.parse(resultsDataStr);
             this.updateResultsDisplay();
-            this.fetchAndRenderFromBackend();
+            // Also parse directly from justification in case backend route is missing
+            this.parseFromRatingDataAndRender();
         } else {
             console.warn('No results data found, using fallback');
             this.showFallbackResults();
-            // Fallback parse directly from ratingData.justification to get punchline quickly
-            const ratingRaw = sessionStorage.getItem('ratingData');
-            if (ratingRaw) {
-                try {
-                    const rd = JSON.parse(ratingRaw);
-                    const just = rd.justification || '';
-                    const m = just.match(/\*\*(.*?)\*\*/);
-                    const punch = m ? m[1] : '';
-                    const feedbackElement = document.querySelector('.subtitle-feedback span');
-                    if (feedbackElement && punch) feedbackElement.textContent = punch;
-                } catch {}
-            }
-            this.fetchAndRenderFromBackend();
+            this.parseFromRatingDataAndRender();
         }
     }
 
-    async fetchAndRenderFromBackend() {
+    parseFromRatingDataAndRender() {
+        const ratingRaw = sessionStorage.getItem('ratingData');
+        if (!ratingRaw) return;
         try {
-            const { getRating } = await import('./growthClient.js');
-            const claimRaw = sessionStorage.getItem('claimData');
-            const ratingRaw = sessionStorage.getItem('ratingData');
-            const claim = claimRaw ? JSON.parse(claimRaw) : {};
-            const rd = ratingRaw ? JSON.parse(ratingRaw) : {};
-            const ratingId = claim.ratingId || rd.rating_id || rd.ratingId || rd.id;
-            if (!ratingId) return;
-            const data = await getRating(ratingId);
+            const rd = JSON.parse(ratingRaw);
+            const just = String(rd.justification || '');
+            // Prefer bold punchline **...** else text between TOTAL line and Usability
+            let punch = (just.match(/\*\*(.*?)\*\*/s) || [])[1] || '';
+            if (!punch) {
+                const afterPoints = just.split(/TOTAL\s+DESIGN\s+POINTS[^\n]*\n/i)[1] || '';
+                punch = (afterPoints.split(/\n\s*Usability/i)[0] || '').trim();
+            }
             const feedbackElement = document.querySelector('.subtitle-feedback span');
-            const m = String(data.justification || '').match(/\*\*(.*?)\*\*/);
-            const punch = data.punchline || (m ? m[1] : '');
             if (feedbackElement && punch) feedbackElement.textContent = punch;
-        } catch (e) {
-            console.warn('Step7 backend hydrate failed', e);
-        }
+        } catch {}
     }
     
     updateResultsDisplay() {
