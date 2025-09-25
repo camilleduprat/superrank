@@ -92,18 +92,28 @@
     display: flex;
     align-items: stretch;
     justify-content: flex-start;
-    gap: 12px;
+    gap: 16px;
     width: 100%;
     flex-wrap: nowrap;
     overflow-x: auto;
     overflow-y: hidden;
     flex-direction: row;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    scrollbar-width: thin; /* Firefox */
+    -ms-overflow-style: auto; /* IE/Edge */
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
 }
 
 .cards-section::-webkit-scrollbar {
-    display: none;
+    height: 10px; /* visible, larger */
+}
+.cards-section::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+}
+.cards-section::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 6px;
 }
 
 .evaluation-card {
@@ -112,8 +122,8 @@
     border-radius: 24px;
     padding: 20px;
     flex: 0 0 auto;
-    min-width: 400px;
-    max-width: 400px;
+    min-width: 460px; /* ensure overflow */
+    max-width: 460px;
     transition: all 0.3s ease;
 }
 
