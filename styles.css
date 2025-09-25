@@ -246,6 +246,51 @@ body {
     font-weight: 300;
 }
 
+/* Skeleton loading state */
+.leaderboard-entry.skeleton {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: default;
+    animation: skeletonPulse 1.5s ease-in-out infinite alternate;
+}
+
+.leaderboard-entry.skeleton:hover {
+    transform: none;
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.skeleton-text {
+    color: rgba(255, 255, 255, 0.2) !important;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.05) 25%, 
+        rgba(255, 255, 255, 0.1) 50%, 
+        rgba(255, 255, 255, 0.05) 75%);
+    background-size: 200% 100%;
+    animation: skeletonShimmer 1.5s infinite;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+}
+
+@keyframes skeletonPulse {
+    0% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes skeletonShimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
     .container {

@@ -57,9 +57,34 @@ const generatePlaceholderUsers = () => {
     }));
 };
 
+// Show skeleton loading state
+const showSkeletonLeaderboard = () => {
+    const leaderboardList = document.getElementById('leaderboardList');
+    leaderboardList.innerHTML = '';
+    
+    // Create 10 skeleton entries
+    for (let i = 0; i < 10; i++) {
+        const entry = document.createElement('div');
+        entry.className = 'leaderboard-entry skeleton';
+        
+        entry.innerHTML = `
+            <div class="entry-info">
+                <span class="entry-rank skeleton-text">#${i + 1}</span>
+                <span class="entry-name skeleton-text">Loading...</span>
+            </div>
+            <span class="entry-score skeleton-text">---</span>
+        `;
+        
+        leaderboardList.appendChild(entry);
+    }
+};
+
 // Populate leaderboard with real data from backend
 const populateLeaderboard = async () => {
     const leaderboardList = document.getElementById('leaderboardList');
+    
+    // Show skeleton loading state first
+    showSkeletonLeaderboard();
     
     try {
         // Import the growthClient functions
@@ -75,6 +100,7 @@ const populateLeaderboard = async () => {
             score: user.best_grade || 0
         }));
         
+        // Clear skeleton and show real data
         leaderboardList.innerHTML = '';
         
         users.forEach((user, index) => {
@@ -105,6 +131,7 @@ const populateLeaderboard = async () => {
         // Fallback to placeholder data
         const users = generatePlaceholderUsers();
         
+        // Clear skeleton and show fallback data
         leaderboardList.innerHTML = '';
         
         users.forEach((user, index) => {
@@ -184,6 +211,9 @@ const testApiConnection = async () => {
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🚀 SuperRank app initializing...');
+    
+    // Show skeleton immediately
+    showSkeletonLeaderboard();
     
     // Test API connection first
     const isConnected = await testApiConnection();

@@ -19,7 +19,7 @@
 .email-input-box {
     display: flex;
     align-items: center;
-    padding: 20px 20px 20px 20px;
+    padding: 12px;
     gap: 12px;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .email-input-box.vertical input + input {
-    margin-top: 12px;
+    margin-top: 0px;
 }
 
 /* Email Disclaimer */
@@ -114,7 +114,7 @@
     bottom: 80px;
     left: 80px;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: flex-start;
     gap: 28px;
     z-index: 3000; /* ensure wrapper is clickable */
