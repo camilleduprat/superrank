@@ -1,13 +1,5 @@
 /* Step 8 Specific Styles - Points Breakdown */
 
-/* Background noise for the whole page */
-body.upload-flow {
-    background-image: url('../assets/images/BgNoise.png');
-    background-size: 200px 200px;
-    background-repeat: repeat;
-    background-position: 0 0;
-}
-
 /* Top Right Buttons */
 .top-back-button {
     position: fixed;
@@ -95,25 +87,14 @@ body.upload-flow {
     color: white;
 }
 
-/* Cards Section */
+/* Cards Section - Grid Layout */
 .cards-section {
-    display: flex;
-    align-items: stretch;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 16px;
     width: 100%;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    flex-direction: row;
-    scrollbar-width: none; /* Firefox - hide scrollbar */
-    -ms-overflow-style: none; /* IE/Edge - hide scrollbar */
-    -webkit-overflow-scrolling: touch;
+    max-width: 1200px;
     padding-bottom: 8px;
-}
-
-.cards-section::-webkit-scrollbar {
-    display: none; /* Hide scrollbar */
 }
 
 .evaluation-card {
@@ -121,10 +102,11 @@ body.upload-flow {
     border: 1px solid rgba(255, 255, 255, 1);
     border-radius: 24px;
     padding: 20px;
-    flex: 0 0 auto;
-    min-width: 460px; /* ensure overflow */
-    max-width: 460px;
     transition: all 0.3s ease;
+    width: 100%;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
 }
 
 .evaluation-card:hover {
@@ -232,6 +214,7 @@ body.upload-flow {
     }
     
     .cards-section {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         max-width: 700px;
     }
     
@@ -263,13 +246,12 @@ body.upload-flow {
     }
     
     .cards-section {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 15px;
         max-width: 600px;
     }
     
     .evaluation-card {
-        min-width: 400px;
-        max-width: 400px;
         padding: 20px;
     }
     
@@ -306,18 +288,13 @@ body.upload-flow {
     }
     
     .cards-section {
-        flex-direction: row;
+        grid-template-columns: 1fr;
         gap: 12px;
         max-width: 100%;
-        overflow-x: auto;
-        overflow-y: hidden;
     }
     
     .evaluation-card {
-        min-width: 400px;
-        max-width: 400px;
         padding: 16px;
-        flex-shrink: 0;
     }
     
     .points-label {
