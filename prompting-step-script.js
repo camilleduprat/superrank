@@ -293,8 +293,10 @@ class PromptingStepManager {
         
         // All data is valid, now rate the design
         try {
+            // Change to animated rays icon
+            this.changeToRaysIcon();
+            
             this.showMessage('Analyzing your design...', 'success');
-            this.showLoadingSpinner();
             
             // Import the growthClient functions
             const { rateDesign, showError } = await import('./growthClient.js');
@@ -338,8 +340,8 @@ class PromptingStepManager {
         } catch (error) {
             console.error('Failed to rate design:', error);
             this.showMessage('Failed to analyze design. Please try again.', 'error');
-        } finally {
-            this.hideLoadingSpinner();
+            // Reset to normal arrow icon on error
+            this.resetToNormalIcon();
         }
     }
     
@@ -359,6 +361,30 @@ class PromptingStepManager {
     navigateNext() {
         // Navigate to step 5 (email collection)
         window.location.href = 'step5.html';
+    }
+    
+    changeToRaysIcon() {
+        const nextArrowIcon = this.nextArrowButton.querySelector('.next-arrow-icon');
+        if (nextArrowIcon) {
+            nextArrowIcon.src = 'assets/images/icon-big-rays.png';
+            nextArrowIcon.alt = 'Analyzing';
+            nextArrowIcon.style.animation = 'raysSpin 2s linear infinite';
+            // Disable the button during analysis
+            this.nextArrowButton.disabled = true;
+            this.nextArrowButton.style.pointerEvents = 'none';
+        }
+    }
+    
+    resetToNormalIcon() {
+        const nextArrowIcon = this.nextArrowButton.querySelector('.next-arrow-icon');
+        if (nextArrowIcon) {
+            nextArrowIcon.src = 'assets/images/icon-arrow-right.png';
+            nextArrowIcon.alt = 'Next';
+            nextArrowIcon.style.animation = 'none';
+            // Re-enable the button
+            this.nextArrowButton.disabled = false;
+            this.nextArrowButton.style.pointerEvents = 'auto';
+        }
     }
     
     showMessage(message, type = 'success') {

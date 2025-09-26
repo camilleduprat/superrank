@@ -377,3 +377,13 @@
 .step-input-container input:focus {
     
 }
+
+/* Rays animation for analysis loading */
+@keyframes raysSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
