@@ -7,7 +7,8 @@ class PromptingStepManager {
         this.stepData = {
             imageType: null,
             productDescription: '',
-            productLocation: ''
+            productLocation: '',
+            selectedLocation: null
         };
         
         this.initializeElements();
@@ -41,6 +42,7 @@ class PromptingStepManager {
         this.step3BackBtn = document.getElementById('step3BackBtn');
         this.productLocationInput = document.getElementById('productLocationInput');
         this.stepImageCloseBtn3 = document.getElementById('stepImageCloseBtn3');
+        this.locationCards = document.querySelectorAll('.location-card');
         
         // Progress bars
         this.step1ProgressFill = document.getElementById('step1ProgressFill');
@@ -134,9 +136,16 @@ class PromptingStepManager {
         }
         
         if (this.productLocationInput) {
-            this.productLocationInput.addEventListener('input', () => {
-                this.updateStep3Validation();
+        this.productLocationInput.addEventListener('input', () => {
+            this.updateStep3Validation();
+        });
+        
+        // Location card selection events
+        this.locationCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                this.selectLocationCard(e.target.closest('.location-card'));
             });
+        });
         }
         
         // Enter key support
@@ -177,6 +186,24 @@ class PromptingStepManager {
         setTimeout(() => {
             this.goToState(2);
         }, 300);
+    }
+    
+    selectLocationCard(card) {
+        // Remove previous selection
+        this.locationCards.forEach(c => c.classList.remove('selected'));
+        
+        // Add selection to clicked card
+        card.classList.add('selected');
+        
+        // Store selection
+        this.stepData.selectedLocation = card.dataset.location;
+        
+        // Update input field with card title
+        const cardTitle = card.querySelector('.card-title').textContent;
+        this.productLocationInput.value = cardTitle;
+        
+        // Update validation
+        this.updateStep3Validation();
     }
     
     goToState(state) {
@@ -260,6 +287,9 @@ class PromptingStepManager {
             
             // Reset option tags
             this.optionTags.forEach(tag => tag.classList.remove('selected'));
+            
+            // Reset location cards
+            this.locationCards.forEach(card => card.classList.remove('selected'));
             
             // Go back to state 1
             this.goToState(1);

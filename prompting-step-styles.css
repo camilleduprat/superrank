@@ -370,10 +370,123 @@
     }
 }
 
+/* Cards Section Grid Layout for State 3 */
+.cards-section-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+    max-width: 100%;
+}
+
+.location-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.location-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.location-card.selected {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+}
+
+.location-card .card-icon {
+    font-size: 20px;
+    margin-bottom: 8px;
+    opacity: 0.8;
+}
+
+.location-card .card-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: white;
+    margin: 0 0 4px 0;
+    line-height: 1.2;
+}
+
+.location-card .card-description {
+    font-size: 10px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+    line-height: 1.3;
+}
+
+/* Responsive grid adjustments */
+@media (max-width: 768px) {
+    .cards-section-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+    
+    .location-card {
+        padding: 12px;
+        min-height: 70px;
+    }
+    
+    .location-card .card-icon {
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+    
+    .location-card .card-title {
+        font-size: 11px;
+    }
+    
+    .location-card .card-description {
+        font-size: 9px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cards-section-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+    
+    .location-card {
+        padding: 10px;
+        min-height: 60px;
+    }
+    
+    .location-card .card-icon {
+        font-size: 16px;
+        margin-bottom: 4px;
+    }
+    
+    .location-card .card-title {
+        font-size: 10px;
+    }
+    
+    .location-card .card-description {
+        font-size: 8px;
+    }
+}
+
 /* Focus states for accessibility */
 .step-next-btn:focus,
 .step-back-btn:focus,
 .option-tag:focus,
-.step-input-container input:focus {
-    
+.step-input-container input:focus,
+.location-card:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.3);
+    outline-offset: 2px;
 }
