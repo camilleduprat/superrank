@@ -3,8 +3,8 @@
 /* Top Right Buttons */
 .top-back-button {
     position: fixed;
-    top: 80px;
-    right: 140px;
+    top: var(--space-4xl);
+    right: calc(var(--space-4xl) + 60px);
     background: transparent;
     border: none;
     display: flex;
@@ -13,6 +13,8 @@
     z-index: 1000;
     cursor: pointer;
     transition: all 0.3s ease;
+    min-width: 44px;
+    min-height: 44px;
 }
 
 .top-back-button:hover {
@@ -25,19 +27,19 @@
     align-items: flex-start;
     justify-content: center;
     align-content: center;
-    gap: 12px;
+    gap: var(--space-sm);
 }
 
 .top-back-icon {
-    width: 44px;
-    height: 44px;
+    width: var(--button-height);
+    height: var(--button-height);
     filter: brightness(0) invert(1);
 }
 
 .top-close-button {
     position: fixed;
-    top: 80px;
-    right: 80px;
+    top: var(--space-4xl);
+    right: var(--space-4xl);
     background: transparent;
     border: none;
     display: flex;
@@ -46,6 +48,8 @@
     z-index: 1000;
     cursor: pointer;
     transition: all 0.3s ease;
+    min-width: 44px;
+    min-height: 44px;
 }
 
 .top-close-button:hover {
@@ -53,8 +57,8 @@
 }
 
 .top-close-icon {
-    width: 24px;
-    height: 24px;
+    width: clamp(20px, 4vw, 24px);
+    height: clamp(20px, 4vw, 24px);
     filter: brightness(0) invert(1);
 }
 
@@ -66,22 +70,22 @@
     justify-content: space-between;
     height: 100%;
     width: 100%;
-    max-width: 1200px;
-    gap: 40px;
+    max-width: var(--container-xl);
+    gap: var(--space-2xl);
     position: relative;
 }
 
 .subtitle-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--space-lg);
     padding: 0;
 }
 
 /* Subtitle Feedback */
 .subtitle-feedback {
-    width: 350px;
-    font-size: 14px;
+    width: clamp(280px, 30vw, 350px);
+    font-size: var(--font-size-sm);
     font-weight: 300;
     line-height: 1.5;
     color: white;
@@ -90,19 +94,19 @@
 /* Cards Section - Grid Layout */
 .cards-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(clamp(280px, 30vw, 300px), 1fr));
+    gap: var(--space-md);
     width: 100%;
-    max-width: 1200px;
-    padding-bottom: 8px;
-    margin-top: 40px;
+    max-width: var(--container-xl);
+    padding-bottom: var(--space-xs);
+    margin-top: var(--space-2xl);
 }
 
 .evaluation-card {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 1);
-    border-radius: 24px;
-    padding: 20px;
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg);
     transition: all 0.3s ease;
     width: 100%;
     min-height: 120px;
@@ -118,13 +122,13 @@
 .card-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
 }
 
 .card-icon {
-    width: 24px;
-    height: 24px;
+    width: clamp(20px, 4vw, 24px);
+    height: clamp(20px, 4vw, 24px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -132,19 +136,19 @@
 }
 
 .card-icon svg {
-    width: 16px;
-    height: 16px;
+    width: clamp(14px, 3vw, 16px);
+    height: clamp(14px, 3vw, 16px);
 }
 
 .card-title {
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     font-weight: 300;
-    color: rgba(255, 255, 255,0.5);
+    color: rgba(255, 255, 255, 0.5);
     margin: 0;
 }
 
 .card-description {
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     font-weight: 300;
     line-height: 1.4;
     color: rgba(255, 255, 255, 1);
@@ -158,7 +162,7 @@
 }
 
 .points-title h1 {
-    font-size: clamp(8rem, 15vw, 15.5rem);
+    font-size: clamp(4rem, 12vw, 15.5rem);
     font-weight: 300;
     line-height: 1.1;
     letter-spacing: -0.02em;
@@ -168,9 +172,9 @@
 
 .points-label {
     position: absolute;
-    top: 40px;
+    top: var(--space-2xl);
     right: -60px;
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     font-weight: 300;
     color: rgba(255, 255, 255, 0.5);
     white-space: nowrap;
@@ -179,8 +183,8 @@
 /* Next Arrow Button with Plus Icon */
 .next-arrow-button {
     position: fixed;
-    bottom: 80px;
-    right: 80px;
+    bottom: var(--space-4xl);
+    right: var(--space-4xl);
     background: transparent;
     border: none;
     display: flex;
@@ -190,8 +194,8 @@
 }
 
 .next-arrow-icon {
-    width: 156px;
-    height: 156px;
+    width: clamp(80px, 15vw, 156px);
+    height: clamp(80px, 15vw, 156px);
     cursor: pointer;
     filter: brightness(0) invert(1);
     transition: all 0.3s ease;
@@ -200,87 +204,87 @@
 /* Responsive Design */
 @media (max-width: 1200px) {
     .top-back-button {
-        top: 60px;
-        right: 120px;
+        top: var(--space-3xl);
+        right: calc(var(--space-3xl) + 60px);
     }
     
     .top-close-button {
-        top: 60px;
-        right: 60px;
+        top: var(--space-3xl);
+        right: var(--space-3xl);
     }
     
     .spaced-container {
-        padding: 60px;
-        gap: 30px;
+        padding: var(--space-3xl);
+        gap: var(--space-xl);
     }
     
     .cards-section {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(clamp(250px, 25vw, 280px), 1fr));
         max-width: 700px;
     }
     
     .points-label {
         right: -60px;
-        font-size: 14px;
+        font-size: var(--font-size-sm);
     }
     
     .next-arrow-button {
-        bottom: 60px;
-        right: 60px;
+        bottom: var(--space-3xl);
+        right: var(--space-3xl);
     }
 }
 
 @media (max-width: 968px) {
     .top-back-button {
-        top: 40px;
-        right: 100px;
+        top: var(--space-2xl);
+        right: calc(var(--space-2xl) + 60px);
     }
     
     .top-close-button {
-        top: 40px;
-        right: 40px;
+        top: var(--space-2xl);
+        right: var(--space-2xl);
     }
     
     .spaced-container {
-        padding: 40px;
-        gap: 25px;
+        padding: var(--space-2xl);
+        gap: var(--space-lg);
     }
     
     .cards-section {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 15px;
+        grid-template-columns: repeat(auto-fit, minmax(clamp(220px, 22vw, 250px), 1fr));
+        gap: var(--space-sm);
         max-width: 600px;
     }
     
     .evaluation-card {
-        padding: 20px;
+        padding: var(--space-lg);
     }
     
     .points-label {
         right: -50px;
-        font-size: 12px;
+        font-size: var(--font-size-xs);
     }
     
     .next-arrow-button {
-        bottom: 40px;
-        right: 40px;
+        bottom: var(--space-2xl);
+        right: var(--space-2xl);
     }
 }
 
 @media (max-width: 768px) {
     .top-back-button {
-        top: 20px;
-        right: 80px;
+        top: var(--space-lg);
+        right: calc(var(--space-lg) + 60px);
     }
     
     .top-close-button {
-        top: 20px;
-        right: 20px;
+        top: var(--space-lg);
+        right: var(--space-lg);
     }
     
     .spaced-container {
-        padding: 20px;
-        gap: 20px;
+        padding: var(--space-lg);
+        gap: var(--space-lg);
     }
     
     .subtitle-feedback {
@@ -290,78 +294,121 @@
     
     .cards-section {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: var(--space-sm);
         max-width: 100%;
     }
     
     .evaluation-card {
-        padding: 16px;
+        padding: var(--space-md);
     }
     
     .points-label {
         position: static;
         transform: none;
-        margin-top: 10px;
-        font-size: 14px;
+        margin-top: var(--space-sm);
+        font-size: var(--font-size-sm);
         text-align: left;
     }
     
     .next-arrow-button {
-        bottom: 20px;
-        right: 20px;
+        bottom: var(--space-lg);
+        right: var(--space-lg);
     }
     
     .next-arrow-icon {
-        width: 100px;
-        height: 80px;
+        width: clamp(80px, 12vw, 100px);
+        height: clamp(60px, 10vw, 80px);
     }
 }
 
 @media (max-width: 480px) {
     .top-back-button {
-        top: 16px;
-        right: 60px;
+        top: var(--space-md);
+        right: calc(var(--space-md) + 44px);
     }
     
     .top-close-button {
-        top: 16px;
-        right: 16px;
+        top: var(--space-md);
+        right: var(--space-md);
     }
     
     .spaced-container {
-        padding: 16px;
-        gap: 16px;
+        padding: var(--space-md);
+        gap: var(--space-md);
     }
     
     .subtitle-feedback {
-        font-size: 13px;
+        font-size: var(--font-size-xs);
     }
     
     .evaluation-card {
-        padding: 14px;
+        padding: var(--space-sm);
     }
     
     .card-title {
-        font-size: 13px;
+        font-size: var(--font-size-xs);
     }
     
     .card-description {
-        font-size: 11px;
+        font-size: var(--font-size-xs);
     }
     
     .next-arrow-button {
-        bottom: 16px;
-        right: 16px;
+        bottom: var(--space-md);
+        right: var(--space-md);
     }
     
     .next-arrow-icon {
-        width: 80px;
-        height: 60px;
+        width: clamp(60px, 10vw, 80px);
+        height: clamp(45px, 8vw, 60px);
+    }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+    .top-back-button,
+    .top-close-button,
+    .next-arrow-button {
+        min-height: 48px;
+        min-width: 48px;
+    }
+    
+    .evaluation-card {
+        min-height: 100px;
+    }
+    
+    .evaluation-card:hover {
+        transform: none;
+    }
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .top-back-icon,
+    .top-close-icon,
+    .next-arrow-icon {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .evaluation-card,
+    .next-arrow-button {
+        animation: none;
+        transition: none;
+    }
+    
+    .evaluation-card:hover {
+        transform: none;
     }
 }
 
 /* Focus states for accessibility */
-.next-arrow-button:focus {
+.next-arrow-button:focus,
+.top-back-button:focus,
+.top-close-button:focus {
     outline: 2px solid rgba(255, 255, 255, 0.3);
     outline-offset: 2px;
 }
@@ -369,4 +416,24 @@
 .evaluation-card:focus-within {
     outline: 2px solid rgba(255, 255, 255, 0.3);
     outline-offset: 2px;
+}
+
+/* Mobile and Tablet Scrolling Improvements */
+@media (max-width: 968px) {
+    .spaced-container {
+        min-height: auto;
+        height: auto;
+        padding-bottom: var(--space-4xl);
+    }
+    
+    .cards-section {
+        max-height: none;
+        overflow: visible;
+    }
+}
+
+@media (max-width: 768px) {
+    .spaced-container {
+        padding-bottom: var(--space-3xl);
+    }
 }

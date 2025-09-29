@@ -198,17 +198,30 @@ class Step6Manager {
         // Create temporary message
         const messageDiv = document.createElement('div');
         messageDiv.className = `step-message ${type}`;
-        messageDiv.textContent = message;
+        
+        // Get appropriate SF Symbol icon
+        const icon = type === 'error' ? '􀆈' : '􀆅'; // SF Symbol checkmark or X
+        
+        messageDiv.innerHTML = `
+            <span class="message-icon">${icon}</span>
+            <span class="message-text">${message}</span>
+        `;
+        
         messageDiv.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: ${type === 'error' ? 'rgba(255, 68, 68, 0.9)' : 'rgba(0, 255, 136, 0.9)'};
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 500;
+            background: white;
+            color: black;
+            padding: 12px 16px;
+            border-radius: 20px;
+            font-weight: 400;
+            font-size: 14px;
             z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             animation: slideIn 0.3s ease;
         `;
         

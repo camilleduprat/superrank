@@ -2,13 +2,16 @@
 
 /* Email Input Container - Bottom Left */
 .email-input-container {
-    width: 450px;
+    width: clamp(320px, 40vw, 450px);
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 36px;
+    border-radius: var(--radius-xl);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 80vh;
+    -webkit-overflow-scrolling: touch;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -251,10 +254,26 @@
     }
 }
 
+/* Mobile and Tablet Scrolling Improvements */
+@media (max-width: 768px) {
+    .email-input-container {
+        max-height: 60vh;
+        width: calc(100vw - var(--space-lg));
+    }
+}
+
+@media (max-width: 480px) {
+    .email-input-container {
+        max-height: 50vh;
+        width: calc(100vw - var(--space-md));
+    }
+}
+
 /* Focus states for accessibility */
 .email-input-box input:focus,
 .email-submit-btn:focus {
-
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
 }
 
 /* Animation for email input appearance */

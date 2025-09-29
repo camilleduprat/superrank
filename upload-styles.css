@@ -7,23 +7,24 @@ body.upload-flow {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
-    padding: 80px 80px 80px 80px;
+    padding: var(--space-4xl);
     position: relative;
 }
 
 /* Top Right Close Button */
 .top-close-button {
     position: fixed;
-    top: 80px;
-    right: 80px;
-    width: 44px;
-    height: 44px;
+    top: var(--space-4xl);
+    right: var(--space-4xl);
+    width: var(--button-height);
+    height: var(--button-height);
     border: none;
     border-radius: 50%;
     background: transparent;
@@ -34,6 +35,8 @@ body.upload-flow {
     align-items: center;
     justify-content: center;
     z-index: 1001;
+    min-width: 44px;
+    min-height: 44px;
 }
 
 .top-close-button:hover {
@@ -54,8 +57,8 @@ body.upload-flow {
     justify-content: flex-start;
     height: 100%;
     width: 100%;
-    max-width: 1200px;
-    gap: 20px;
+    max-width: var(--container-xl);
+    gap: var(--space-lg);
     position: relative;
 }
 
@@ -71,7 +74,7 @@ body.upload-flow {
 }
 
 .upload-title h1 {
-    font-size: clamp(8rem, 15vw, 15.5rem);
+    font-size: clamp(4rem, 12vw, 15.5rem);
     font-weight: 300;
     line-height: 1.1;
     letter-spacing: -0.02em;
@@ -106,14 +109,16 @@ body.upload-flow {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
+    width: var(--button-height);
+    height: var(--button-height);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     cursor: pointer;
     transition: all 0.3s ease;
+    min-width: 56px;
+    min-height: 56px;
 }
 
 @keyframes buttonGlow {
@@ -130,8 +135,8 @@ body.upload-flow {
 }
 
 .upload-icon {
-    width: 28px;
-    height: 28px;
+    width: clamp(20px, 4vw, 28px);
+    height: clamp(20px, 4vw, 28px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -145,11 +150,11 @@ body.upload-flow {
 }
 
 .upload-text {
-    font-size: 0.625rem;
+    font-size: var(--font-size-xs);
     font-weight: 500;
     text-align: center;
     color: white;
-    margin-top: 4px;
+    margin-top: var(--space-xs);
 }
 
 /* Hide state icons by default */
@@ -208,31 +213,33 @@ body.upload-flow {
     position: absolute;
     top: -4px;
     right: -4px;
-    background:transparent;
+    background: transparent;
     border: none;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width: clamp(16px, 3vw, 20px);
+    height: clamp(16px, 3vw, 20px);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
     z-index: 10;
+    min-width: 16px;
+    min-height: 16px;
 }
 
 
 .close-icon {
-    width: 20px;
-    height: 20px;
+    width: clamp(12px, 2.5vw, 16px);
+    height: clamp(12px, 2.5vw, 16px);
     object-fit: contain;
 }
 
 /* Next Arrow Button */
 .next-arrow-button {
     position: fixed;
-    bottom: 80px;
-    right: 80px;
+    bottom: var(--space-4xl);
+    right: var(--space-4xl);
     background: transparent;
     border: none;
     display: flex;
@@ -243,8 +250,8 @@ body.upload-flow {
 
 
 .next-arrow-icon {
-    width: 156px;
-    height: 156px;
+    width: clamp(80px, 15vw, 156px);
+    height: clamp(80px, 15vw, 156px);
     cursor: pointer;
     filter: brightness(0) invert(1);
 }
@@ -259,22 +266,22 @@ body.upload-flow {
 /* Navigation - Floating Component */
 .upload-navigation {
     position: fixed;
-    bottom: 20px;
+    bottom: var(--space-lg);
     left: auto;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: var(--space-lg);
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 50px;
-    padding: 12px 20px;
+    padding: var(--space-sm) var(--space-lg);
     z-index: 1000;
 }
 
 .nav-button {
-    width: 40px;
-    height: 40px;
+    width: var(--button-height);
+    height: var(--button-height);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.05);
@@ -284,6 +291,8 @@ body.upload-flow {
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 40px;
+    min-height: 40px;
 }
 
 .nav-button:hover {
@@ -351,204 +360,273 @@ body.upload-flow {
 /* Responsive Design */
 @media (max-width: 1200px) {
     body.upload-flow {
-        padding: 60px;
+        padding: var(--space-3xl);
     }
     
     .upload-title {
-        top: 60px;
-        left: 60px;
+        top: var(--space-3xl);
+        left: var(--space-3xl);
     }
     
     .top-close-button {
-        top: 60px;
-        right: 60px;
+        top: var(--space-3xl);
+        right: var(--space-3xl);
     }
     
     .next-arrow-button {
-        bottom: 60px;
-        right: 60px;
+        bottom: var(--space-3xl);
+        right: var(--space-3xl);
     }
 }
 
 @media (max-width: 968px) {
     body.upload-flow {
-        padding: 40px;
+        padding: var(--space-2xl);
     }
     
     .upload-title {
-        top: 40px;
-        left: 40px;
+        top: var(--space-2xl);
+        left: var(--space-2xl);
     }
     
     .top-close-button {
-        top: 40px;
-        right: 40px;
+        top: var(--space-2xl);
+        right: var(--space-2xl);
     }
     
     .next-arrow-button {
-        bottom: 40px;
-        right: 40px;
+        bottom: var(--space-2xl);
+        right: var(--space-2xl);
     }
     
     .upload-container {
-        gap: 20px;
+        gap: var(--space-lg);
     }
     
     .upload-button {
-        width: 56px;
-        height: 56px;
+        width: var(--button-height);
+        height: var(--button-height);
     }
     
     .upload-icon {
-        width: 24px;
-        height: 24px;
+        width: clamp(20px, 4vw, 24px);
+        height: clamp(20px, 4vw, 24px);
     }
 }
 
 @media (max-width: 768px) {
     body.upload-flow {
-        padding: 20px;
+        padding: var(--space-lg);
     }
     
     .upload-title {
-        top: 20px;
-        left: 20px;
+        top: var(--space-lg);
+        left: var(--space-lg);
     }
     
     .top-close-button {
-        top: 20px;
-        right: 20px;
-        width: 36px;
-        height: 36px;
+        top: var(--space-lg);
+        right: var(--space-lg);
+        width: clamp(36px, 8vw, 44px);
+        height: clamp(36px, 8vw, 44px);
     }
     
     .top-close-icon {
-        width: 18px;
-        height: 18px;
+        width: clamp(16px, 3vw, 20px);
+        height: clamp(16px, 3vw, 20px);
     }
     
     .next-arrow-button {
-        bottom: 20px;
-        right: 20px;
-        width: 50px;
-        height: 50px;
+        bottom: var(--space-lg);
+        right: var(--space-lg);
     }
     
     .next-arrow-icon {
-        width: 20px;
-        height: 20px;
+        width: clamp(60px, 12vw, 120px);
+        height: clamp(60px, 12vw, 120px);
     }
     
     .upload-container {
-        gap: 30px;
+        gap: var(--space-xl);
     }
     
     .upload-button {
-        width: 56px;
-        height: 56px;
+        width: var(--button-height);
+        height: var(--button-height);
     }
     
     .upload-icon {
-        width: 24px;
-        height: 24px;
+        width: clamp(20px, 4vw, 24px);
+        height: clamp(20px, 4vw, 24px);
     }
     
     .upload-navigation {
-        bottom: 15px;
-        left: 15px;
-        padding: 10px 16px;
-        gap: 16px;
+        bottom: var(--space-md);
+        left: var(--space-md);
+        padding: var(--space-sm) var(--space-md);
+        gap: var(--space-md);
     }
     
     .nav-button {
-        width: 36px;
-        height: 36px;
+        width: clamp(36px, 8vw, 44px);
+        height: clamp(36px, 8vw, 44px);
     }
     
     .nav-icon {
-        width: 14px;
-        height: 14px;
+        width: clamp(12px, 2.5vw, 16px);
+        height: clamp(12px, 2.5vw, 16px);
     }
 }
 
 @media (max-width: 480px) {
     body.upload-flow {
-        padding: 16px;
+        padding: var(--space-md);
     }
     
     .upload-title {
-        top: 16px;
-        left: 16px;
+        top: var(--space-md);
+        left: var(--space-md);
+    }
+    
+    .upload-title h1 {
+        font-size: clamp(2.5rem, 8vw, 6rem);
     }
     
     .top-close-button {
-        top: 16px;
-        right: 16px;
-        width: 32px;
-        height: 32px;
+        top: var(--space-md);
+        right: var(--space-md);
+        width: clamp(32px, 7vw, 40px);
+        height: clamp(32px, 7vw, 40px);
     }
     
     .top-close-icon {
-        width: 16px;
-        height: 16px;
+        width: clamp(14px, 3vw, 18px);
+        height: clamp(14px, 3vw, 18px);
     }
     
     .next-arrow-button {
-        bottom: 16px;
-        right: 16px;
-        width: 45px;
-        height: 45px;
+        bottom: var(--space-md);
+        right: var(--space-md);
     }
     
     .next-arrow-icon {
-        width: 18px;
-        height: 18px;
+        width: clamp(50px, 10vw, 80px);
+        height: clamp(50px, 10vw, 80px);
     }
     
     .upload-container {
-        gap: 20px;
+        gap: var(--space-lg);
     }
     
     .upload-button {
-        width: 56px;
-        height: 56px;
+        width: var(--button-height);
+        height: var(--button-height);
     }
     
     .upload-icon {
-        width: 24px;
-        height: 24px;
+        width: clamp(18px, 4vw, 22px);
+        height: clamp(18px, 4vw, 22px);
     }
     
     .upload-text {
-        font-size: 0.5rem;
+        font-size: var(--font-size-xs);
     }
     
     .upload-navigation {
-        bottom: 10px;
-        left: 10px;
-        padding: 8px 12px;
-        gap: 12px;
+        bottom: var(--space-sm);
+        left: var(--space-sm);
+        padding: var(--space-xs) var(--space-sm);
+        gap: var(--space-sm);
     }
     
     .nav-button {
-        width: 32px;
-        height: 32px;
+        width: clamp(32px, 7vw, 40px);
+        height: clamp(32px, 7vw, 40px);
     }
     
     .nav-icon {
-        width: 12px;
-        height: 12px;
+        width: clamp(10px, 2vw, 14px);
+        height: clamp(10px, 2vw, 14px);
     }
     
     .progress-dot {
-        width: 6px;
-        height: 6px;
+        width: clamp(4px, 1vw, 6px);
+        height: clamp(4px, 1vw, 6px);
+    }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+    .upload-button {
+        min-height: 48px;
+        min-width: 48px;
+    }
+    
+    .nav-button {
+        min-height: 48px;
+        min-width: 48px;
+    }
+    
+    .top-close-button {
+        min-height: 48px;
+        min-width: 48px;
+    }
+    
+    .upload-button:hover,
+    .nav-button:hover,
+    .top-close-button:hover {
+        transform: none;
+    }
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .upload-icon-img,
+    .nav-icon,
+    .top-close-icon {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .upload-button,
+    .nav-button,
+    .next-arrow-button {
+        animation: none;
+        transition: none;
+    }
+    
+    .upload-button:hover,
+    .nav-button:hover {
+        transform: none;
+    }
+}
+
+/* Mobile and Tablet Scrolling Improvements */
+@media (max-width: 968px) {
+    body.upload-flow {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .upload-container {
+        min-height: auto;
+        height: auto;
+        padding-bottom: var(--space-4xl);
+    }
+}
+
+@media (max-width: 768px) {
+    .upload-container {
+        padding-bottom: var(--space-3xl);
     }
 }
 
 /* Focus states for accessibility */
 .upload-button:focus,
-.nav-button:focus {
+.nav-button:focus,
+.top-close-button:focus {
     outline: 2px solid rgba(255, 255, 255, 0.5);
     outline-offset: 2px;
 }
