@@ -76,7 +76,9 @@ class UploadFlow {
     async handleFileUpload(files) {
         const fileArray = Array.from(files);
         const validFiles = fileArray.filter(file => {
-            return file.type.startsWith('image/') && file.size <= 10 * 1024 * 1024; // 10MB limit
+            // Accept common mobile formats including HEIC/HEIF
+            const isImage = file.type.startsWith('image/') || /\.hei[c|f]$/i.test(file.name || '');
+            return isImage && file.size <= 25 * 1024 * 1024; // allow larger raw mobile photos; we'll compress later
         });
         
         if (validFiles.length === 0) {
@@ -96,7 +98,9 @@ class UploadFlow {
         // Store file data in sessionStorage for use in next steps
         try {
             const file = validFiles[0]; // We only allow one file
-            const dataUrl = await this.fileToDataUrl(file);
+            let dataUrl = await this.fileToDataUrl(file);
+            // Downscale/compress large images on-device to speed upload
+            dataUrl = await this.compressIfNeeded(dataUrl, 2000, 0.9);
             
             sessionStorage.setItem('uploadedFile', JSON.stringify({
                 name: file.name,
@@ -143,6 +147,32 @@ class UploadFlow {
         } else {
             // Add state-1 class for single image
             this.uploadButton.classList.add('state-1');
+        }
+    }
+
+    // Compress large images client-side
+    async compressIfNeeded(inputDataUrl, maxDimension = 2000, quality = 0.9) {
+        try {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            const load = new Promise((res, rej) => {
+                img.onload = () => res();
+                img.onerror = rej;
+            });
+            img.src = inputDataUrl;
+            await load;
+            const w = img.width;
+            const h = img.height;
+            const scale = Math.min(1, maxDimension / Math.max(w, h));
+            if (scale >= 1 && inputDataUrl.length < 10 * 1024 * 1024) return inputDataUrl;
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.max(1, Math.round(w * scale));
+            canvas.height = Math.max(1, Math.round(h * scale));
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            return canvas.toDataURL('image/jpeg', quality);
+        } catch {
+            return inputDataUrl;
         }
     }
     

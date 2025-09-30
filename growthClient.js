@@ -25,6 +25,39 @@ export function fileToDataUrl(file) {
   });
 }
 
+async function compressImageDataUrl(inputDataUrl, targetMime = 'image/jpeg', maxBytes = 4 * 1024 * 1024, maxDimension = 2000) {
+  try {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    const load = new Promise((res, rej) => {
+      img.onload = () => res();
+      img.onerror = rej;
+    });
+    img.src = inputDataUrl;
+    await load;
+    const w = img.width;
+    const h = img.height;
+    const scale = Math.min(1, maxDimension / Math.max(w, h));
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.max(1, Math.round(w * scale));
+    canvas.height = Math.max(1, Math.round(h * scale));
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    // Quality iteration
+    let quality = 0.9;
+    let out = canvas.toDataURL(targetMime, quality);
+    let approx = Math.floor((out.split(',')[1]?.length || 0) * 0.75);
+    while (approx > maxBytes && quality > 0.4) {
+      quality -= 0.1;
+      out = canvas.toDataURL(targetMime, quality);
+      approx = Math.floor((out.split(',')[1]?.length || 0) * 0.75);
+    }
+    return out;
+  } catch {
+    return inputDataUrl;
+  }
+}
+
 // 1) Leaderboard (rank = index+1). Fields: username, best_grade, portfolio_url?
 export async function getLeaderboard(limit = 50) {
   console.log(`🔍 Fetching leaderboard with limit: ${limit}`);
@@ -51,8 +84,8 @@ export async function rateDesign({ file, imageDataUrl, context, model, prompt })
   console.log(`📡 API URL: ${FN_URL}`);
   
   // Client-side guardrails
-  const MAX_IMAGE_BYTES = (__RUNTIME__.maxImageBytes != null ? __RUNTIME__.maxImageBytes : 4 * 1024 * 1024); // 4MB default
-  const ALLOWED_TYPES = (__RUNTIME__.allowedImageTypes || ['image/png', 'image/jpeg', 'image/webp']);
+  const MAX_IMAGE_BYTES = (__RUNTIME__.maxImageBytes != null ? __RUNTIME__.maxImageBytes : 10 * 1024 * 1024); // 10MB default for mobile photos
+  const ALLOWED_TYPES = (__RUNTIME__.allowedImageTypes || ['image/png', 'image/jpeg', 'image/webp', 'image/heic', 'image/heif']);
 
   if (file) {
     if (!ALLOWED_TYPES.includes(file.type)) {
@@ -73,8 +106,19 @@ export async function rateDesign({ file, imageDataUrl, context, model, prompt })
     }
   }
 
-  const image = imageDataUrl || (file ? await fileToDataUrl(file) : null);
+  let image = imageDataUrl || (file ? await fileToDataUrl(file) : null);
   if (!image) throw new Error('imageDataUrl or file is required');
+  // If file is HEIC/HEIF, convert to JPEG for backend compatibility
+  const isHeic = file && (file.type === 'image/heic' || file.type === 'image/heif' || /\.hei[c|f]$/i.test(file.name || ''));
+  if (isHeic) {
+    image = await compressImageDataUrl(image, 'image/jpeg', Math.max(4 * 1024 * 1024, MAX_IMAGE_BYTES));
+  }
+  // Ensure size under MAX_IMAGE_BYTES by compressing if needed
+  const b64 = image.split(',')[1] || '';
+  let approxBytes = Math.floor(b64.length * 0.75);
+  if (approxBytes > MAX_IMAGE_BYTES) {
+    image = await compressImageDataUrl(image, 'image/jpeg', MAX_IMAGE_BYTES);
+  }
   
   const payload = {
     context: context || '',
