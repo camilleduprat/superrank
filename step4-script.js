@@ -1,0 +1,255 @@
+// Step 6 JavaScript - Loading Step
+
+class Step6Manager {
+    constructor() {
+        this.initializeElements();
+        this.bindEvents();
+        this.hideNavigationInitially();
+        this.startLoadingSequence();
+    }
+    
+    initializeElements() {
+        // Navigation elements
+        this.topCloseButton = document.getElementById('topCloseButton');
+        this.backButton = document.getElementById('backButton');
+        this.nextButton = document.getElementById('nextButton');
+        this.nextArrowButton = document.getElementById('nextArrowButton');
+        
+        // Loading elements
+        this.loadingIcon = document.querySelector('.loading-icon');
+    }
+    
+    bindEvents() {
+        // Top close button
+        if (this.topCloseButton) {
+            this.topCloseButton.addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+        }
+        
+        // Navigation buttons
+        if (this.backButton) {
+            this.backButton.addEventListener('click', () => {
+                window.location.href = 'step5.html';
+            });
+        }
+        
+        if (this.nextButton) {
+            this.nextButton.addEventListener('click', () => {
+                this.navigateNext();
+            });
+        }
+        
+        if (this.nextArrowButton) {
+            this.nextArrowButton.addEventListener('click', () => {
+                this.navigateNext();
+            });
+        }
+    }
+    
+    hideNavigationInitially() {
+        // Hide next arrow button initially
+        if (this.nextArrowButton) {
+            this.nextArrowButton.style.display = 'none';
+            this.nextArrowButton.style.opacity = '0';
+            this.nextArrowButton.style.pointerEvents = 'none';
+        }
+        
+        // Disable next button in navigation initially
+        if (this.nextButton) {
+            this.nextButton.disabled = true;
+            this.nextButton.style.opacity = '0.5';
+        }
+    }
+    
+    async startLoadingSequence() {
+        // Import API
+        const { getRating, getLeaderboard } = await import('./growthClient.js');
+        
+        // Pull claim data
+        const claimDataStr = sessionStorage.getItem('claimData');
+        if (!claimDataStr) {
+            console.error('No claim data found.');
+            this.enableNavigation();
+            return;
+        }
+        const claimData = JSON.parse(claimDataStr);
+
+        let fullRating = null;
+        let leaderboard = [];
+        
+        // Fetch rating and leaderboard in parallel but tolerate failures
+        try {
+            [fullRating, leaderboard] = await Promise.all([
+                getRating(claimData.ratingId).catch(err => {
+                    console.error('getRating failed', err);
+                    return null;
+                }),
+                getLeaderboard(500).catch(err => {
+                    console.error('getLeaderboard failed', err);
+                    return [];
+                })
+            ]);
+        } catch (e) {
+            console.error('Parallel fetch error', e);
+        }
+
+        // Compute user rank - prefer username match, else compute by grade
+        let userRank = null;
+        if (leaderboard && leaderboard.length) {
+            const byNameIdx = leaderboard.findIndex(u => (u.username || '').toLowerCase() === (claimData.username || '').toLowerCase());
+            if (byNameIdx >= 0) {
+                userRank = byNameIdx + 1;
+            } else if (fullRating && typeof fullRating.grade === 'number') {
+                const grade = fullRating.grade;
+                const betterCount = leaderboard.filter(u => (u.best_grade ?? u.grade ?? 0) > grade).length;
+                userRank = betterCount + 1;
+            }
+        }
+
+        // Build results payload for later screens
+        // Normalize improvements into a lookup table for later steps
+        const improvementsArray = Array.isArray(fullRating?.improvements) ? fullRating.improvements : [];
+        const sectionsMap = {};
+        for (const item of improvementsArray) {
+            if (!item) continue;
+            const key = String(item.category || item.title || '').toLowerCase().replace(/[^a-z]/g, '');
+            if (!key) continue;
+            sectionsMap[key] = {
+                title: item.category || item.title || '',
+                description: item.description || item.feedback || item.text || ''
+            };
+        }
+
+        // If justification is a long block like the sample provided, parse punchline and section texts
+        const parseFromJustification = (txt) => {
+            const result = { punchline: '', secMap: {} };
+            if (!txt) return result;
+            const punch = txt.match(/\*\*(.*?)\*\*/);
+            if (punch) result.punchline = punch[1].trim();
+            const pairs = [
+                ['usability', 'Usability'],
+                ['informationarchitecture', 'Information architecture'],
+                ['lookfeel', 'Look & feel'],
+                ['consistency', 'Consistency'],
+                ['businessandconversion', 'Business & conversion'],
+                ['businessconversion', 'Business & conversion']
+            ];
+            for (const [norm, label] of pairs) {
+                const re = new RegExp(`${label}\\n([\u0000-\uFFFF]*?)(?=\n\n|\n[A-Z].*\n|$)`, 'i');
+                const m = txt.match(re);
+                if (m && m[1]) {
+                    result.secMap[norm] = { title: label, description: m[1].trim() };
+                }
+            }
+            return result;
+        };
+        const parsed = parseFromJustification(fullRating?.justification || '');
+
+        const resultsPayload = {
+            userRank: userRank || null,
+            username: claimData.username,
+            email: claimData.email,
+            grade: fullRating?.grade ?? null,
+            justification: fullRating?.justification || '',
+            punchline: parsed.punchline || fullRating?.punchline || '',
+            improvements: improvementsArray,
+            sectionsMap: Object.keys(parsed.secMap).length ? parsed.secMap : sectionsMap,
+            model: fullRating?.model || null,
+            latency_ms: fullRating?.latency_ms || null
+        };
+        sessionStorage.setItem('fullResults', JSON.stringify(resultsPayload));
+
+        // Visuals and advance
+        this.changeIconToCheck();
+        this.enableNavigation();
+        setTimeout(() => this.navigateNext(), 800);
+    }
+    
+    changeIconToCheck() {
+        if (this.loadingIcon) {
+            this.loadingIcon.src = 'assets/images/icon-check-light.png';
+            this.loadingIcon.alt = 'Success';
+            this.loadingIcon.style.animation = 'none';
+        }
+    }
+    
+    enableNavigation() {
+        // Enable next arrow button
+        if (this.nextArrowButton) {
+            this.nextArrowButton.style.display = 'flex';
+            this.nextArrowButton.style.opacity = '1';
+            this.nextArrowButton.style.pointerEvents = 'auto';
+        }
+        
+        // Enable next button in navigation
+        if (this.nextButton) {
+            this.nextButton.disabled = false;
+            this.nextButton.style.opacity = '1';
+        }
+    }
+    
+    navigateNext() {
+        // Navigate to step 7 (results reveal)
+        window.location.href = 'step5.html';
+    }
+    
+    showMessage(message, type = 'success') {
+        // Create temporary message
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `step-message ${type}`;
+        
+        // Get appropriate SF Symbol icon
+        const icon = type === 'error' ? '􀆈' : '􀆅'; // SF Symbol checkmark or X
+        
+        messageDiv.innerHTML = `
+            <span class="message-icon">${icon}</span>
+            <span class="message-text">${message}</span>
+        `;
+        
+        messageDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: black;
+            padding: 12px 16px;
+            border-radius: 20px;
+            font-weight: 400;
+            font-size: 14px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            animation: slideIn 0.3s ease;
+        `;
+        
+        document.body.appendChild(messageDiv);
+        
+        setTimeout(() => {
+            messageDiv.remove();
+        }, 3000);
+    }
+}
+
+// Add CSS for animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// Initialize Step 6 when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new Step6Manager();
+});

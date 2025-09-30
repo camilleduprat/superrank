@@ -1,4 +1,140 @@
+/* Step 4 Specific Styles - Loading */
+
+/* Override upload-section positioning to match next-arrow-button */
+.upload-section {
+    position: fixed;
+    bottom: var(--space-4xl);
+    right: var(--space-4xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Remove the background image for loading step */
+.upload-section::before {
+    display: none;
+}
+
+/* Loading icon styling */
+.loading-icon {
+    width: clamp(80px, 15vw, 156px);
+    height: clamp(80px, 15vw, 156px);
+    object-fit: contain;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive positioning for upload-section */
+@media (max-width: 1200px) {
+    .upload-section {
+        bottom: var(--space-3xl);
+        right: var(--space-3xl);
+    }
+}
+
+@media (max-width: 968px) {
+    .upload-section {
+        bottom: var(--space-2xl);
+        right: var(--space-2xl);
+    }
+}
+
+@media (max-width: 768px) {
+    .upload-section {
+        bottom: var(--space-lg);
+        right: var(--space-lg);
+    }
+    
+    .loading-icon {
+        width: clamp(60px, 12vw, 120px);
+        height: clamp(60px, 12vw, 120px);
+    }
+}
+
+@media (max-width: 480px) {
+    .upload-section {
+        bottom: var(--space-md);
+        right: var(--space-md);
+    }
+    
+    .loading-icon {
+        width: clamp(50px, 10vw, 80px);
+        height: clamp(50px, 10vw, 80px);
+    }
+}
+
 /* Step 8 Specific Styles - Points Breakdown */
+
+/* Top Right Buttons */
+.top-back-button {
+    position: fixed;
+    top: var(--space-4xl);
+    right: calc(var(--space-4xl) + 60px);
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.top-back-button:hover {
+    opacity: 1;
+}
+
+.top-right-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    align-content: center;
+    gap: var(--space-sm);
+}
+
+.top-back-icon {
+    width: var(--button-height);
+    height: var(--button-height);
+    filter: brightness(0) invert(1);
+}
+
+.top-close-button {
+    position: fixed;
+    top: var(--space-4xl);
+    right: var(--space-4xl);
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.top-close-button:hover {
+    opacity: 1;
+}
+
+.top-close-icon {
+    width: clamp(20px, 4vw, 24px);
+    height: clamp(20px, 4vw, 24px);
+    filter: brightness(0) invert(1);
+}
 
 /* Spaced Container */
 .spaced-container {
@@ -33,7 +169,7 @@
 .cards-section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(clamp(280px, 30vw, 300px), 1fr));
-    gap: var(--space-lg);
+    gap: var(--space-md);
     width: 100%;
     max-width: var(--container-xl);
     padding-bottom: var(--space-xs);
@@ -232,7 +368,7 @@
     
     .cards-section {
         grid-template-columns: 1fr;
-        gap: var(--space-md);
+        gap: var(--space-sm);
         max-width: 100%;
     }
     
@@ -280,7 +416,7 @@
     }
     
     .evaluation-card {
-        padding: var(--space-lg);
+        padding: var(--space-sm);
     }
     
     .card-title {
@@ -302,6 +438,46 @@
     }
 }
 
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+    .top-back-button,
+    .top-close-button,
+    .next-arrow-button {
+        min-height: 48px;
+        min-width: 48px;
+    }
+    
+    .evaluation-card {
+        min-height: 100px;
+    }
+    
+    .evaluation-card:hover {
+        transform: none;
+    }
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .top-back-icon,
+    .top-close-icon,
+    .next-arrow-icon {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .evaluation-card,
+    .next-arrow-button {
+        animation: none;
+        transition: none;
+    }
+    
+    .evaluation-card:hover {
+        transform: none;
+    }
+}
 
 /* Focus states for accessibility */
 .next-arrow-button:focus,
