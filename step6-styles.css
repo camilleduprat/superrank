@@ -91,6 +91,9 @@
     line-height: 1.4;
     color: rgba(255, 255, 255, 1);
     margin: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 /* Points Title */

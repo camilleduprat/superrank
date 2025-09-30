@@ -137,9 +137,11 @@ class Step8Controller {
                     const punch = (just.match(/\*\*(.*?)\*\*/) || [])[1] || '';
                     const subtitle = document.querySelector('.subtitle-feedback span');
                     if (subtitle && punch) subtitle.textContent = punch;
-                    // Fill points if grade stored
-                    const pointsElement = document.querySelector('.upload-title.points-title h1');
-                    if (pointsElement && typeof rd.grade === 'number') pointsElement.textContent = rd.grade;
+                    // Fill points if grade stored (Step 6 DOM uses component-big-title > h1 and a points label)
+                    const pointsNumber = document.querySelector('.component-big-title h1');
+                    if (pointsNumber && typeof rd.grade === 'number') pointsNumber.textContent = rd.grade;
+                    const pointsLabel = document.querySelector('.points-label');
+                    if (pointsLabel && typeof rd.grade === 'number') pointsLabel.textContent = 'Points';
                     // Fill cards from justification
                     this.updateCardsFromJustification(just);
                 } catch {}
@@ -160,9 +162,11 @@ class Step8Controller {
             const ratingId = claim.ratingId || rd.rating_id || rd.ratingId || rd.id;
             if (!ratingId) return;
             const data = await getRating(ratingId);
-            // Points
-            const pointsElement = document.querySelector('.upload-title.points-title h1');
-            if (pointsElement && typeof data.grade === 'number') pointsElement.textContent = data.grade;
+            // Points (Step 6 DOM: big title h1 + label)
+            const pointsNumber = document.querySelector('.component-big-title h1');
+            if (pointsNumber && typeof data.grade === 'number') pointsNumber.textContent = data.grade;
+            const pointsLabel = document.querySelector('.points-label');
+            if (pointsLabel) pointsLabel.textContent = 'Points';
             // Punchline from justification bold or data.punchline
             const subtitle = document.querySelector('.subtitle-feedback span');
             const m = String(data.justification || '').match(/\*\*(.*?)\*\*/);
@@ -222,11 +226,13 @@ class Step8Controller {
     updateAnalysisDisplay() {
         if (!this.resultsData) return;
         
-        // Update points display
-        const pointsElement = document.querySelector('.upload-title.points-title h1');
-        if (pointsElement && (typeof this.resultsData.grade === 'number')) {
-            pointsElement.textContent = this.resultsData.grade;
+        // Update points display (Step 6 DOM)
+        const pointsNumber = document.querySelector('.component-big-title h1');
+        if (pointsNumber && (typeof this.resultsData.grade === 'number')) {
+            pointsNumber.textContent = this.resultsData.grade;
         }
+        const pointsLabel = document.querySelector('.points-label');
+        if (pointsLabel) pointsLabel.textContent = 'Points';
         // Update overall review (subtitle top-left)
         const subtitle = document.querySelector('.subtitle-feedback span');
         if (subtitle) {
@@ -313,8 +319,8 @@ class Step8Controller {
             // Grade from TOTAL DESIGN POINTS: NNN (out of 1000)
             const gm = just.match(/TOTAL\s+DESIGN\s+POINTS:\s*(\d+)\s*\(\s*out of\s*1000\s*\)/i);
             const grade = gm ? parseInt(gm[1], 10) : rd.grade;
-            const pointsElement = document.querySelector('.upload-title.points-title h1');
-            if (pointsElement && typeof grade === 'number') pointsElement.textContent = grade;
+            const pointsNumber = document.querySelector('.component-big-title h1');
+            if (pointsNumber && typeof grade === 'number') pointsNumber.textContent = grade;
             // Punchline between points line and Usability, or bold **...**
             let punch = (just.match(/\*\*(.*?)\*\*/s) || [])[1] || '';
             if (!punch) {

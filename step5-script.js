@@ -46,10 +46,14 @@ class Step7Manager {
             this.updateResultsDisplay();
             // Also parse directly from justification in case backend route is missing
             this.parseFromRatingDataAndRender();
+            // Ensure rank visible even if payload lacked it
+            if (!this.resultsData.userRank) this.recoverRankFromLeaderboard();
         } else {
             console.warn('No results data found, using fallback');
             this.showFallbackResults();
             this.parseFromRatingDataAndRender();
+            // Try to recover fresh data for rank
+            this.recoverRankFromLeaderboard();
         }
     }
 
@@ -73,10 +77,14 @@ class Step7Manager {
     updateResultsDisplay() {
         if (!this.resultsData) return;
         
-        // Update rank display
-        const rankElement = document.querySelector('.rank-wrapper h1');
-        if (rankElement && this.resultsData.userRank) {
-            rankElement.textContent = `${this.resultsData.userRank}${this.getOrdinalSuffix(this.resultsData.userRank)}`;
+        // Update rank display (second H1 in big title container)
+        const rankContainer = document.querySelector('.component-big-title');
+        if (rankContainer && this.resultsData.userRank) {
+            const h1s = rankContainer.querySelectorAll('h1');
+            const rankElement = h1s && h1s.length >= 2 ? h1s[1] : null;
+            if (rankElement) {
+                rankElement.textContent = `${this.resultsData.userRank}${this.getOrdinalSuffix(this.resultsData.userRank)}`;
+            }
         }
         
         // Update feedback message (overall/punchline)
@@ -119,6 +127,39 @@ class Step7Manager {
         window.location.href = 'step6.html';
     }
     
+    async recoverRankFromLeaderboard() {
+        try {
+            const claimRaw = sessionStorage.getItem('claimData');
+            if (!claimRaw) return;
+            const claim = JSON.parse(claimRaw);
+            const { getLeaderboard } = await import('./growthClient.js');
+            const list = await getLeaderboard(500);
+            const idx = Array.isArray(list) ? list.findIndex(u => (u.username || '').toLowerCase() === String(claim.username || '').toLowerCase()) : -1;
+            if (idx >= 0) {
+                const rank = idx + 1;
+                // Update UI immediately
+                const rankContainer = document.querySelector('.component-big-title');
+                if (rankContainer) {
+                    const h1s = rankContainer.querySelectorAll('h1');
+                    const rankElement = h1s && h1s.length >= 2 ? h1s[1] : null;
+                    if (rankElement) rankElement.textContent = `${rank}${this.getOrdinalSuffix(rank)}`;
+                }
+                // Persist into resultsData/session for later steps
+                this.resultsData = this.resultsData || {};
+                this.resultsData.userRank = rank;
+                const full = sessionStorage.getItem('fullResults');
+                if (full) {
+                    try {
+                        const parsed = JSON.parse(full);
+                        parsed.userRank = rank;
+                        sessionStorage.setItem('fullResults', JSON.stringify(parsed));
+                    } catch {}
+                }
+            }
+        } catch (e) {
+            console.warn('Failed to recover rank from leaderboard', e);
+        }
+    }
 }
 
 // Initialize Step 7 when DOM is loaded
