@@ -20,7 +20,7 @@
     --font-size-5xl: clamp(3rem, 10vw, 4.5rem);
     --font-size-6xl: clamp(4rem, 12vw, 6rem);
     --font-size-7xl: clamp(6rem, 15vw, 10rem);
-    --font-size-8xl: clamp(8rem, 20vw, 12rem);
+    --font-size-8xl: clamp(8rem, 17vw, 11rem);
     --font-size-9xl: clamp(10rem, 25vw, 15rem);
 
     /* Fluid Spacing Scale */
