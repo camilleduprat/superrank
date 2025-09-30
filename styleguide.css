@@ -639,7 +639,7 @@ body.upload-flow {
 }
 
 .component-big-title h1 {
-    font-size: var(--font-size-8xl);
+    font-size: var(--font-size-7xl);
     font-weight: 300;
     line-height: 1.1;
     letter-spacing: -0.02em;
