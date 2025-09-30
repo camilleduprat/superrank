@@ -32,20 +32,20 @@ class Step8Manager {
     }
     
     shareToTwitter() {
-        const url = encodeURIComponent(window.location.href);
+        const url = encodeURIComponent('https://super-ai.design/index.html');
         const text = encodeURIComponent("Check out my design ranking on SuperRank!");
         window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
     }
     
     shareToLinkedIn() {
-        const url = encodeURIComponent(window.location.href);
+        const url = encodeURIComponent('https://super-ai.design/index.html');
         const title = encodeURIComponent("My Design Ranking - SuperRank");
         const summary = encodeURIComponent("Check out my design ranking on SuperRank!");
         window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}&title=${title}&summary=${summary}`, '_blank');
     }
     
     copyLink() {
-        navigator.clipboard.writeText(window.location.href).then(() => {
+        navigator.clipboard.writeText('https://super-ai.design/index.html').then(() => {
             // Show feedback that link was copied
             const button = this.shareCopy;
             const originalText = button.querySelector('span').textContent;

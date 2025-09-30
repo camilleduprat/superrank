@@ -226,10 +226,25 @@ class Step8Controller {
     updateAnalysisDisplay() {
         if (!this.resultsData) return;
         
-        // Update points display (Step 6 DOM)
+        // Update points display (Step 6 DOM). Recover grade if missing.
         const pointsNumber = document.querySelector('.component-big-title h1');
-        if (pointsNumber && (typeof this.resultsData.grade === 'number')) {
-            pointsNumber.textContent = this.resultsData.grade;
+        let gradeVal = this.resultsData.grade;
+        if (typeof gradeVal !== 'number') {
+            // Try ratingData or parse justification
+            try {
+                const ratingRaw = sessionStorage.getItem('ratingData');
+                if (ratingRaw) {
+                    const rd = JSON.parse(ratingRaw);
+                    gradeVal = typeof rd.grade === 'number' ? rd.grade : gradeVal;
+                    if (typeof gradeVal !== 'number' && rd.justification) {
+                        const gm = String(rd.justification).match(/TOTAL\s+DESIGN\s+POINTS:\s*(\d+)/i);
+                        if (gm) gradeVal = parseInt(gm[1], 10);
+                    }
+                }
+            } catch {}
+        }
+        if (pointsNumber && (typeof gradeVal === 'number')) {
+            pointsNumber.textContent = gradeVal;
         }
         const pointsLabel = document.querySelector('.points-label');
         if (pointsLabel) pointsLabel.textContent = 'Points';

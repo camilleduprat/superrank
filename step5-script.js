@@ -132,11 +132,31 @@ class Step7Manager {
             const claimRaw = sessionStorage.getItem('claimData');
             if (!claimRaw) return;
             const claim = JSON.parse(claimRaw);
-            const { getLeaderboard } = await import('./growthClient.js');
+            const { getLeaderboard, getRating } = await import('./growthClient.js');
             const list = await getLeaderboard(500);
             const idx = Array.isArray(list) ? list.findIndex(u => (u.username || '').toLowerCase() === String(claim.username || '').toLowerCase()) : -1;
-            if (idx >= 0) {
-                const rank = idx + 1;
+            let rank = idx >= 0 ? (idx + 1) : null;
+            // If username not found, approximate rank by grade vs leaderboard
+            if (rank == null) {
+                // Try from fullResults or fetch
+                let grade = this.resultsData?.grade;
+                if (typeof grade !== 'number') {
+                    try {
+                        const ratingRaw = sessionStorage.getItem('ratingData');
+                        const rd = ratingRaw ? JSON.parse(ratingRaw) : {};
+                        const ratingId = rd.rating_id || rd.ratingId || rd.id || (JSON.parse(sessionStorage.getItem('claimData')||'{}').ratingId);
+                        if (ratingId) {
+                            const full = await getRating(ratingId).catch(()=>null);
+                            if (full && typeof full.grade === 'number') grade = full.grade;
+                        }
+                    } catch {}
+                }
+                if (typeof grade === 'number' && Array.isArray(list) && list.length) {
+                    const betterCount = list.filter(u => (u.best_grade ?? u.grade ?? 0) > grade).length;
+                    rank = betterCount + 1;
+                }
+            }
+            if (rank != null) {
                 // Update UI immediately
                 const rankContainer = document.querySelector('.component-big-title');
                 if (rankContainer) {
