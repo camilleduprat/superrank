@@ -120,7 +120,7 @@ const populateLeaderboard = async () => {
                     <span class="entry-score">${user.score}</span>
                     ${user.portfolioUrl ? `
                         <button class="portfolio-link-btn" onclick="window.open('${user.portfolioUrl}', '_blank')" title="View portfolio">
-                            <span class="link-icon">􀄫</span>
+                            <span class="link-icon">􀰾</span>
                         </button>
                     ` : ''}
                 </div>
@@ -158,7 +158,7 @@ const populateLeaderboard = async () => {
                     <span class="entry-score">${user.score}</span>
                     ${user.portfolioUrl ? `
                         <button class="portfolio-link-btn" onclick="window.open('${user.portfolioUrl}', '_blank')" title="View portfolio">
-                            <span class="link-icon">􀄫</span>
+                            <img src="assets/images/icon-linkout-white.png" alt="View portfolio" class="link-icon" />
                         </button>
                     ` : ''}
                 </div>

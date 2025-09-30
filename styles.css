@@ -327,14 +327,19 @@ body {
     transform: scale(1.05);
 }
 
+.portfolio-link-btn:hover .link-icon {
+    opacity: 1;
+}
+
 .portfolio-link-btn:active {
     transform: scale(0.95);
 }
 
 .link-icon {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
-    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+    width: 14px;
+    height: 14px;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
 }
 
 /* Skeleton loading state */
@@ -467,7 +472,8 @@ body {
     }
     
     .link-icon {
-        font-size: 12px;
+        width: 12px;
+        height: 12px;
     }
 }
 
@@ -488,7 +494,8 @@ body {
     }
     
     .link-icon {
-        font-size: 10px;
+        width: 10px;
+        height: 10px;
     }
     
     .cta-button {
