@@ -154,7 +154,7 @@ const populateLeaderboard = async () => {
     }
 };
 
-// Update user count with real data or fallback
+// Update designs count with real data or fallback
 const updateUserCount = (realCount = null) => {
     const userCountElement = document.getElementById('userCount');
     
@@ -169,6 +169,17 @@ const updateUserCount = (realCount = null) => {
         const newCount = baseCount + randomVariation;
         
         userCountElement.textContent = newCount.toLocaleString();
+    }
+};
+
+// Fetch true designs count from Supabase and update UI
+const updateDesignsRatedFromBackend = async () => {
+    try {
+        const { getDesignsCount } = await import('./growthClient.js');
+        const total = await getDesignsCount();
+        updateUserCount(total);
+    } catch (e) {
+        console.warn('Failed to fetch designs count; using fallback', e);
     }
 };
 
@@ -222,6 +233,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (isConnected) {
         console.log('✅ Backend connected - using real data');
         await populateLeaderboard();
+        await updateDesignsRatedFromBackend();
     } else {
         console.log('⚠️ Backend not available - using fallback data');
         await populateLeaderboard();

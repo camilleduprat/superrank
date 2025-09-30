@@ -315,3 +315,29 @@ if (!document.querySelector('#growthClientStyles')) {
   `;
   document.head.appendChild(style);
 }
+
+// 6) Designs count from PostgREST (growth_design_ratings)
+export async function getDesignsCount() {
+  const url = `${SUPABASE_URL}/rest/v1/growth_design_ratings?select=id`;
+  const headers = {
+    ...HDRS,
+    'Prefer': 'count=exact',
+    'Range': '0-0',
+  };
+  const res = await fetch(url, { headers });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => '');
+    throw new Error(`Designs count error: ${res.status} - ${errorText}`);
+  }
+  const contentRange = res.headers.get('content-range') || res.headers.get('Content-Range') || '';
+  const totalMatch = contentRange.match(/\/(\d+)$/);
+  const total = totalMatch ? parseInt(totalMatch[1], 10) : null;
+  if (typeof total === 'number' && !Number.isNaN(total)) return total;
+  // Fallback: parse body length if total header missing
+  try {
+    const arr = await res.json();
+    return Array.isArray(arr) ? arr.length : 0;
+  } catch {
+    return 0;
+  }
+}
