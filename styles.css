@@ -299,6 +299,44 @@ body {
     font-weight: 300;
 }
 
+/* Entry actions container */
+.entry-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+/* Portfolio link button */
+.portfolio-link-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    padding: var(--space-xs);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+}
+
+.portfolio-link-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.portfolio-link-btn:active {
+    transform: scale(0.95);
+}
+
+.link-icon {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
 /* Skeleton loading state */
 .leaderboard-entry.skeleton {
     background: rgba(255, 255, 255, 0.02);
@@ -422,6 +460,15 @@ body {
         padding: var(--space-md);
         margin-bottom: var(--space-xs);
     }
+    
+    .portfolio-link-btn {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .link-icon {
+        font-size: 12px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -433,6 +480,15 @@ body {
         padding: var(--space-sm);
         font-size: var(--font-size-sm);
         min-height: 50px;
+    }
+    
+    .portfolio-link-btn {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .link-icon {
+        font-size: 10px;
     }
     
     .cta-button {

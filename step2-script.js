@@ -307,8 +307,8 @@ class PromptingStepManager {
         
         // All data is valid, now rate the design
         try {
-            // Change to animated rays icon
-            this.changeToRaysIcon();
+            // Change to loading button
+            this.changeToLoadingButton();
             
             this.showMessage('Analyzing your design...', 'success');
             
@@ -354,8 +354,8 @@ class PromptingStepManager {
         } catch (error) {
             console.error('Failed to rate design:', error);
             this.showMessage('Failed to analyze design. Please try again.', 'error');
-            // Reset to normal arrow icon on error
-            this.resetToNormalIcon();
+            // Reset to normal button on error
+            this.resetToNormalButton();
         }
     }
     
@@ -377,28 +377,34 @@ class PromptingStepManager {
         window.location.href = 'step3.html';
     }
     
-    changeToRaysIcon() {
-        const nextArrowIcon = this.nextArrowButton.querySelector('.next-arrow-icon');
-        if (nextArrowIcon) {
-            nextArrowIcon.src = 'assets/images/icon-big-rays.png';
-            nextArrowIcon.alt = 'Analyzing';
-            nextArrowIcon.style.animation = 'raysSpin 2s linear infinite';
-            // Disable the button during analysis
-            this.nextArrowButton.disabled = true;
-            this.nextArrowButton.style.pointerEvents = 'none';
-        }
+    changeToLoadingButton() {
+        // Hide the normal arrow button
+        this.nextArrowButton.style.display = 'none';
+        
+        // Create and show the loading button
+        this.loadingButton = document.createElement('button');
+        this.loadingButton.className = 'component-loading-button';
+        this.loadingButton.innerHTML = `
+            <div class="component-loading-button-icon">
+                <img src="assets/images/icon-big-rays.png" alt="Analyzing" />
+            </div>
+        `;
+        
+        // Insert the loading button in the same position
+        this.nextArrowButton.parentNode.insertBefore(this.loadingButton, this.nextArrowButton.nextSibling);
     }
     
-    resetToNormalIcon() {
-        const nextArrowIcon = this.nextArrowButton.querySelector('.next-arrow-icon');
-        if (nextArrowIcon) {
-            nextArrowIcon.src = 'assets/images/icon-arrow-right.png';
-            nextArrowIcon.alt = 'Next';
-            nextArrowIcon.style.animation = 'none';
-            // Re-enable the button
-            this.nextArrowButton.disabled = false;
-            this.nextArrowButton.style.pointerEvents = 'auto';
+    resetToNormalButton() {
+        // Remove the loading button if it exists
+        if (this.loadingButton) {
+            this.loadingButton.remove();
+            this.loadingButton = null;
         }
+        
+        // Show the normal arrow button again
+        this.nextArrowButton.style.display = 'flex';
+        this.nextArrowButton.disabled = false;
+        this.nextArrowButton.style.pointerEvents = 'auto';
     }
     
     showMessage(message, type = 'success') {

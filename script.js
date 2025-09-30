@@ -97,7 +97,8 @@ const populateLeaderboard = async () => {
         const users = leaderboardData.map((user, index) => ({
             rank: index + 1,
             name: user.username || 'Anonymous',
-            score: user.best_grade || 0
+            score: user.best_grade || 0,
+            portfolioUrl: user.portfolio_url || null
         }));
         
         // Clear skeleton and show real data
@@ -115,7 +116,14 @@ const populateLeaderboard = async () => {
                     <span class="entry-rank">#${user.rank}</span>
                     <span class="entry-name">${user.name}</span>
                 </div>
-                <span class="entry-score">${user.score}</span>
+                <div class="entry-actions">
+                    <span class="entry-score">${user.score}</span>
+                    ${user.portfolioUrl ? `
+                        <button class="portfolio-link-btn" onclick="window.open('${user.portfolioUrl}', '_blank')" title="View portfolio">
+                            <span class="link-icon">􀄫</span>
+                        </button>
+                    ` : ''}
+                </div>
             `;
             
             leaderboardList.appendChild(entry);
@@ -146,7 +154,14 @@ const populateLeaderboard = async () => {
                     <span class="entry-rank">#${user.rank}</span>
                     <span class="entry-name">${user.name}</span>
                 </div>
-                <span class="entry-score">${user.score}</span>
+                <div class="entry-actions">
+                    <span class="entry-score">${user.score}</span>
+                    ${user.portfolioUrl ? `
+                        <button class="portfolio-link-btn" onclick="window.open('${user.portfolioUrl}', '_blank')" title="View portfolio">
+                            <span class="link-icon">􀄫</span>
+                        </button>
+                    ` : ''}
+                </div>
             `;
             
             leaderboardList.appendChild(entry);
