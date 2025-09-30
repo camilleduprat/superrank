@@ -1,293 +1,257 @@
-/* Step 5 Specific Styles */
+/* Step 9 Specific Styles - Solution Page */
 
-/* Email Input Container - Bottom Left */
-.email-input-container {
-    width: clamp(320px, 40vw, 450px);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-xl);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    overflow-x: hidden;
-    overflow-y: auto;
-    max-height: 80vh;
-    -webkit-overflow-scrolling: touch;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    z-index: 3000; /* sit above title/background */
-}
-
-/* Email Input Box */
-.email-input-box {
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    gap: 12px;
-}
-
-.email-input-box.vertical {
-    flex-direction: column;
-    align-items: stretch;
-}
-
-.email-input-box.vertical input {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 24px;
-    padding: 14px 16px;
-}
-
-.email-input-box.vertical input + input {
-    margin-top: 0px;
-}
-
-/* Email Disclaimer */
-.email-disclaimer {
-    text-align: left;
-    font-size: 11px;
+.subtitle-feedback {
+    width: 450px;
+    font-size: var(--font-size-sm);
     font-weight: 300;
-    line-height: 1.2;
-}
-
-.email-disclaimer span {
-    color: rgba(255, 255, 255, 0.3);
-    font-size: 11px;
-    font-weight: 300;
-    line-height: 1.2;
-    font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-/* Email Input Field */
-.email-input-box input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 0px;
+    line-height: 1.5;
     color: white;
-    font-size: 14px;
-    font-weight: 300;
-    outline: none;
-    transition: all 0.2s ease;
-    font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    pointer-events: auto;
 }
 
-.email-input-box input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.email-input-box input:focus {
-    background: transparent;
-}
-
-/* Email Submit Button */
-.email-submit-btn {
-    background: transparent;
-    border: none;
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-}
-
-.email-submit-btn:hover {
-}
-
-.email-submit-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-}
-
-.submit-icon {
-    width: 24px;
-    height: 24px;
-    filter: brightness(0) invert(1);
-}
-
-.email-input-wrapper {
-    position: fixed;
-    bottom: 80px;
-    left: 80px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
-    gap: 28px;
-    z-index: 3000; /* ensure wrapper is clickable */
-}
-
-.email-side {
+/* Spaced Container */
+.spaced-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    position: relative;
 }
 
-/* Input validation states */
-.email-input-box input.valid {
+
+/* Solutions Card */
+.solutions-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 24px;
+    padding: 24px;
+    width: 320px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.solutions-card.blurred .card-content {
+    filter: blur(4px);
+    pointer-events: none;
+    user-select: none;
+}
+
+.solutions-card.blurred .reveal-button {
+    filter: none;
+    pointer-events: auto;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+.card-header {
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+.card-content {
+    margin-bottom: 0px;
+    transition: filter 0.3s ease;
+}
+
+.solution-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.solution-item:last-child {
+    border-bottom: none;
+}
+
+.solution-text {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.8);
+    flex: 1;
+}
+
+.expand-icon {
+    width: 12px;
+    height: 12px;
+    filter: brightness(0) invert(1);
+    opacity: 0.6;
+    transform: rotate(90deg);
+}
+
+.reveal-button {
+    width: 80%;
+    background: rgba(255, 255, 255, 1);
+    border: none;
+    border-radius: 100px;
+    padding: 12px 0;
+    font-size: 14px;
+    font-weight: 300;
+    color: #171717;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.reveal-button:hover {
+    background: rgba(255, 255, 255, 1);
+    border:none;
+}
+
+/* Main Title */
+.upload-title {
+    position: relative;
+    margin-top: auto;
+}
+
+.upload-title h1 {
+    font-size: clamp(6rem, 12vw, 12rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
     color: white;
+    margin: 0;
 }
 
-.email-input-box input.invalid {
-    color: white;
-}
-
-.email-submit-btn.valid {
-
-}
-
-.email-submit-btn.valid:hover {
-
-}
-
-/* Loading state */
-.email-submit-btn.loading {
+/* Next Arrow Button */
+.next-arrow-button {
+    position: fixed;
+    bottom: 80px;
+    right: 80px;
     background: transparent;
     border: none;
-    animation: pulse 1.5s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
 }
 
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
+.next-arrow-icon {
+    width: 156px;
+    height: 156px;
+    cursor: pointer;
+    filter: brightness(0) invert(1);
+    transition: all 0.3s ease;
+}
+
+.next-arrow-button:hover .next-arrow-icon {
+    transform: scale(1.1);
 }
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-    .email-input-container {
+
+    
+    .spaced-container {
+        gap: 30px;
+    }
+
+    .subtitle-feedback {
+        max-width: 100%;
+    }
+    
+    .solutions-card {
+        width: 280px;
+    }
+    
+    .next-arrow-button {
         bottom: 60px;
-        left: 60px;
-        width: 400px;
+        right: 60px;
     }
 }
 
 @media (max-width: 968px) {
-    .email-input-container {
+
+    
+    .spaced-container {
+        gap: 25px;
+    }
+    
+    .solutions-card {
+        width: 260px;
+        padding: 20px;
+    }
+    
+    .next-arrow-button {
         bottom: 40px;
-        left: 40px;
-        width: 350px;
+        right: 40px;
     }
 }
 
 @media (max-width: 768px) {
-    .email-input-container {
+
+    
+    .spaced-container {
+        gap: 20px;
+    }
+    
+    .solutions-card {
+        width: 100%;
+        max-width: 300px;
+        padding: 16px;
+    }
+    
+    .next-arrow-button {
         bottom: 20px;
-        left: 20px;
-        width: calc(100vw - 40px);
-        max-width: 320px;
+        right: 20px;
     }
     
-    .email-input-box {
-        padding: 16px 16px 0px 16px;
-        gap: 10px;
+    .next-arrow-icon {
+        width: 100px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    
+    .spaced-container {
+        gap: 16px;
     }
     
-    .email-disclaimer {
-        padding: 6px 16px 16px 16px;
+    .solutions-card {
+        padding: 14px;
     }
     
-    .email-disclaimer span {
-        font-size: 10px;
-    }
-    
-    .email-input-box input {
+    .card-title {
         font-size: 14px;
-        padding: 10px 0px;
     }
     
-    .email-submit-btn {
-        width: 36px;
-        height: 36px;
-    }
-    
-    .submit-icon {
-        width: 14px;
-        height: 14px;
-    }
-}
-
-@media (max-width: 480px) {
-    .email-input-container {
-        bottom: 16px;
-        left: 16px;
-        width: calc(100vw - 32px);
-        max-width: 280px;
-    }
-    
-    .email-input-box {
-        padding: 12px 12px 0px 12px;
-        gap: 8px;
-    }
-    
-    .email-disclaimer {
-        padding: 4px 12px 12px 12px;
-    }
-    
-    .email-disclaimer span {
-        font-size: 9px;
-    }
-    
-    .email-input-box input {
+    .solution-text {
         font-size: 13px;
-        padding: 8px 0px;
     }
     
-    .email-submit-btn {
-        width: 32px;
-        height: 32px;
+    .reveal-button {
+        font-size: 13px;
+        padding: 10px 14px;
     }
     
-    .submit-icon {
-        width: 12px;
-        height: 12px;
+    .next-arrow-button {
+        bottom: 16px;
+        right: 16px;
     }
-}
-
-/* Mobile and Tablet Scrolling Improvements */
-@media (max-width: 768px) {
-    .email-input-container {
-        max-height: 60vh;
-        width: calc(100vw - var(--space-lg));
-    }
-}
-
-@media (max-width: 480px) {
-    .email-input-container {
-        max-height: 50vh;
-        width: calc(100vw - var(--space-md));
+    
+    .next-arrow-icon {
+        width: 80px;
+        height: 60px;
     }
 }
 
 /* Focus states for accessibility */
-.email-input-box input:focus,
-.email-submit-btn:focus {
-    outline: 2px solid rgba(255, 255, 255, 0.5);
+.top-back-button:focus,
+.top-close-button:focus,
+.next-arrow-button:focus,
+.reveal-button:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.3);
     outline-offset: 2px;
-}
-
-/* Animation for email input appearance */
-.email-input-container {
-    animation: slideInUp 0.5s ease-out;
-}
-
-@keyframes slideInUp {
-    from {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
 }

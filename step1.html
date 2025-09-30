@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Step 7 - Results - SuperRank</title>
+    <title>Upload Your Design - SuperRank</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="styleguide.css">
     <link rel="stylesheet" href="step1-styles.css">
-    <link rel="stylesheet" href="step5-styles.css">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-dark@2x.png">
@@ -25,30 +24,27 @@
     </div>
 
     <div class="upload-container">
-        <div class="spaced-container">
-            <!-- Subtitle -->
-            <div class="subtitle-feedback">
-                <span>Wow, a true disappointment. This could have been great but right now it's giving startup pitch deck vibes...</span>
-            </div>
-            
-            <!-- Space between subtitle and title -->
-            <div style="height: 100px;"></div>
-            
-            <!-- Main Title with Points -->
-            <div class="component-big-title">
-                <h1> <br> You ranked</h1>
-                <h1>14,924th</h1>
-            </div>
+        <!-- Main Title -->
+        <div class="component-big-title">
+            <h1>Oh, so you think you're the sh*t?!</h1>
         </div>
-    </div>
 
-    <!-- Next Arrow Button -->
-    <button class="component-action-button" id="nextArrowButton">
-        <img src="assets/images/icon-plus.png" alt="Next" class="component-action-button-icon">
-    </button>
+        <!-- Upload Button -->
+        <div class="upload-section">
+            <button class="component-action-button white" id="uploadButton">
+                <!-- Default state icon -->
+                <div class="upload-icon upload-icon-default">
+                    <img src="assets/images/icon-imgplus-black.png" alt="Upload images" class="upload-icon-img">
+                </div>
+
+                
+                
+            </button>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+        </div>
 
 
-
-    <script src="step5-script.js"></script>
+    
+    <script src="step1-script.js"></script>
 </body>
 </html>

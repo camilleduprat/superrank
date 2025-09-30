@@ -59,7 +59,7 @@ class PromptingStepManager {
         // Optional navigation buttons (may not exist in this page)
         if (this.backButton) {
             this.backButton.addEventListener('click', () => {
-                window.location.href = 'rating.html';
+                window.location.href = 'step1.html';
             });
         }
         
@@ -194,6 +194,20 @@ class PromptingStepManager {
         targetStep.classList.add('active');
         
         this.currentState = state;
+        
+        // Autofocus input field for state 2
+        if (state === 2 && this.productDescriptionInput) {
+            setTimeout(() => {
+                this.productDescriptionInput.focus();
+            }, 100);
+        }
+        
+        // Autofocus input field for state 3
+        if (state === 3 && this.productLocationInput) {
+            setTimeout(() => {
+                this.productLocationInput.focus();
+            }, 100);
+        }
         
         // Update UI based on state
         this.updateStateUI();
@@ -334,7 +348,7 @@ class PromptingStepManager {
             
             // Navigate to email collection step
             setTimeout(() => {
-                window.location.href = 'step5.html';
+                window.location.href = 'step3.html';
             }, 1000);
             
         } catch (error) {
@@ -360,7 +374,7 @@ class PromptingStepManager {
     
     navigateNext() {
         // Navigate to step 5 (email collection)
-        window.location.href = 'step5.html';
+        window.location.href = 'step3.html';
     }
     
     changeToRaysIcon() {

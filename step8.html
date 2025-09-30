@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Step 8 - Points Breakdown - SuperRank</title>
+    <title>Coming Soon - SuperRank</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="upload-styles.css">
+    <link rel="stylesheet" href="styleguide.css">
     <link rel="stylesheet" href="step8-styles.css">
     
     <!-- Favicon -->
@@ -16,75 +16,53 @@
     <!-- SF Pro fonts loaded locally -->
 </head>
 <body class="upload-flow">
+    <!-- Top Right Navigation -->
     <div class="top-right-nav">
-        <!-- Top Right Buttons -->
-        <button class="top-back-button" id="topBackButton">
-            <img src="assets/images/icon-chevron-up-white.png" alt="Back" class="top-back-icon">
-        </button>
-        <button class="top-close-button" id="topCloseButton">
-            <img src="assets/images/icon-close-white.png" alt="Close" class="top-close-icon">
+        <!-- Logo -->
+        <div class="nav-logo">
+            <img src="assets/images/SuperLogo.png" alt="SuperRank" class="logo-image">
+        </div>
+        
+        <!-- Close Button -->
+        <button class="component-action-button" id="closeButton">
+            <img src="assets/images/icon-close.png" alt="Close" class="component-action-button-icon">
         </button>
     </div>
 
-    <div class="spaced-container">
-        <div class="subtitle-wrapper">
-            <!-- Subtitle -->
-            <div class="subtitle-feedback">
-                <span>Wow, a true disappointment. This could have been great but right now it's giving startup pitch deck vibes...</span>
-            </div>
-            
-            <!-- Cards Section -->
-            <div class="cards-section">
-                <div class="evaluation-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Usability</h3>
-                    </div>
-                    <p class="card-description">Overall, the look and feel lacks contrast and colors, making the design a bit too bland.</p>
-                </div>
-
-                <div class="evaluation-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Information Architecture</h3>
-                    </div>
-                    <p class="card-description">Overall, the look and feel lacks contrast and colors, making the design a bit too bland.</p>
-                </div>
-
-                <div class="evaluation-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Look & feel</h3>
-                    </div>
-                    <p class="card-description">Overall, the look and feel lacks contrast and colors, making the design a bit too bland.</p>
-                </div>
-
-                <div class="evaluation-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Consistency</h3>
-                    </div>
-                    <p class="card-description">Overall, the look and feel lacks contrast and colors, making the design a bit too bland.</p>
-                </div>
-
-                <div class="evaluation-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Business and conversion</h3>
-                    </div>
-                    <p class="card-description">Overall, the look and feel lacks contrast and colors, making the design a bit too bland.</p>
-                </div>
-            </div>
+    <div class="upload-container">
+        <!-- Step Subtitle -->
+        <div class="subtitle-feedback">
+            <span>We're rolling out invites for the closed beta at the moment, check your inbox!</span>
         </div>
+        
+        <!-- Main Title -->
+        <div class="component-big-title">
+            <h1>Share with designers</h1>
+        </div>
+        
+        <!-- Share Components -->
+        <div class="share-section">
+            <div class="share-buttons">
+                <button class="share-button" id="shareCopy">
+                    <img src="assets/images/icon-clipboard-white.png" alt="Copy Link" class="share-icon">
+                    <span>Copy Link</span>
+                </button>
 
-        <!-- Main Title with Points -->
-        <div class="upload-title points-title">
-            <h1>984</h1>
-            <div class="points-label">Points</div>
+                <button class="share-button" id="shareTwitter">
+                    <img src="assets/images/twitterlogo.png" alt="Twitter" class="share-icon">
+                    <span>Tweet it</span>
+                </button>
+                
+                <button class="share-button" id="shareLinkedIn">
+                    <img src="assets/images/WAlogo.png" alt="LinkedIn" class="share-icon">
+                    <span>Send it</span>
+                </button>
+                
+
+            </div>
         </div>
     </div>
 
-    <!-- Next Arrow Button -->
-    <button class="next-arrow-button" id="nextArrowButton">
-        <img src="assets/images/icon-plus.png" alt="Next" class="next-arrow-icon">
-    </button>
-
-
-    <script src="step8-script.js?v=6"></script>
+    <script src="step8-script.js"></script>
 </body>
 </html>

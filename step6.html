@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Step 6 - Loading - SuperRank</title>
+    <title>Step 8 - Points Breakdown - SuperRank</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="upload-styles.css">
+    <link rel="stylesheet" href="styleguide.css">
+    <link rel="stylesheet" href="step1-styles.css">
     <link rel="stylesheet" href="step6-styles.css">
     
     <!-- Favicon -->
@@ -16,28 +17,75 @@
     <!-- SF Pro fonts loaded locally -->
 </head>
 <body class="upload-flow">
-    <!-- Top Right Close Button -->
-    <button class="top-close-button" id="topCloseButton">
-        <img src="assets/images/icon-close-white.png" alt="Close" class="top-close-icon">
-    </button>
+    <div class="top-right-nav">
+        <!-- Top Right Buttons -->
+        <button class="component-back-button" id="topBackButton">
+            <img src="assets/images/icon-chevron-up-white.png" alt="Back" class="component-back-icon">
+        </button>
+        <button class="component-close-button" id="topCloseButton">
+            <img src="assets/images/icon-close-white.png" alt="Close" class="component-close-icon">
+        </button>
+    </div>
 
-    <div class="upload-container">
-        <!-- Main Title -->
-        <div class="upload-title">
-            <h1>Let's see<br>what you're<br>made of.</h1>
+    <div class="spaced-container">
+        <div class="subtitle-wrapper">
+            <!-- Subtitle -->
+            <div class="subtitle-feedback">
+                <span>Wow, a true disappointment. This could have been great but right now it's giving startup pitch deck vibes...</span>
+            </div>
+            
+            <!-- Cards Section -->
+            <div class="cards-section">
+                <div class="evaluation-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Usability</h3>
+                    </div>
+                    <p class="card-description">Overall, the look and feel lacks contrast and colors, making the design a bit too bland.</p>
+                </div>
+
+                <div class="evaluation-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Information Architecture</h3>
+                    </div>
+                    <p class="card-description">Overall, the look and feel lacks contrast and colors, making the design a bit too bland.</p>
+                </div>
+
+                <div class="evaluation-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Look & feel</h3>
+                    </div>
+                    <p class="card-description">Overall, the look and feel lacks contrast and colors, making the design a bit too bland.</p>
+                </div>
+
+                <div class="evaluation-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Consistency</h3>
+                    </div>
+                    <p class="card-description">Overall, the look and feel lacks contrast and colors, making the design a bit too bland.</p>
+                </div>
+
+                <div class="evaluation-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Business and conversion</h3>
+                    </div>
+                    <p class="card-description">Overall, the look and feel lacks contrast and colors, making the design a bit too bland.</p>
+                </div>
+            </div>
         </div>
 
-        <!-- Loading Icon -->
-        <div class="upload-section">
-            <div class="upload-button">
-                <img src="assets/images/icon-loading.png" alt="Loading" class="loading-icon">
+        <!-- Main Title with Points -->
+        <div class="component-big-title">
+            <h1>984</h1>
+            <div class="rank-wrapper">
+                <div class="points-label">Points</div>
             </div>
         </div>
     </div>
+    </div>
 
     <!-- Next Arrow Button -->
-    <button class="next-arrow-button" id="nextArrowButton">
-        <img src="assets/images/icon-arrow-right.png" alt="Next" class="next-arrow-icon">
+    <button class="component-action-button" id="nextArrowButton">
+        <img src="assets/images/icon-plus.png" alt="Next" class="component-action-button-icon">
     </button>
 
 

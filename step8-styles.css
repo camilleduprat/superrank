@@ -1,439 +1,216 @@
-/* Step 8 Specific Styles - Points Breakdown */
+/* Step 8 - Coming Soon Styles */
 
-/* Top Right Buttons */
-.top-back-button {
-    position: fixed;
-    top: var(--space-4xl);
-    right: calc(var(--space-4xl) + 60px);
-    background: transparent;
-    border: none;
+/* Step Subtitle */
+.step-subtitle {
+    position: flex;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 8px;
     z-index: 1000;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 44px;
-    min-height: 44px;
 }
 
-.top-back-button:hover {
-    opacity: 1;
+
+.step-subtitle span {
+    font-size: var(--font-size-sm);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
 }
 
-.top-right-nav {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
-    align-content: center;
-    gap: var(--space-sm);
-}
-
-.top-back-icon {
-    width: var(--button-height);
-    height: var(--button-height);
-    filter: brightness(0) invert(1);
-}
-
-.top-close-button {
-    position: fixed;
-    top: var(--space-4xl);
-    right: var(--space-4xl);
-    background: transparent;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 44px;
-    min-height: 44px;
-}
-
-.top-close-button:hover {
-    opacity: 1;
-}
-
-.top-close-icon {
-    width: clamp(20px, 4vw, 24px);
-    height: clamp(20px, 4vw, 24px);
-    filter: brightness(0) invert(1);
-}
-
-/* Spaced Container */
-.spaced-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
-    height: 100%;
-    width: 100%;
-    max-width: var(--container-xl);
-    gap: var(--space-2xl);
-    position: relative;
-}
-
-.subtitle-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-lg);
-    padding: 0;
-}
-
-/* Subtitle Feedback */
 .subtitle-feedback {
-    width: clamp(280px, 30vw, 350px);
+    width: 45%;
     font-size: var(--font-size-sm);
     font-weight: 300;
     line-height: 1.5;
     color: white;
 }
 
-/* Cards Section - Grid Layout */
-.cards-section {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(clamp(280px, 30vw, 300px), 1fr));
-    gap: var(--space-md);
+/* ChatInput Container - Bottom Left */
+.share-section {
+    position: relative;
     width: 100%;
-    max-width: var(--container-xl);
-    padding-bottom: var(--space-xs);
-    margin-top: var(--space-2xl);
-}
-
-.evaluation-card {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 1);
-    border-radius: var(--radius-xl);
-    padding: var(--space-lg);
+    background: transparent;
+    backdrop-filter: blur(10px);
+    border: none;
+    border-radius: 0;
     transition: all 0.3s ease;
-    width: 100%;
-    min-height: 120px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 80vh;
     display: flex;
     flex-direction: column;
+    z-index: 3000; /* Ensure above headings/overlays */
 }
 
-.evaluation-card:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 1);
-}
-
-.card-header {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-md);
-}
-
-.card-icon {
-    width: clamp(20px, 4vw, 24px);
-    height: clamp(20px, 4vw, 24px);
+/* Navigation Logo */
+.nav-logo {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(255, 255, 255, 0.7);
 }
 
-.card-icon svg {
-    width: clamp(14px, 3vw, 16px);
-    height: clamp(14px, 3vw, 16px);
+.logo-image {
+    height: 24px;
+    object-fit: contain;
 }
 
-.card-title {
-    font-size: var(--font-size-sm);
+/* Share Section */
+.share-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.share-title h3 {
+    font-size: var(--font-size-xxs);
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.5);
-    margin: 0;
-}
-
-.card-description {
-    font-size: var(--font-size-sm);
-    font-weight: 300;
-    line-height: 1.4;
-    color: rgba(255, 255, 255, 1);
-    margin: 0;
-}
-
-/* Points Title */
-.points-title {
-    position: relative;
-    margin-top: auto;
-}
-
-.points-title h1 {
-    font-size: clamp(4rem, 12vw, 15.5rem);
-    font-weight: 300;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
     color: white;
     margin: 0;
 }
 
-.points-label {
-    position: absolute;
-    top: var(--space-2xl);
-    right: -60px;
-    font-size: var(--font-size-sm);
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.5);
-    white-space: nowrap;
+.share-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: var(--space-xs);
 }
 
-/* Next Arrow Button with Plus Icon */
-.next-arrow-button {
-    position: fixed;
-    bottom: var(--space-4xl);
-    right: var(--space-4xl);
-    background: transparent;
-    border: none;
+.share-button {
     display: flex;
     align-items: center;
-    justify-content: center;
-    z-index: 1000;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 20px 8px 8px;
+    border-radius: 200px;
+    font-size: var(--font-size-xxs);
+    font-weight: 300;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
 }
 
-.next-arrow-icon {
-    width: clamp(80px, 15vw, 156px);
-    height: clamp(80px, 15vw, 156px);
-    cursor: pointer;
-    filter: brightness(0) invert(1);
-    transition: all 0.3s ease;
+.share-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 1);
+}
+
+.share-button.selected {
+    background: white;
+    color: #171717;
+    border-color: white;
+}
+
+.share-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
 }
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-    .top-back-button {
-        top: var(--space-3xl);
-        right: calc(var(--space-3xl) + 60px);
+    .nav-logo .logo-image {
+        width: 28px;
+        height: 28px;
     }
     
-    .top-close-button {
-        top: var(--space-3xl);
-        right: var(--space-3xl);
-    }
-    
-    .spaced-container {
-        padding: var(--space-3xl);
-        gap: var(--space-xl);
-    }
-    
-    .cards-section {
-        grid-template-columns: repeat(auto-fit, minmax(clamp(250px, 25vw, 280px), 1fr));
-        max-width: 700px;
-    }
-    
-    .points-label {
-        right: -60px;
-        font-size: var(--font-size-sm);
-    }
-    
-    .next-arrow-button {
-        bottom: var(--space-3xl);
-        right: var(--space-3xl);
+    .share-buttons {
+        max-width: 280px;
     }
 }
 
 @media (max-width: 968px) {
-    .top-back-button {
-        top: var(--space-2xl);
-        right: calc(var(--space-2xl) + 60px);
+    .nav-logo .logo-image {
+        width: 24px;
+        height: 24px;
     }
     
-    .top-close-button {
-        top: var(--space-2xl);
-        right: var(--space-2xl);
+    .share-buttons {
+        max-width: 260px;
     }
     
-    .spaced-container {
-        padding: var(--space-2xl);
-        gap: var(--space-lg);
-    }
-    
-    .cards-section {
-        grid-template-columns: repeat(auto-fit, minmax(clamp(220px, 22vw, 250px), 1fr));
-        gap: var(--space-sm);
-        max-width: 600px;
-    }
-    
-    .evaluation-card {
-        padding: var(--space-lg);
-    }
-    
-    .points-label {
-        right: -50px;
-        font-size: var(--font-size-xs);
-    }
-    
-    .next-arrow-button {
-        bottom: var(--space-2xl);
-        right: var(--space-2xl);
+    .share-button {
+        padding: var(--space-sm) var(--space-md);
     }
 }
 
 @media (max-width: 768px) {
-    .top-back-button {
-        top: var(--space-lg);
-        right: calc(var(--space-lg) + 60px);
+    .nav-logo .logo-image {
+        width: 20px;
+        height: 20px;
     }
     
-    .top-close-button {
-        top: var(--space-lg);
-        right: var(--space-lg);
+    .share-section {
+        margin-top: var(--space-xl);
     }
     
-    .spaced-container {
-        padding: var(--space-lg);
-        gap: var(--space-lg);
+    .share-buttons {
+        max-width: 240px;
     }
     
-    .subtitle-feedback {
-        width: 100%;
-        max-width: 300px;
-    }
-    
-    .cards-section {
-        grid-template-columns: 1fr;
-        gap: var(--space-sm);
-        max-width: 100%;
-    }
-    
-    .evaluation-card {
-        padding: var(--space-md);
-    }
-    
-    .points-label {
-        position: static;
-        transform: none;
-        margin-top: var(--space-sm);
+    .share-button {
+        padding: var(--space-sm) var(--space-md);
         font-size: var(--font-size-sm);
-        text-align: left;
     }
     
-    .next-arrow-button {
-        bottom: var(--space-lg);
-        right: var(--space-lg);
-    }
-    
-    .next-arrow-icon {
-        width: clamp(80px, 12vw, 100px);
-        height: clamp(60px, 10vw, 80px);
+    .share-icon {
+        width: 18px;
+        height: 18px;
     }
 }
 
 @media (max-width: 480px) {
-    .top-back-button {
-        top: var(--space-md);
-        right: calc(var(--space-md) + 44px);
+    .nav-logo .logo-image {
+        width: 18px;
+        height: 18px;
     }
     
-    .top-close-button {
-        top: var(--space-md);
-        right: var(--space-md);
+    .share-section {
+        margin-top: var(--space-lg);
     }
     
-    .spaced-container {
-        padding: var(--space-md);
+    .share-buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
         gap: var(--space-md);
     }
     
-    .subtitle-feedback {
-        font-size: var(--font-size-xs);
+    .share-button {
+        padding: var(--space-sm) var(--space-md);
+        font-size: var(--font-size-sm);
     }
     
-    .evaluation-card {
-        padding: var(--space-sm);
-    }
-    
-    .card-title {
-        font-size: var(--font-size-xs);
-    }
-    
-    .card-description {
-        font-size: var(--font-size-xs);
-    }
-    
-    .next-arrow-button {
-        bottom: var(--space-md);
-        right: var(--space-md);
-    }
-    
-    .next-arrow-icon {
-        width: clamp(60px, 10vw, 80px);
-        height: clamp(45px, 8vw, 60px);
+    .share-icon {
+        width: 16px;
+        height: 16px;
     }
 }
 
 /* Touch-friendly improvements */
 @media (hover: none) and (pointer: coarse) {
-    .top-back-button,
-    .top-close-button,
-    .next-arrow-button {
+    .share-button {
         min-height: 48px;
-        min-width: 48px;
     }
     
-    .evaluation-card {
-        min-height: 100px;
-    }
-    
-    .evaluation-card:hover {
+    .share-button:hover {
         transform: none;
-    }
-}
-
-/* High DPI display optimizations */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .top-back-icon,
-    .top-close-icon,
-    .next-arrow-icon {
-        image-rendering: -webkit-optimize-contrast;
-        image-rendering: crisp-edges;
     }
 }
 
 /* Reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
-    .evaluation-card,
-    .next-arrow-button {
-        animation: none;
+    .share-button {
         transition: none;
     }
     
-    .evaluation-card:hover {
+    .share-button:hover {
         transform: none;
     }
 }
 
 /* Focus states for accessibility */
-.next-arrow-button:focus,
-.top-back-button:focus,
-.top-close-button:focus {
-    outline: 2px solid rgba(255, 255, 255, 0.3);
+.share-button:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
     outline-offset: 2px;
-}
-
-.evaluation-card:focus-within {
-    outline: 2px solid rgba(255, 255, 255, 0.3);
-    outline-offset: 2px;
-}
-
-/* Mobile and Tablet Scrolling Improvements */
-@media (max-width: 968px) {
-    .spaced-container {
-        min-height: auto;
-        height: auto;
-        padding-bottom: var(--space-4xl);
-    }
-    
-    .cards-section {
-        max-height: none;
-        overflow: visible;
-    }
-}
-
-@media (max-width: 768px) {
-    .spaced-container {
-        padding-bottom: var(--space-3xl);
-    }
 }

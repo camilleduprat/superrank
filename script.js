@@ -238,6 +238,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Add keyboard navigation for accessibility
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && document.activeElement.classList.contains('cta-button')) {
-        window.location.href = 'rating.html';
+        window.location.href = 'step1.html';
     }
 });

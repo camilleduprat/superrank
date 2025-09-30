@@ -1,29 +1,25 @@
-// Step 5 JavaScript - Email Collection
+// Step 7 JavaScript - Results Reveal (State 1)
 
-class Step5Manager {
+class Step7Manager {
     constructor() {
-        this.emailData = {
-            email: ''
-        };
+        this.currentState = 1;
+        this.maxStates = 3;
+        this.resultsData = null;
         
         this.initializeElements();
         this.bindEvents();
-        this.updateNavigationState();
+        this.loadResults();
     }
     
     initializeElements() {
         // Navigation elements
         this.topCloseButton = document.getElementById('topCloseButton');
-        this.backButton = document.getElementById('backButton');
-        this.nextButton = document.getElementById('nextButton');
         this.nextArrowButton = document.getElementById('nextArrowButton');
         
-        // Email input elements
-        this.emailInput = document.getElementById('emailInput');
-        this.emailSubmitBtn = document.getElementById('emailSubmitBtn');
-        this.emailInputContainer = document.getElementById('emailInputContainer');
-        this.nameInput = document.getElementById('nameInput');
-        this.linkInput = document.getElementById('linkInput');
+        console.log('Step 7 elements initialized:', {
+            topCloseButton: !!this.topCloseButton,
+            nextArrowButton: !!this.nextArrowButton
+        });
     }
     
     bindEvents() {
@@ -34,334 +30,98 @@ class Step5Manager {
             });
         }
         
-        // Navigation buttons (optional on this page)
-        if (this.backButton) {
-            this.backButton.addEventListener('click', () => {
-                window.location.href = 'prompting-step.html';
-            });
-        }
-        
-        if (this.nextButton) {
-            this.nextButton.addEventListener('click', () => {
+        // Next arrow button (plus button)
+        if (this.nextArrowButton) {
+            this.nextArrowButton.addEventListener('click', () => {
                 this.navigateNext();
             });
         }
-        if (this.nextArrowButton) {
-            this.nextArrowButton.addEventListener('click', () => {
-                this.validateAndProceed();
-            });
-        }
-        
-        // Email input events
-        if (this.emailInput) {
-            this.emailInput.addEventListener('input', () => {
-                this.validateEmail();
-            });
-        }
-        if (this.nameInput) {
-            this.nameInput.addEventListener('input', () => {
-                this.validateEmail();
-            });
-        }
-        if (this.linkInput) {
-            this.linkInput.addEventListener('input', () => {
-                // optional; still run overall validation to toggle submit state
-                this.validateEmail();
-            });
-        }
-        
-        if (this.emailInput) {
-            this.emailInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    this.validateAndProceed();
-                }
-            });
-        }
-        if (this.nameInput) {
-            this.nameInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    this.validateAndProceed();
-                }
-            });
-        }
-        if (this.linkInput) {
-            this.linkInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    this.validateAndProceed();
-                }
-            });
-        }
-        
-        // Email submit button
-        if (this.emailSubmitBtn) {
-            this.emailSubmitBtn.addEventListener('click', () => {
-                this.validateAndProceed();
-            });
-        }
     }
     
-    validateEmail() {
-        const email = (this.emailInput?.value || '').trim();
-        const name = (this.nameInput?.value || '').trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const isValid = emailRegex.test(email) && name.length > 0;
-        
-        // Update visual states
-        this.emailInput?.classList.remove('valid', 'invalid');
-        this.emailSubmitBtn?.classList.remove('valid', 'loading');
-        
-        if (email.length > 0) {
-            if (isValid) {
-                this.emailInput?.classList.add('valid');
-                this.emailSubmitBtn?.classList.add('valid');
-                if (this.nextArrowButton) this.nextArrowButton.disabled = false;
-            } else {
-                this.emailInput?.classList.add('invalid');
-                if (this.nextArrowButton) this.nextArrowButton.disabled = true;
-            }
+    loadResults() {
+        // Get results data from sessionStorage
+        const resultsDataStr = sessionStorage.getItem('fullResults');
+        if (resultsDataStr) {
+            this.resultsData = JSON.parse(resultsDataStr);
+            this.updateResultsDisplay();
+            // Also parse directly from justification in case backend route is missing
+            this.parseFromRatingDataAndRender();
         } else {
-            if (this.nextArrowButton) this.nextArrowButton.disabled = true;
+            console.warn('No results data found, using fallback');
+            this.showFallbackResults();
+            this.parseFromRatingDataAndRender();
         }
-        
-        // Update navigation state
-        this.updateNavigationState();
     }
-    
-    async validateAndProceed() {
-        const email = (this.emailInput?.value || '').trim();
-        const name = (this.nameInput?.value || '').trim();
-        const link = (this.linkInput?.value || '').trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        
-        if (!name) {
-            this.showMessage('Please enter your name', 'error');
-            this.nameInput?.focus();
-            return;
-        }
-        if (!email) {
-            this.showMessage('Please enter your email address', 'error');
-            this.emailInput.focus();
-            return;
-        }
-        
-        if (!emailRegex.test(email)) {
-            this.showMessage('Please enter a valid email address', 'error');
-            this.emailInput.focus();
-            return;
-        }
-        
-        // Store email data
-        this.emailData.email = email;
-        this.emailData.name = name;
-        this.emailData.link = link;
-        
-        // Show loading state
-        this.showLoadingState();
-        
+
+    parseFromRatingDataAndRender() {
+        const ratingRaw = sessionStorage.getItem('ratingData');
+        if (!ratingRaw) return;
         try {
-            // Import the growthClient functions
-            const { claimReview, showError } = await import('./growthClient.js');
-            
-            // Get rating data from sessionStorage
-            const ratingDataStr = sessionStorage.getItem('ratingData');
-            if (!ratingDataStr) {
-                throw new Error('No rating data found. Please go back and complete the design analysis.');
+            const rd = JSON.parse(ratingRaw);
+            const just = String(rd.justification || '');
+            // Prefer bold punchline **...** else text between TOTAL line and Usability
+            let punch = (just.match(/\*\*(.*?)\*\*/s) || [])[1] || '';
+            if (!punch) {
+                const afterPoints = just.split(/TOTAL\s+DESIGN\s+POINTS[^\n]*\n/i)[1] || '';
+                punch = (afterPoints.split(/\n\s*Usability/i)[0] || '').trim();
             }
-            
-            let ratingData = JSON.parse(ratingDataStr);
-            // Tolerate different key casings from earlier runs
-            let resolvedRatingId = ratingData.rating_id ?? ratingData.ratingId ?? ratingData.id ?? null;
-            let resolvedRequestId = ratingData.request_id ?? ratingData.requestId ?? null;
-            
-            // Fallback: if identifiers are missing (e.g., lost due to backend change), re-rate quickly using stored image + context
-            if (!resolvedRatingId && !resolvedRequestId) {
-                const { rateDesign } = await import('./growthClient.js');
-                const uploadedFileStr = sessionStorage.getItem('uploadedFile');
-                const contextStr = ratingData.context || '';
-                if (!uploadedFileStr) throw new Error('Missing rating identifiers. Please re-run the analysis step.');
-                const uploadedFile = JSON.parse(uploadedFileStr);
-                const file = await this.dataURLtoFile(uploadedFile.dataUrl, uploadedFile.name);
-                const reRated = await rateDesign({ file, context: contextStr });
-                // Update ratingData and resolved IDs
-                ratingData = {
-                    rating_id: reRated.rating_id,
-                    request_id: reRated.request_id,
-                    grade: reRated.grade,
-                    context: contextStr
-                };
-                sessionStorage.setItem('ratingData', JSON.stringify(ratingData));
-                resolvedRatingId = reRated.rating_id;
-                resolvedRequestId = reRated.request_id;
-            }
-            
-            // Call claimReview API
-            await claimReview({
-                username: name,
-                email: email,
-                requestId: resolvedRequestId,
-                ratingId: resolvedRatingId,
-                portfolioUrl: link || null
-            });
-            
-            // Store claim data for next steps
-            sessionStorage.setItem('claimData', JSON.stringify({
-                username: name,
-                email: email,
-                ratingId: resolvedRatingId
-            }));
-            
-            // Change icon to check mark
-            this.changeIconToCheck();
-            
-            this.showMessage('Email saved successfully!', 'success');
-            
-            // Navigate to next step (step 6)
-            setTimeout(() => {
-                window.location.href = 'step6.html';
-            }, 1000);
-            
-        } catch (error) {
-            console.error('Failed to claim review:', error);
-            this.hideLoadingState();
-            this.showMessage('Failed to save email. Please try again.', 'error');
-        }
+            const feedbackElement = document.querySelector('.subtitle-feedback span');
+            if (feedbackElement && punch) feedbackElement.textContent = punch;
+        } catch {}
     }
     
-    showLoadingState() {
-        // Change icon to loading
-        this.changeIconToLoading();
+    updateResultsDisplay() {
+        if (!this.resultsData) return;
         
-        if (this.nextArrowButton) this.nextArrowButton.disabled = true;
-        if (this.emailInput) this.emailInput.disabled = true;
-        if (this.nameInput) this.nameInput.disabled = true;
-        if (this.linkInput) this.linkInput.disabled = true;
+        // Update rank display
+        const rankElement = document.querySelector('.rank-wrapper h1');
+        if (rankElement && this.resultsData.userRank) {
+            rankElement.textContent = `${this.resultsData.userRank}${this.getOrdinalSuffix(this.resultsData.userRank)}`;
+        }
         
-        // Disable navigation
-        if (this.backButton) {
-            this.backButton.disabled = true;
-            this.backButton.style.opacity = '0.5';
+        // Update feedback message (overall/punchline)
+        const feedbackElement = document.querySelector('.subtitle-feedback span');
+        if (feedbackElement) {
+            const msg = this.resultsData.punchline || this.resultsData.justification || '';
+            if (msg) feedbackElement.textContent = msg;
         }
-        if (this.nextButton) {
-            this.nextButton.disabled = true;
-            this.nextButton.style.opacity = '0.5';
-        }
-    }
-    
-    hideLoadingState() {
-        this.emailSubmitBtn?.classList.remove('loading');
-        if (this.nextArrowButton) this.nextArrowButton.disabled = false;
-        if (this.emailInput) this.emailInput.disabled = false;
-        if (this.nameInput) this.nameInput.disabled = false;
-        if (this.linkInput) this.linkInput.disabled = false;
         
-        // Re-enable navigation
-        if (this.backButton) {
-            this.backButton.disabled = false;
-            this.backButton.style.opacity = '1';
-        }
-        if (this.nextButton) {
-            this.nextButton.disabled = false;
-            this.nextButton.style.opacity = '1';
+        // Update points label to show "X points"
+        const pointsLabel = document.querySelector('.points-label');
+        if (pointsLabel && typeof this.resultsData.grade === 'number') {
+            pointsLabel.textContent = `${this.resultsData.grade} points`;
         }
     }
     
-    changeIconToLoading() {
-        const submitIcon = this.nextArrowButton ? this.nextArrowButton.querySelector('.submit-icon') : null;
-        if (submitIcon) {
-            submitIcon.src = 'assets/images/icon-loading.png';
-            submitIcon.alt = 'Loading';
-            submitIcon.style.animation = 'spin 2s linear infinite';
-        }
+    showFallbackResults() {
+        // Use default values if no data is available
+        console.log('Showing fallback results');
     }
     
-    changeIconToCheck() {
-        const submitIcon = this.nextArrowButton ? this.nextArrowButton.querySelector('.submit-icon') : null;
-        if (submitIcon) {
-            submitIcon.src = 'assets/images/icon-check-light.png';
-            submitIcon.alt = 'Success';
-            submitIcon.style.animation = 'none';
+    getOrdinalSuffix(num) {
+        const j = num % 10;
+        const k = num % 100;
+        if (j === 1 && k !== 11) {
+            return "st";
         }
-    }
-    
-    updateNavigationState() {
-        // Bottom-right arrow is the only submit now; enable when name+email valid
-        const email = (this.emailInput?.value || '').trim();
-        const name = (this.nameInput?.value || '').trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const isValid = emailRegex.test(email) && name.length > 0;
-        if (this.nextArrowButton) this.nextArrowButton.disabled = !isValid;
+        if (j === 2 && k !== 12) {
+            return "nd";
+        }
+        if (j === 3 && k !== 13) {
+            return "rd";
+        }
+        return "th";
     }
     
     navigateNext() {
-        // Navigate to step 6 (loading step)
+        console.log('Navigating to Step 8...');
+        // Navigate to Step 8 - Points breakdown
         window.location.href = 'step6.html';
     }
     
-    showMessage(message, type = 'success') {
-        // Create temporary message
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `step-message ${type}`;
-        
-        // Get appropriate SF Symbol icon
-        const icon = type === 'error' ? '􀆈' : '􀆅'; // SF Symbol checkmark or X
-        
-        messageDiv.innerHTML = `
-            <span class="message-icon">${icon}</span>
-            <span class="message-text">${message}</span>
-        `;
-        
-        messageDiv.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: white;
-            color: black;
-            padding: 12px 16px;
-            border-radius: 20px;
-            font-weight: 400;
-            font-size: 14px;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            animation: slideIn 0.3s ease;
-        `;
-        
-        document.body.appendChild(messageDiv);
-        
-        setTimeout(() => {
-            messageDiv.remove();
-        }, 3000);
-    }
 }
 
-// Add CSS for animations
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes spin {
-        from {
-            transform: rotate(0deg);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
-`;
-document.head.appendChild(style);
-
-// Initialize Step 5 when DOM is loaded
+// Initialize Step 7 when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new Step5Manager();
+    new Step7Manager();
 });

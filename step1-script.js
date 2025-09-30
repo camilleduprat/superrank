@@ -14,15 +14,11 @@ class UploadFlow {
     initializeElements() {
         this.uploadButton = document.getElementById('uploadButton');
         this.fileInput = document.getElementById('fileInput');
-        this.closeButton = document.getElementById('closeButton');
-        this.nextArrowButton = document.getElementById('nextArrowButton');
         this.topCloseButton = document.getElementById('topCloseButton');
         
         console.log('Rating step elements initialized:', {
             uploadButton: !!this.uploadButton,
             fileInput: !!this.fileInput,
-            closeButton: !!this.closeButton,
-            nextArrowButton: !!this.nextArrowButton,
             topCloseButton: !!this.topCloseButton
         });
     }
@@ -68,16 +64,7 @@ class UploadFlow {
             this.handleFileUpload(e.dataTransfer.files);
         });
         
-        // Close button click
-        this.closeButton.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent triggering upload button
-            this.clearUploadedFiles();
-        });
         
-        // Next arrow button click
-        this.nextArrowButton.addEventListener('click', () => {
-            this.navigateNext();
-        });
         
         // Top close button click
         this.topCloseButton.addEventListener('click', () => {
@@ -127,10 +114,14 @@ class UploadFlow {
         
         // Update UI
         this.updateUploadButton();
-        this.updateNavigationState();
         
         // Show success feedback
         this.showSuccess('Image uploaded successfully');
+        
+        // Automatically navigate to step2 after a short delay
+        setTimeout(() => {
+            this.goToNextStep();
+        }, 1000);
     }
     
     // Helper function to convert file to data URL
@@ -149,23 +140,15 @@ class UploadFlow {
         
         if (this.uploadedFiles.length === 0) {
             // Default state - no additional classes needed
-            this.closeButton.style.display = 'none';
-            this.nextArrowButton.style.display = 'none';
         } else {
             // Add state-1 class for single image
             this.uploadButton.classList.add('state-1');
-            this.closeButton.style.display = 'flex';
-            this.nextArrowButton.style.display = 'flex';
         }
     }
     
     updateNavigationState() {
-        // Show/hide next arrow button based on uploaded files
-        if (this.uploadedFiles.length > 0) {
-            this.nextArrowButton.style.display = 'flex';
-        } else {
-            this.nextArrowButton.style.display = 'none';
-        }
+        // No longer needed since we auto-navigate to step2
+        // Keeping method for compatibility but it does nothing
     }
     
     navigateBack() {
@@ -185,7 +168,6 @@ class UploadFlow {
     navigateNext() {
         if (this.uploadedFiles.length > 0) {
             console.log('Navigating to next step...');
-            this.addBounceAnimation(this.nextArrowButton);
             
             // Navigate to next step (prompting step)
             this.goToNextStep();
@@ -194,7 +176,7 @@ class UploadFlow {
     
     goToNextStep() {
         // Navigate to Prompting Step
-        window.location.href = 'prompting-step.html';
+        window.location.href = 'step2.html';
     }
     
     updateProgress() {
@@ -210,20 +192,30 @@ class UploadFlow {
     }
     
     showSuccess(message) {
-        // Create temporary success message
+        // Create temporary success message with new white rounded pill design
         const successDiv = document.createElement('div');
-        successDiv.className = 'success-message';
-        successDiv.textContent = message;
+        successDiv.className = 'status-message success';
+        
+        successDiv.innerHTML = `
+            <span class="message-icon">􀆈</span>
+            <span class="message-text">${message}</span>
+        `;
+        
         successDiv.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(0, 255, 136, 0.9);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 500;
-            z-index: 1000;
+            background: white;
+            color: #171717;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 400;
+            z-index: 10000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
             animation: slideIn 0.3s ease;
         `;
         

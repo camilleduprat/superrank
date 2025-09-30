@@ -18,14 +18,12 @@
 
 /* ChatInput Container - Bottom Left */
 .chat-input-container {
-    position: fixed;
-    bottom: var(--space-4xl);
-    left: var(--space-4xl);
+    position: relative;
     width: clamp(320px, 40vw, 450px);
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-3xl);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
     overflow-x: hidden;
@@ -33,7 +31,7 @@
     max-height: 80vh;
     display: flex;
     flex-direction: column;
-    z-index: 3000; /* Ensure above headings/overlays */
+    z-index: 1; /* Ensure above headings/overlays */
 }
 
 /* Chat Steps */
@@ -58,7 +56,7 @@
 /* Step Layout */
 .step-layout {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 8px;
 }
 
@@ -69,10 +67,7 @@
 
 .step-content-box {
     flex: 1;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-xl);
-    padding: var(--space-sm);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -82,17 +77,17 @@
 .step-content-left {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     flex: 1;
     gap: 8px;
 }
 
 .step-title {
     margin: 0;
-    font-size: var(--font-size-sm);
-    font-weight: 400;
+    font-size: var(--font-size-xxs);
+    font-weight: 300;
     color: rgba(255, 255, 255, 0.5);
     text-align: left;
-    margin-bottom: var(--space-xs);
 }
 
 /* First step title padding */
@@ -113,8 +108,8 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    width: var(--button-height);
-    height: var(--button-height);
+    width: 48px;
+    height: 48px;
     min-width: 48px;
     min-height: 48px;
 }
@@ -166,14 +161,11 @@
     border: none;
     color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
-    padding: var(--space-xs);
     border-radius: 50%;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 32px;
-    min-height: 32px;
 }
 
 .step-back-btn:hover {
@@ -212,62 +204,36 @@
 }
 
 .next-icon {
-    width: clamp(10px, 2vw, 12px);
-    height: clamp(10px, 2vw, 12px);
+    width: 16px;
+    height: 16px;
     filter: brightness(0) invert(1);
 }
 
 /* Step Options */
 .step-options {
     display: flex;
-    gap: var(--space-xs);
-    flex-wrap: wrap;
-}
-
-.option-tag {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: 50px;
-    font-size: var(--font-size-xs);
-    font-weight: 400;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    pointer-events: auto;
-    min-height: 32px;
-    display: flex;
     align-items: center;
-}
-
-.option-tag:hover {
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.option-tag.selected {
-    background: white;
-    color: #171717;
-    border-color: white;
+    align-content: center;
+    gap: var(--space-xxs);
 }
 
 /* Step Input Container */
 .step-input-container {
     display: flex;
     align-items: center;
+    gap: 8px;
 }
 
 .step-input-container input {
     flex: 1;
     background: transparent;
     border: none;
-    border-radius: var(--radius-sm);
-    padding: var(--space-xs) 0;
     color: white;
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
     font-weight: 300;
     outline: none;
     transition: all 0.2s ease;
-    min-height: 32px;
+    height: 44px;
 }
 
 .step-input-container input::placeholder {
@@ -337,8 +303,8 @@
     }
     
     .chat-image-btn {
-        width: clamp(40px, 8vw, 48px);
-        height: clamp(40px, 8vw, 48px);
+        width: 48px;
+        height: 48px;
         padding: var(--space-sm);
     }
     
@@ -355,10 +321,11 @@
     }
     
     .chat-input-container {
-        bottom: var(--space-sm);
-        left: var(--space-sm);
+        margin-top: 60px;
+        bottom: 60px;
+        left: 0px;
         width: calc(100vw - var(--space-md));
-        max-width: 280px;
+        max-width: 320px;
     }
     
     .chat-step {
@@ -372,13 +339,7 @@
     .step-header-inline .step-title {
         font-size: var(--font-size-xs);
     }
-    
-    .option-tag {
-        font-size: var(--font-size-xs);
-        padding: var(--space-xs) var(--space-sm);
-        min-height: 28px;
-    }
-    
+
     .step-input-container input {
         font-size: var(--font-size-xs);
         padding: var(--space-xs) var(--space-sm);
@@ -390,7 +351,6 @@
 @media (hover: none) and (pointer: coarse) {
     .chat-image-btn,
     .step-next-btn,
-    .step-back-btn,
     .option-tag {
         min-height: 44px;
         min-width: 44px;
@@ -430,32 +390,6 @@
     .step-back-btn:hover,
     .option-tag:hover {
         transform: none;
-    }
-}
-
-/* Mobile and Tablet Scrolling Improvements */
-@media (max-width: 968px) {
-    .chat-input-container {
-        -webkit-overflow-scrolling: touch;
-        max-height: 70vh;
-    }
-}
-
-@media (max-width: 768px) {
-    .chat-input-container {
-        max-height: 60vh;
-        width: calc(100vw - var(--space-lg));
-        left: var(--space-lg);
-        bottom: var(--space-lg);
-    }
-}
-
-@media (max-width: 480px) {
-    .chat-input-container {
-        max-height: 50vh;
-        width: calc(100vw - var(--space-md));
-        left: var(--space-md);
-        bottom: var(--space-md);
     }
 }
 
