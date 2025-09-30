@@ -159,8 +159,9 @@ const updateUserCount = (realCount = null) => {
     const userCountElement = document.getElementById('userCount');
     
     if (realCount !== null) {
-        // Use real count from leaderboard
-        userCountElement.textContent = realCount.toLocaleString();
+        // Show 200+ the actual number of designers rated
+        const adjusted = Math.max(0, Number(realCount) || 0) + 200;
+        userCountElement.textContent = adjusted.toLocaleString();
     } else {
         // Fallback to simulated data
         const baseCount = 19247;
