@@ -4,6 +4,7 @@ class Step8Manager {
         this.closeButton = document.getElementById('closeButton');
         this.shareTwitter = document.getElementById('shareTwitter');
         this.shareLinkedIn = document.getElementById('shareLinkedIn');
+        this.shareWhatsApp = document.getElementById('shareWhatsApp');
         this.shareCopy = document.getElementById('shareCopy');
         
         this.init();
@@ -20,6 +21,10 @@ class Step8Manager {
         
         if (this.shareLinkedIn) {
             this.shareLinkedIn.addEventListener('click', () => this.shareToLinkedIn());
+        }
+        
+        if (this.shareWhatsApp) {
+            this.shareWhatsApp.addEventListener('click', () => this.shareToWhatsApp());
         }
         
         if (this.shareCopy) {
@@ -42,6 +47,13 @@ class Step8Manager {
         const title = encodeURIComponent("My Design Ranking - SuperRank");
         const summary = encodeURIComponent("Check out my design ranking on SuperRank!");
         window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}&title=${title}&summary=${summary}`, '_blank');
+    }
+    
+    shareToWhatsApp() {
+        const url = encodeURIComponent('https://super-ai.design/index.html');
+        const text = encodeURIComponent('Check out my design ranking on SuperRank!');
+        // Use wa.me schema (works on mobile and desktop WhatsApp Web)
+        window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
     }
     
     copyLink() {
