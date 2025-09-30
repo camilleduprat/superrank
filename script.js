@@ -159,8 +159,8 @@ const updateUserCount = (realCount = null) => {
     const userCountElement = document.getElementById('userCount');
     
     if (realCount !== null) {
-        // Show 200+ the actual number of designers rated
-        const adjusted = Math.max(0, Number(realCount) || 0) + 200;
+        // Show 300+ the actual number of designs rated
+        const adjusted = Math.max(0, Number(realCount) || 0) + 300;
         userCountElement.textContent = adjusted.toLocaleString();
     } else {
         // Fallback to simulated data
